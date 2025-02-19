@@ -4,11 +4,12 @@ namespace _4XRD.Physics
 {
     public class Rotation4D
     {
-
         static Rotation4D RotateXY(Rotation4D m, float angle)
         {
-            RotateXY(m._rot, angle);
-            return m;
+            return new Rotation4D()
+            {
+                _rot = RotateXY(m._rot, angle)
+            };
         }
   
         /// <summary>
@@ -24,13 +25,15 @@ namespace _4XRD.Physics
             var s = Mathf.Sin(angle);
             m.SetColumn(0, new Vector4(c, -s, 0, 0));
             m.SetColumn(1, new Vector4(s, c, 0, 0));
-            return m;
+            return m * mat;
         }
         
         static Rotation4D RotateYZ(Rotation4D m, float angle)
         {
-            RotateYZ(m._rot, angle);
-            return m;
+            return new Rotation4D()
+            {
+                _rot = RotateYZ(m._rot, angle)
+            };
         }
         
         /// <summary>
@@ -46,13 +49,15 @@ namespace _4XRD.Physics
             var s = Mathf.Sin(angle);
             m.SetColumn(1, new Vector4(0, c, -s, 0));
             m.SetColumn(2, new Vector4(0, s, c, 0));
-            return m;
+            return m * mat;
         }
         
         static Rotation4D RotateXZ(Rotation4D m, float angle)
         {
-            RotateXZ(m._rot, angle);
-            return m;
+            return new Rotation4D()
+            {
+                _rot = RotateXZ(m._rot, angle)
+            };
         }
         
         /// <summary>
@@ -68,13 +73,15 @@ namespace _4XRD.Physics
             var s = Mathf.Sin(angle);
             m.SetColumn(0, new Vector4(c, 0, s, 0));
             m.SetColumn(2, new Vector4(-s, 0, c, 0));
-            return m;
+            return m * mat;
         }
         
         static Rotation4D RotateXW(Rotation4D m, float angle)
         {
-            RotateXW(m._rot, angle);
-            return m;
+            return new Rotation4D()
+            {
+                _rot = RotateXW(m._rot, angle)
+            };
         }
         
         /// <summary>
@@ -90,13 +97,15 @@ namespace _4XRD.Physics
             var s = Mathf.Sin(angle);
             m.SetColumn(0, new Vector4(c, 0, 0, -s));
             m.SetColumn(3, new Vector4(s, 0, 0, c));
-            return m;
+            return m * mat;
         }
         
         static Rotation4D RotateYW(Rotation4D m, float angle)
         {
-            RotateYW(m._rot, angle);
-            return m;
+            return new Rotation4D()
+            {
+                _rot = RotateYW(m._rot, angle)
+            };
         }
         
         /// <summary>
@@ -112,13 +121,15 @@ namespace _4XRD.Physics
             var s = Mathf.Sin(angle);
             m.SetColumn(1, new Vector4(0, c, 0, -s));
             m.SetColumn(3, new Vector4(0, s, 0, c));
-            return m;
+            return m * mat;
         }
         
         static Rotation4D RotateZW(Rotation4D m, float angle)
         {
-            RotateYW(m._rot, angle);
-            return m;
+            return new Rotation4D()
+            {
+                _rot = RotateZW(m._rot, angle)
+            };
         }
         
         /// <summary>
@@ -134,7 +145,7 @@ namespace _4XRD.Physics
             var s = Mathf.Sin(angle);
             m.SetColumn(2, new Vector4(0, 0, c, s));
             m.SetColumn(3, new Vector4(0, 0, -s, c));
-            return m;
+            return m * mat;
         }
     
         /// <summary>
@@ -151,6 +162,11 @@ namespace _4XRD.Physics
                 .RotateXW(angles.XW)
                 .RotateYW(angles.YW)
                 .RotateZW(angles.ZW);
+        }
+
+        public Vector4 RotateVector(Vector4 v)
+        {
+            return _rot * v;
         }
         
         /// <summary>

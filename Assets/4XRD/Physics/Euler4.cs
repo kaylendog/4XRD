@@ -17,9 +17,9 @@ namespace _4XRD.Physics
         /// <summary>
         /// A zero-initialised instance of Euler4.
         /// </summary>
-        public static Euler4 zero
+        public static Euler4 Zero
         {
-            get => new Euler4();
+            get => new();
         }
     }
 }
