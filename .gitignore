@@ -49,5 +49,7 @@ sysinfo.txt
 # Crashlytics generated file
 crashlytics-build.properties
 
+# Unity noise files
+UserSettings/
+Assets/4XRD/Settings/UniversalRenderPipelineGlobalSettings.asset
 ProjectSettings/EditorBuildSettings.asset
-
