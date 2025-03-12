@@ -1,3 +1,4 @@
+using _4XRD.Physics.Transform;
 using UnityEngine;
 
 namespace _4XRD.Physics
@@ -6,7 +7,7 @@ namespace _4XRD.Physics
     {
         public Vector4 position = Vector4.zero;
         public Vector4 scale = new(1, 1, 1);
-        public Rotation4D rotation = new();
+        public Rotor4 rotation = new();
 
         public void Update() {}
     

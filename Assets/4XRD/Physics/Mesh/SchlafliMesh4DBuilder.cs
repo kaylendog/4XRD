@@ -4,8 +4,29 @@ using System.Linq;
 using Unity.Collections;
 using UnityEngine;
 
+
 namespace _4XRD.Physics.Mesh
 {
+    class Edge
+    {
+        public int vertex_head;
+        public int vertex_tail;
+        public int[] faces;
+    }
+
+    class Face
+    {
+        public int cell_head;
+        public int cell_tail;
+        public int[] edges;
+    }
+
+    class Cell
+    {
+        public Vector4 normal;
+        public int[] faces;
+    }
+    
     /// <summary>
     ///     Builds 4D meshes from 3-element Schlafli symbology.
     /// </summary>
@@ -38,13 +59,70 @@ namespace _4XRD.Physics.Mesh
             v0.z = -mirrorNormals[2].y * v0.y / mirrorNormals[2].z;
             v0.w = -mirrorNormals[3].z * v0.z / mirrorNormals[3].w;
             v0.Normalize();
-
+    
+            // get vertices
             var vertices = CosetTableBuilder.Fold(vertexTable,
                 0,
                 v0,
                 (v, mirror) => v.Reflect(mirrorNormals[mirror]));
+    
+            // get edges
+            var initialEdgeFaces = new int[8];
+            var currentFace = 0;
+            for (var i = 0; true; i++)
+            {
+                initialEdgeFaces[i] = currentFace;
+                currentFace = faceTable[faceTable[currentFace][2]][3];
+                if (currentFace == 0)
+                {
+                    break;
+                }
+            }
+            var initialEdge = new Edge();
+            initialEdge.vertex_head = 0;
+            initialEdge.vertex_tail = 1;
+            initialEdge.faces = initialEdgeFaces;
 
+            var edges = CosetTableBuilder.Fold(edgeTable, 0, initialEdge,
+                (edge, mirror) =>
+                {
+                    var next = new Edge();
+                    next.vertex_head = vertexTable[edge.vertex_head][mirror];
+                    next.vertex_tail = vertexTable[edge.vertex_tail][mirror];
+                    next.faces = new int[8];
+                    for (var j = 0; j < 8; ++j)
+                    {
+                        next.faces[j] = faceTable[edge.faces[j]][mirror];
+                    }
+                    return next;
+                });
+    
+            // get faces
+            var initialFaceEdges = new int[8];
+            var currentEdge = 0;
+            for (var i = 0; true; i++)
+            {
+                initialFaceEdges[i] = currentEdge;
+                currentEdge = edgeTable[edgeTable[currentEdge][0]][1];
+                if (currentEdge == 0)
+                {
+                    break;
+                }
+            }
 
+            var intermediaryFaces = CosetTableBuilder.Fold(faceTable,
+                0,
+                initialFaceEdges,
+                (previous, mirror) =>
+                {
+                    var next = new int[8];
+                    for (var j = 0; j < 8; ++j)
+                    {
+                        next[j] = edgeTable[previous[j]][mirror];
+                    }
+                    return next;
+                });
+            
             return new Mesh4D();
         }
 
