@@ -7,21 +7,21 @@ using UnityEngine;
 
 namespace _4XRD.Physics.Mesh
 {
-    class Edge
+    record SchlafliEdge
     {
         public int vertex_head;
         public int vertex_tail;
         public int[] faces;
     }
 
-    class Face
+    record SchlafliFace
     {
         public int cell_head;
         public int cell_tail;
         public int[] edges;
     }
 
-    class Cell
+    record SchlafliCell
     {
         public Vector4 normal;
         public int[] faces;
@@ -78,18 +78,22 @@ namespace _4XRD.Physics.Mesh
                     break;
                 }
             }
-            var initialEdge = new Edge();
-            initialEdge.vertex_head = 0;
-            initialEdge.vertex_tail = 1;
-            initialEdge.faces = initialEdgeFaces;
+            var initialEdge = new SchlafliEdge
+            {
+                vertex_head = 0,
+                vertex_tail = 1,
+                faces = initialEdgeFaces
+            };
 
             var edges = CosetTableBuilder.Fold(edgeTable, 0, initialEdge,
                 (edge, mirror) =>
                 {
-                    var next = new Edge();
-                    next.vertex_head = vertexTable[edge.vertex_head][mirror];
-                    next.vertex_tail = vertexTable[edge.vertex_tail][mirror];
-                    next.faces = new int[8];
+                    var next = new SchlafliEdge
+                    {
+                        vertex_head = vertexTable[edge.vertex_head][mirror],
+                        vertex_tail = vertexTable[edge.vertex_tail][mirror],
+                        faces = new int[8]
+                    };
                     for (var j = 0; j < 8; ++j)
                     {
                         next.faces[j] = faceTable[edge.faces[j]][mirror];
