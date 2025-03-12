@@ -1,4 +1,4 @@
-namespace _4XRD.Physics.Mesh
+namespace _4XRD.Mesh
 {
     /// <summary>
     ///     An enumeration of the types of 4D primitives that can be created.

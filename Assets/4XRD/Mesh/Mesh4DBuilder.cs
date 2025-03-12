@@ -2,12 +2,13 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
+// Makes records work
 namespace System.Runtime.CompilerServices
 {
     internal static class IsExternalInit {}
 }
 
-namespace _4XRD.Physics.Mesh
+namespace _4XRD.Mesh
 {
     public class Mesh4DBuilder : IMesh4DBuilder
     {

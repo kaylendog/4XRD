@@ -4,8 +4,7 @@ using System.Linq;
 using Unity.Collections;
 using UnityEngine;
 
-
-namespace _4XRD.Physics.Mesh
+namespace _4XRD.Mesh
 {
     record SchlafliEdge
     {
