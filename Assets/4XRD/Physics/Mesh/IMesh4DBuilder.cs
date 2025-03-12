@@ -3,7 +3,7 @@ namespace _4XRD.Physics.Mesh
     /// <summary>
     ///     An interface representing types capable of building 4D meshes.
     /// </summary>
-    public interface IPrimitiveMesh4DBuilder
+    public interface IMesh4DBuilder
     {
         /// <summary>
         ///     Build the mesh.

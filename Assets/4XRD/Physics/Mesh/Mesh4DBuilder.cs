@@ -9,7 +9,7 @@ namespace System.Runtime.CompilerServices
 
 namespace _4XRD.Physics.Mesh
 {
-    public class Mesh4DBuilder : IPrimitiveMesh4DBuilder
+    public class Mesh4DBuilder : IMesh4DBuilder
     {
         readonly List<Vertex4> vertices = new();
         readonly HashSet<Edge> edges = new();

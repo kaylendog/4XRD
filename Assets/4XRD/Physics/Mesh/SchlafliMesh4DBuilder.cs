@@ -9,7 +9,7 @@ namespace _4XRD.Physics.Mesh
     /// <summary>
     ///     Builds 4D meshes from 3-element Schlafli symbology.
     /// </summary>
-    public class SchlafliMesh4DBuilder : IPrimitiveMesh4DBuilder
+    public class SchlafliMesh4DBuilder : IMesh4DBuilder
     {
         readonly int _p;
         readonly int _q;
