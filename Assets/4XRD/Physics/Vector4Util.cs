@@ -1,10 +1,10 @@
 using UnityEngine;
 
-namespace _4XRD.Physics.Mesh
+namespace _4XRD.Physics
 {
     public static class Vector4Util
     {
-        static float Dot(this Vector4 a, Vector4 b)
+        public static float Dot(this Vector4 a, Vector4 b)
         {
             return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
         }
