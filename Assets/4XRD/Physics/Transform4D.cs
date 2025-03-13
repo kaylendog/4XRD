@@ -11,6 +11,7 @@ namespace _4XRD.Physics
 
         void Update()
         {
+            // propagate 4D transform to 3D
             transform.position = position.ToUnity();
             transform.localScale = scale.ToUnity();
         }

@@ -112,7 +112,12 @@ namespace _4XRD.Physics
             Q = q;
         }
 
-        Rotor4 Normalized()
+        /// <summary>
+        /// Normalize this rotor.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="ArithmeticException"></exception>
+        public Rotor4 Normalized()
         {
             var (rPlus, rMinus) = Decompose();
             var rPlusNorm = new Rotor4(rPlus.S - 0.5f, rPlus.B, rPlus.Q);
