@@ -16,6 +16,34 @@ namespace _4XRD.Physics
         }
 
         /// <summary>
+        /// Quadvector addition.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static Quadvector4 operator +(Quadvector4 a, Quadvector4 b) => new Quadvector4(
+            a.XYZW + b.XYZW
+        );
+
+        /// <summary>
+        /// Right multiplication by a scalar.
+        /// </summary>
+        /// <param name="v"></param>
+        /// <param name="f"></param>
+        /// <returns></returns>
+        public static Quadvector4 operator *(Quadvector4 v, float f) => new Quadvector4(
+            v.XYZW * f
+        );
+
+        /// <summary>
+        /// Left multiplication by a scalar.
+        /// </summary>
+        /// <param name="f"></param>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        public static Quadvector4 operator *(float f, Quadvector4 v) => v * f;
+
+        /// <summary>
         /// Inner product of a quadvector with a vector
         /// </summary>
         /// <param name="q"></param>

@@ -49,6 +49,14 @@ namespace _4XRD.Physics
         }
 
         /// <summary>
+        /// Positive W.
+        /// </summary>
+        public static Vector4 ana
+        {
+            get => new Vector4(0, 0, 0, 1);
+        }
+
+        /// <summary>
         /// Construct a vector with all dimensions set to `v`.
         /// </summary>
         /// <param name="v"></param>
