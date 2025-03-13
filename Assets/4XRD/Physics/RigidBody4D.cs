@@ -3,7 +3,7 @@ using UnityEngine;
 
 namespace _4XRD.Physics
 {
-    [RequireComponent(typeof(Transform4D), typeof(Mesh4D))]
+    [RequireComponent(typeof(Transform4D), typeof(MeshFilter4D))]
     public class RigidBody4D : MonoBehaviour
     {
         /// <summary>
@@ -14,7 +14,7 @@ namespace _4XRD.Physics
         /// <summary>
         /// The mesh associated with this rigidbody.
         /// </summary>
-        Mesh4D _mesh;
+        MeshFilter4D _meshFilter;
 
         /// <summary>
         /// The bounding box of the mesh.
@@ -44,8 +44,8 @@ namespace _4XRD.Physics
         void OnEnable()
         {
             _transform = GetComponent<Transform4D>();
-            _mesh = GetComponent<Mesh4D>();
-            _bounds = BoundingBox4D.FromMesh(_mesh);
+            _meshFilter = GetComponent<MeshFilter4D>();
+            _bounds = BoundingBox4D.FromMesh(_meshFilter.Mesh);
         }
 
         void FixedUpdate()

@@ -12,10 +12,10 @@ namespace _4XRD.Mesh
 {
     public class Mesh4DBuilder : IMesh4DBuilder
     {
-        readonly List<Vector4> vertices = new();
-        readonly HashSet<Edge> edges = new();
-        readonly HashSet<Face> faces = new();
-        readonly HashSet<Cell> cells = new();
+        private readonly List<Vector4> vertices = new();
+        private readonly HashSet<Edge> edges = new();
+        private readonly HashSet<Face> faces = new();
+        private readonly HashSet<Cell> cells = new();
         
         public Mesh4D Build()
         {

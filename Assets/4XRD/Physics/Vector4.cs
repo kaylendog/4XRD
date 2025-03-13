@@ -20,55 +20,36 @@ namespace _4XRD.Physics
         
         [field: SerializeField]
         public float W { get; private set;}
-        
+
         /// <summary>
         /// The zero vector.
         /// </summary>
-        public static Vector4 Zero
-        {
-            get => new();
-        }
-        
+        public static Vector4 Zero => new();
+
         /// <summary>
         /// The one vector.
         /// </summary>
-        public static Vector4 One
-        {
-            get => Splat(1);
-        }
-
+        public static Vector4 One => Splat(1);
 
         /// <summary>
         /// Positive Y.
         /// </summary>
-        public static Vector4 Up
-        {
-            get => new(0, 1);
-        }
+        public static Vector4 Up => new(0, 1);
 
         /// <summary>
         /// Negative Z.
         /// </summary>
-        public static Vector4 Forward
-        {
-            get => new(0, 0, -1);
-        }
-    
+        public static Vector4 Forward => new(0, 0, -1);
+
         /// <summary>
         /// Positive X.
         /// </summary>
-        public static Vector4 Right
-        {
-            get => new(1);
-        }
+        public static Vector4 Right => new(1);
 
         /// <summary>
         /// Positive W.
         /// </summary>
-        public static Vector4 Ana
-        {
-            get => new(0, 0, 0, 1);
-        }
+        public static Vector4 Ana => new(0, 0, 0, 1);
 
         /// <summary>
         /// Construct a vector with all dimensions set to `v`.

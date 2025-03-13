@@ -12,10 +12,7 @@ namespace _4XRD.Physics
         /// <summary>
         /// The identity rotor.
         /// </summary>
-        public static Rotor4 identity
-        {
-            get => new Rotor4();
-        }
+        public static Rotor4 Identity => new();
 
         /// <summary>
         /// Return a rotation between two vectors.
@@ -138,7 +135,7 @@ namespace _4XRD.Physics
             // handle no left isoclinic
             if (plusMag == 0)
             {
-                rPlus = identity;
+                rPlus = Identity;
             }
             else
             {
@@ -151,7 +148,7 @@ namespace _4XRD.Physics
             // handle no right isoclinic
             if (minusMag == 0)
             {
-                rMinus = identity;
+                rMinus = Identity;
             }
             else
             {

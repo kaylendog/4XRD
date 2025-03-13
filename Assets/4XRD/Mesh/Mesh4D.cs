@@ -14,22 +14,22 @@ namespace _4XRD.Mesh
         /// <summary>
         ///     Vertices of the 4D mesh.
         /// </summary>
-        public Vector4[] Vertices;
+        public readonly Vector4[] Vertices;
 
         /// <summary>
         ///     Array of edge vertex indices.
         /// </summary>
-        public int[] Edges;
+        public readonly int[] Edges;
 
         /// <summary>
         ///     Array of triangle vertex indices.
         /// </summary>
-        public int[] Faces;
+        public readonly int[] Faces;
 
         /// <summary>
         ///     Array of tetrahedral cell vertex indices.
         /// </summary>
-        public int[] Cells;
+        public readonly int[] Cells;
 
         /// <summary>
         ///     Construct a new mesh with the given data.
