@@ -126,10 +126,10 @@ namespace _4XRD.Physics
             var rMinusNorm = new Rotor4(rMinus.S - 0.5f, rMinus.B, rMinus.Q);
 
             var plusMag = 2.0f * Mathf.Sqrt(
-                Mathf.Pow(rPlus.S, 2) + Mathf.Pow(rPlus.B.XY, 2) + Mathf.Pow(rPlus.B.XZ, 2) + Mathf.Pow(rPlus.B.XW, 2)
+                Mathf.Pow(rPlusNorm.S, 2) + Mathf.Pow(rPlusNorm.B.XY, 2) + Mathf.Pow(rPlusNorm.B.XZ, 2) + Mathf.Pow(rPlusNorm.B.XW, 2)
             );
             var minusMag = 2.0f * Mathf.Sqrt(
-                Mathf.Pow(rPlus.S, 2) + Mathf.Pow(rPlus.B.XY, 2) + Mathf.Pow(rPlus.B.XZ, 2) + Mathf.Pow(rPlus.B.XW, 2)
+                Mathf.Pow(rMinusNorm.S, 2) + Mathf.Pow(rMinusNorm.B.XY, 2) + Mathf.Pow(rMinusNorm.B.XZ, 2) + Mathf.Pow(rMinusNorm.B.XW, 2)
             );
 
             if (plusMag == 0 || minusMag == 0)
