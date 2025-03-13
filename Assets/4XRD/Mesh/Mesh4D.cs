@@ -156,6 +156,8 @@ namespace _4XRD.Mesh
             UnityEngine.Mesh mesh = new();
             mesh.vertices = vertices3;
             mesh.triangles = triangles;
+
+            mesh.RecalculateNormals();
             return mesh;
         }
     }
