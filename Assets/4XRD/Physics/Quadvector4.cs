@@ -79,7 +79,5 @@ namespace _4XRD.Physics
         {
             XYZW = xyzw;
         }
-
-
     }
 }

@@ -14,22 +14,22 @@ namespace _4XRD.Mesh
         /// <summary>
         ///     Vertices of the 4D mesh.
         /// </summary>
-        public Vector4[] vertices;
+        public Vector4[] Vertices;
 
         /// <summary>
         ///     Array of edge vertex indices.
         /// </summary>
-        public int[] edges;
+        public int[] Edges;
 
         /// <summary>
         ///     Array of triangle vertex indices.
         /// </summary>
-        public int[] faces;
+        public int[] Faces;
 
         /// <summary>
         ///     Array of tetrahedral cell vertex indices.
         /// </summary>
-        public int[] cells;
+        public int[] Cells;
 
         /// <summary>
         ///     Construct a new mesh with the given data.
@@ -45,10 +45,10 @@ namespace _4XRD.Mesh
             int[] cells
         )
         {
-            this.vertices = vertices;
-            this.edges = edges;
-            this.faces = faces;
-            this.cells = cells;
+            Vertices = vertices;
+            Edges = edges;
+            Faces = faces;
+            Cells = cells;
         }
 
         /// <summary>
@@ -76,10 +76,11 @@ namespace _4XRD.Mesh
         public UnityEngine.Mesh GetSlice(Rotor4 rotation, float w)
         {
             List<Vector4> vertices = new();
-            for (int i = 0; i < edges.Length; i+=2)
+            for (int i = 0; i < Edges.Length; i+=2)
             {
-                Vector4 v1 = rotation * this.vertices[edges[i]];
-                Vector4 v2 = rotation * this.vertices[edges[i + 1]];
+                Vector4 v1 = rotation * Vertices[Edges[i]];
+                Vector4 v2 = rotation * Vertices[Edges[i + 1]];
+
                 AddIntersection(v1, v2, w, vertices);
             }
 
@@ -93,14 +94,14 @@ namespace _4XRD.Mesh
 
         void AddIntersection(Vector4 v1, Vector4 v2, float w, List<Vector4> vertices)
         {
-            if (v1.W == w && v2.W == w)
+            if (Mathf.Approximately(v1.W, w) && Mathf.Approximately(v2.W, w))
             {
                 vertices.Add(v1);
                 vertices.Add(v2);
                 return;
             }
             
-            if (v1.W == v2.W)
+            if (Mathf.Approximately(v1.W, v2.W))
             {
                 return;
             }

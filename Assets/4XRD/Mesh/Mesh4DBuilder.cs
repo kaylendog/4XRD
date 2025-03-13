@@ -49,8 +49,7 @@ namespace _4XRD.Mesh
                 cells[index * 4 + 2] = cell.Vertex3;
                 cells[index * 4 + 3] = cell.Vertex4;
             }
-
-            UnityEngine.Mesh mesh = new UnityEngine.Mesh();
+            
             return new Mesh4D(vertices, edges, faces, cells);
         }
 

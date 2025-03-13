@@ -94,7 +94,12 @@ namespace _4XRD.Physics
         /// <summary>
         /// Construct a zero rotor.
         /// </summary>
-        public Rotor4() {}
+        public Rotor4()
+        {
+            S = 1.0f;
+            B = Bivector4.zero;
+            Q = Quadvector4.zero;
+        }
 
         /// <summary>
         /// Construct a rotor with the given components.
@@ -109,7 +114,12 @@ namespace _4XRD.Physics
             Q = q;
         }
 
-        Rotor4 Normalized()
+        /// <summary>
+        /// Normalize this rotor.
+        /// </summary>
+        /// <returns></returns>
+        /// <exception cref="ArithmeticException"></exception>
+        public Rotor4 Normalized()
         {
             var (rPlus, rMinus) = Decompose();
             var rPlusNorm = new Rotor4(rPlus.S - 0.5f, rPlus.B, rPlus.Q);
@@ -164,7 +174,7 @@ namespace _4XRD.Physics
         {
             var x = this * Vector4.right;
             var y = this * Vector4.up;
-            var z = this * (-Vector4.forward);
+            var z = this * -Vector4.forward;
             var w = this * Vector4.ana;
             return new Matrix4x4(x.ToUnity(), y.ToUnity(), z.ToUnity(), w.ToUnity());
         }

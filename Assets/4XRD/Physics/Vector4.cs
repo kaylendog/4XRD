@@ -1,5 +1,4 @@
 using System;
-using UnityEditor.Rendering;
 using UnityEngine;
 
 namespace _4XRD.Physics
@@ -77,15 +76,20 @@ namespace _4XRD.Physics
         /// <param name="v"></param>
         /// <returns></returns>
         public static Vector4 Splat(float v) => new Vector4(v, v, v, v);
-
-
+    
+        /// <summary>
+        /// Linearly interpolate between two vectors.
         /// </summary>
-        /// Construct a vector which interpolates between `a` and `b` by `t`.
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <param name="t"></param>
         /// <returns></returns>
-        public static Vector4 Lerp(Vector4 a, Vector4 b, float t) => a + (b - a) * t;
+        public static Vector4 Lerp(Vector4 a, Vector4 b, float t) => new Vector4(
+            Mathf.Lerp(a.X, b.X, t),
+            Mathf.Lerp(a.Y, b.Y, t),
+            Mathf.Lerp(a.Z, b.Z, t),
+            Mathf.Lerp(a.W, b.W, t)
+        );
 
         /// <summary>
         /// Vector unary, equivalent to the identity.
