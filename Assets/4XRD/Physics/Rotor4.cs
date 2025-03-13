@@ -1,7 +1,5 @@
 using System;
-using Unity.VersionControl.Git;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets;
 
 namespace _4XRD.Physics
 {
@@ -14,10 +12,7 @@ namespace _4XRD.Physics
         /// <summary>
         /// The identity rotor.
         /// </summary>
-        public static Rotor4 identity
-        {
-            get => new Rotor4();
-        }
+        public static Rotor4 Identity { get => new(); }
 
         /// <summary>
         /// Return a rotation between two vectors.

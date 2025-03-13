@@ -1,4 +1,5 @@
 using UnityEngine;
+using UnityEngine.Android;
 
 namespace _4XRD.Physics
 {
@@ -8,7 +9,7 @@ namespace _4XRD.Physics
         /// <summary>
         /// The transform of this rigidbody.
         /// </summary>
-        Transform4D _transform;
+        private Transform4D _transform4D;
     
         /// <summary>
         /// The linear velocity of this rigidbody.
@@ -20,9 +21,9 @@ namespace _4XRD.Physics
         /// </summary>
         public Vector4 angularVelocity = Vector4.zero;
         
-        void Start()
+        void OnEnable()
         {
-            _transform = GetComponent<Transform4D>();
+            _transform4D = GetComponent<Transform4D>();
         }
     }
 }

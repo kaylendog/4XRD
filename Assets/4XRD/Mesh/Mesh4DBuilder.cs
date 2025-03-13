@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
+using Vector4 = _4XRD.Physics.Vector4;
 
 // Makes records work
 namespace System.Runtime.CompilerServices
@@ -12,7 +12,7 @@ namespace _4XRD.Mesh
 {
     public class Mesh4DBuilder : IMesh4DBuilder
     {
-        readonly List<Vertex4> vertices = new();
+        readonly List<Vector4> vertices = new();
         readonly HashSet<Edge> edges = new();
         readonly HashSet<Face> faces = new();
         readonly HashSet<Cell> cells = new();
@@ -56,7 +56,7 @@ namespace _4XRD.Mesh
 
         public int AddVertex(float x, float y, float z, float w)
         {
-            vertices.Add(new Vertex4(x, y, z, w));
+            vertices.Add(new Vector4(x, y, z, w));
             return vertices.Count - 1;
         }
 
@@ -75,9 +75,6 @@ namespace _4XRD.Mesh
             cells.Add(new Cell(vertex1, vertex2, vertex3, vertex4));
         }
     }
-
-    public record Vertex4(float X, float Y, float Z, float W);
-
     public record Edge (int Vertex1, int Vertex2);
 
     public record Face (int Vertex1, int Vertex2, int Vertex3);

@@ -1,11 +1,26 @@
+using System;
+using UnityEditor.Rendering;
+using UnityEngine;
+
 namespace _4XRD.Physics
 {
     /// <summary>
     /// A 4D vector, or 1-blade.
     /// </summary>
+    [Serializable]
     public record Vector4
     {
-        public readonly float X, Y, Z, W;
+        [field: SerializeField]
+        public float X { get; private set;}
+
+        [field: SerializeField]
+        public float Y { get; private set;}
+
+        [field: SerializeField]
+        public float Z { get; private set;}
+        
+        [field: SerializeField]
+        public float W { get; private set;}
         
         /// <summary>
         /// The zero vector.
@@ -62,6 +77,15 @@ namespace _4XRD.Physics
         /// <param name="v"></param>
         /// <returns></returns>
         public static Vector4 Splat(float v) => new Vector4(v, v, v, v);
+
+
+        /// </summary>
+        /// Construct a vector which interpolates between `a` and `b` by `t`.
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public static Vector4 Lerp(Vector4 a, Vector4 b, float t) => a + (b - a) * t;
 
         /// <summary>
         /// Vector unary, equivalent to the identity.
@@ -222,6 +246,8 @@ namespace _4XRD.Physics
             Z = z;
             W = w;
         }
+
+        public UnityEngine.Vector3 DropW() => new UnityEngine.Vector3(X, Y, Z);
 
         /// <summary>
         /// Converts this vector to a Unity Vector4.

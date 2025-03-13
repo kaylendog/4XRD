@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using System.Linq;
 using MIConvexHull;
 using UnityEngine;
+using _4XRD.Physics;
+using Vector4 = _4XRD.Physics.Vector4;
 
 namespace _4XRD.Mesh
 {
@@ -71,14 +73,13 @@ namespace _4XRD.Mesh
         /// </summary>
         /// <param name="w"></param>
         /// <returns></returns>
-        public UnityEngine.Mesh GetSlice(float w)
+        public UnityEngine.Mesh GetSlice(Rotor4 rotation, float w)
         {
             List<Vector4> vertices = new();
             for (int i = 0; i < edges.Length; i+=2)
             {
-                Vector4 v1 = this.vertices[edges[i]];
-                Vector4 v2 = this.vertices[edges[i + 1]];
-
+                Vector4 v1 = rotation * this.vertices[edges[i]];
+                Vector4 v2 = rotation * this.vertices[edges[i + 1]];
                 AddIntersection(v1, v2, w, vertices);
             }
 
@@ -92,19 +93,19 @@ namespace _4XRD.Mesh
 
         void AddIntersection(Vector4 v1, Vector4 v2, float w, List<Vector4> vertices)
         {
-            if (v1.w == w && v2.w == w)
+            if (v1.W == w && v2.W == w)
             {
                 vertices.Add(v1);
                 vertices.Add(v2);
                 return;
             }
             
-            if (v1.w - v2.w == 0)
+            if (v1.W == v2.W)
             {
                 return;
             }
 
-            float t = (w - v1.w) / (v2.w - v1.w);
+            float t = (w - v1.W) / (v2.W - v1.W);
             if (t < 0 || t > 1)
             {
                 return;
@@ -167,7 +168,7 @@ namespace _4XRD.Mesh
         public double[] Position { get; }
         public Vertex(Vector4 v)
         {
-            Position = new double[] {v.x, v.y, v.z};
+            Position = new double[] {v.X, v.Y, v.Z};
         }
     }
 }
