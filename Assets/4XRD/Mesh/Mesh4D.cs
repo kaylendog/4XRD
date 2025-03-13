@@ -5,7 +5,6 @@ using MIConvexHull;
 using UnityEngine;
 using _4XRD.Physics;
 using Vector4 = _4XRD.Physics.Vector4;
-using UnityEngine.InputSystem.Interactions;
 
 namespace _4XRD.Mesh
 {

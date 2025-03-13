@@ -125,19 +125,23 @@ namespace _4XRD.Physics
         public Rotor4 Normalized()
         {
             var (rPlus, rMinus) = Decompose();
-            var rPlusNorm = new Rotor4(rPlus.S - 0.5f, rPlus.B, rPlus.Q);
-            var rMinusNorm = new Rotor4(rMinus.S - 0.5f, rMinus.B, rMinus.Q);
+            rPlus = new Rotor4(rPlus.S - 0.5f, rPlus.B, rPlus.Q);
+            rMinus = new Rotor4(rMinus.S - 0.5f, rMinus.B, rMinus.Q);
 
             var plusMag = 2.0f * Mathf.Sqrt(
-                Mathf.Pow(rPlusNorm.S, 2) + Mathf.Pow(rPlusNorm.B.XY, 2) + Mathf.Pow(rPlusNorm.B.XZ, 2) + Mathf.Pow(rPlusNorm.B.XW, 2)
+                Mathf.Pow(rPlus.S, 2) + Mathf.Pow(rPlus.B.XY, 2) + Mathf.Pow(rPlus.B.XZ, 2) + Mathf.Pow(rPlus.B.XW, 2)
             );
             var minusMag = 2.0f * Mathf.Sqrt(
-                Mathf.Pow(rMinusNorm.S, 2) + Mathf.Pow(rMinusNorm.B.XY, 2) + Mathf.Pow(rMinusNorm.B.XZ, 2) + Mathf.Pow(rMinusNorm.B.XW, 2)
+                Mathf.Pow(rMinus.S, 2) + Mathf.Pow(rMinus.B.XY, 2) + Mathf.Pow(rMinus.B.XZ, 2) + Mathf.Pow(rMinus.B.XW, 2)
             );
 
-            if (plusMag == 0 || minusMag == 0)
+            if (plusMag == 0)
             {
-                throw new ArithmeticException();
+                rPlus = identity;
+            }
+            if (minusMag == 0)
+            {
+                rMinus = identity;
             }
             
             var invPlusMag = 1.0f / plusMag;
