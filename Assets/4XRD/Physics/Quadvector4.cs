@@ -10,10 +10,7 @@ namespace _4XRD.Physics
         /// <summary>
         /// The zero quadvector.
         /// </summary>
-        public static Quadvector4 zero
-        {
-            get => new Quadvector4();
-        }
+        public static Quadvector4 Zero{ get => new(); }
 
         /// <summary>
         /// Quadvector addition.
@@ -21,7 +18,7 @@ namespace _4XRD.Physics
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static Quadvector4 operator +(Quadvector4 a, Quadvector4 b) => new Quadvector4(
+        public static Quadvector4 operator +(Quadvector4 a, Quadvector4 b) => new(
             a.XYZW + b.XYZW
         );
 
@@ -31,7 +28,7 @@ namespace _4XRD.Physics
         /// <param name="v"></param>
         /// <param name="f"></param>
         /// <returns></returns>
-        public static Quadvector4 operator *(Quadvector4 v, float f) => new Quadvector4(
+        public static Quadvector4 operator *(Quadvector4 v, float f) => new(
             v.XYZW * f
         );
 

@@ -7,15 +7,15 @@ namespace _4XRD.Mesh
         {   
             // Cube 1 face down
             int point0 = AddVertex(-1, -1, -1, -1);
-            int point1 = AddVertex(-1, -1,  1, -1);
-            int point2 = AddVertex( 1, -1, -1, -1);
+            int point1 = AddVertex( 1, -1, -1, -1);
+            int point2 = AddVertex(-1, -1,  1, -1);
             int point3 = AddVertex( 1, -1,  1, -1);
 
             // Cube 1 Face up
-            int point4 = AddVertex(-1, 1,  1, -1);
-            int point5 = AddVertex(-1, 1, -1, -1);
-            int point6 = AddVertex( 1, 1,  1, -1);
-            int point7 = AddVertex( 1, 1, -1, -1);
+            int point4 = AddVertex(-1, 1, -1, -1);
+            int point5 = AddVertex( 1, 1, -1, -1);
+            int point6 = AddVertex(-1, 1,  1, -1);
+            int point7 = AddVertex( 1, 1,  1, -1);
 
             // Cube 2 face down
             int point8 = AddVertex(-1, -1, -1, 1);

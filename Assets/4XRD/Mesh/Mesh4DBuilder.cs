@@ -61,7 +61,14 @@ namespace _4XRD.Mesh
 
         public void AddEdge(int vertex1, int vertex2)
         {
-            edges.Add(new Edge(vertex1, vertex2));
+            if (vertex1 < vertex2)
+            {
+                edges.Add(new Edge(vertex1, vertex2));
+            }
+            else
+            {
+                edges.Add(new Edge(vertex2, vertex1));
+            }
         }
 
         public void AddFace(int vertex1, int vertex2, int vertex3)

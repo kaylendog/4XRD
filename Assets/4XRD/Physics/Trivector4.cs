@@ -10,9 +10,9 @@ namespace _4XRD.Physics
         /// <summary>
         /// The zero trivector.
         /// </summary>
-        public static Trivector4 zero
+        public static Trivector4 Zero
         {
-            get => new Trivector4();
+            get => new();
         }
 
         /// <summary>
@@ -27,7 +27,7 @@ namespace _4XRD.Physics
         /// </summary>
         /// <param name="v"></param>
         /// <returns></returns>
-        public static Trivector4 operator -(Trivector4 v) => new Trivector4(
+        public static Trivector4 operator -(Trivector4 v) => new(
             -v.XYZ,
             -v.XYW,
             -v.XZW,
@@ -40,7 +40,7 @@ namespace _4XRD.Physics
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static Trivector4 operator +(Trivector4 a, Trivector4 b) => new Trivector4(
+        public static Trivector4 operator +(Trivector4 a, Trivector4 b) => new(
             a.XYZ + b .XYZ,
             a.XYW + b .XYW,
             a.XZW + b .XZW,
@@ -61,7 +61,7 @@ namespace _4XRD.Physics
         /// <param name="v"></param>
         /// <param name="f"></param>
         /// <returns></returns>
-        public static Trivector4 operator *(Trivector4 v, float f) => new Trivector4(
+        public static Trivector4 operator *(Trivector4 v, float f) => new(
             v.XYZ * f,
             v.XYW * f,
             v.XZW * f,
@@ -82,7 +82,7 @@ namespace _4XRD.Physics
         /// <param name="t"></param>
         /// <param name="q"></param>
         /// <returns></returns>
-        public static Vector4 operator |(Trivector4 t, Quadvector4 q) => new Vector4(
+        public static Vector4 operator |(Trivector4 t, Quadvector4 q) => new(
             q.XYZW * t.YZW,
             -q.XYZW * t.XZW,
             q.XYZW * t.XYW,

@@ -12,10 +12,7 @@ namespace _4XRD.Physics
         /// <summary>
         /// The zero bivector.
         /// </summary>
-        public static Bivector4 zero
-        {
-            get => new Bivector4();
-        }
+        public static Bivector4 Zero { get => new(); }
 
         /// <summary>
         /// Biector unary, equivalent to the identity.
