@@ -25,7 +25,7 @@ namespace _4XRD.Physics
             var rotor = new Rotor4(
                 1 + (to | from),
                 to ^ from,
-                Quadvector4.zero
+                Quadvector4.Zero
             );
             return rotor.Normalized();
         }
@@ -97,8 +97,8 @@ namespace _4XRD.Physics
         public Rotor4()
         {
             S = 1.0f;
-            B = Bivector4.zero;
-            Q = Quadvector4.zero;
+            B = Bivector4.Zero;
+            Q = Quadvector4.Zero;
         }
 
         /// <summary>
@@ -172,10 +172,10 @@ namespace _4XRD.Physics
         /// <returns></returns>
         public Matrix4x4 ToUnity()
         {
-            var x = this * Vector4.right;
-            var y = this * Vector4.up;
-            var z = this * -Vector4.forward;
-            var w = this * Vector4.ana;
+            var x = this * Vector4.Right;
+            var y = this * Vector4.Up;
+            var z = this * -Vector4.Forward;
+            var w = this * Vector4.Ana;
             return new Matrix4x4(x.ToUnity(), y.ToUnity(), z.ToUnity(), w.ToUnity());
         }
     }

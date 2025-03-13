@@ -5,6 +5,7 @@ using MIConvexHull;
 using UnityEngine;
 using _4XRD.Physics;
 using Vector4 = _4XRD.Physics.Vector4;
+using UnityEngine.InputSystem.Interactions;
 
 namespace _4XRD.Mesh
 {
@@ -73,13 +74,18 @@ namespace _4XRD.Mesh
         /// </summary>
         /// <param name="w"></param>
         /// <returns></returns>
-        public UnityEngine.Mesh GetSlice(Rotor4 rotation, float w)
+        public UnityEngine.Mesh GetSlice(Transform4D transform, float w)
         {
+            Rotor4 rotation = transform.rotation;
+
             List<Vector4> vertices = new();
             for (int i = 0; i < Edges.Length; i+=2)
             {
-                Vector4 v1 = rotation * Vertices[Edges[i]];
-                Vector4 v2 = rotation * Vertices[Edges[i + 1]];
+                Vector4 v1 = rotation * Vertices[Edges[i]] + Vector4.Ana * transform.position.W;
+                Vector4 v2 = rotation * Vertices[Edges[i + 1]] + Vector4.Ana * transform.position.W;
+
+                Debug.Log(v1);
+                Debug.Log(v2);
 
                 AddIntersection(v1, v2, w, vertices);
             }

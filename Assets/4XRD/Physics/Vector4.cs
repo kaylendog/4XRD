@@ -24,15 +24,15 @@ namespace _4XRD.Physics
         /// <summary>
         /// The zero vector.
         /// </summary>
-        public static Vector4 zero
+        public static Vector4 Zero
         {
-            get => new Vector4();
+            get => new();
         }
         
         /// <summary>
         /// The one vector.
         /// </summary>
-        public static Vector4 one
+        public static Vector4 One
         {
             get => Splat(1);
         }
@@ -41,33 +41,33 @@ namespace _4XRD.Physics
         /// <summary>
         /// Positive Y.
         /// </summary>
-        public static Vector4 up
+        public static Vector4 Up
         {
-            get => new Vector4(0, 1);
+            get => new(0, 1);
         }
 
         /// <summary>
         /// Negative Z.
         /// </summary>
-        public static Vector4 forward
+        public static Vector4 Forward
         {
-            get => new Vector4(0, 0, -1);
+            get => new(0, 0, -1);
         }
     
         /// <summary>
         /// Positive X.
         /// </summary>
-        public static Vector4 right
+        public static Vector4 Right
         {
-            get => new Vector4(1);
+            get => new(1);
         }
 
         /// <summary>
         /// Positive W.
         /// </summary>
-        public static Vector4 ana
+        public static Vector4 Ana
         {
-            get => new Vector4(0, 0, 0, 1);
+            get => new(0, 0, 0, 1);
         }
 
         /// <summary>
@@ -75,7 +75,7 @@ namespace _4XRD.Physics
         /// </summary>
         /// <param name="v"></param>
         /// <returns></returns>
-        public static Vector4 Splat(float v) => new Vector4(v, v, v, v);
+        public static Vector4 Splat(float v) => new(v, v, v, v);
     
         /// <summary>
         /// Linearly interpolate between two vectors.
@@ -84,7 +84,7 @@ namespace _4XRD.Physics
         /// <param name="b"></param>
         /// <param name="t"></param>
         /// <returns></returns>
-        public static Vector4 Lerp(Vector4 a, Vector4 b, float t) => new Vector4(
+        public static Vector4 Lerp(Vector4 a, Vector4 b, float t) => new(
             Mathf.Lerp(a.X, b.X, t),
             Mathf.Lerp(a.Y, b.Y, t),
             Mathf.Lerp(a.Z, b.Z, t),
@@ -103,7 +103,7 @@ namespace _4XRD.Physics
         /// </summary>
         /// <param name="v"></param>
         /// <returns></returns>
-        public static Vector4 operator -(Vector4 v) => new Vector4(
+        public static Vector4 operator -(Vector4 v) => new(
             -v.X,
             -v.Y,
             -v.Z,
@@ -116,7 +116,7 @@ namespace _4XRD.Physics
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static Vector4 operator +(Vector4 a, Vector4 b) => new Vector4(
+        public static Vector4 operator +(Vector4 a, Vector4 b) => new(
             a.X + b.X,
             a.Y + b.Y,
             a.Z + b.Z,
@@ -137,7 +137,7 @@ namespace _4XRD.Physics
         /// <param name="v"></param>
         /// <param name="f"></param>
         /// <returns></returns>
-        public static Vector4 operator *(Vector4 v, float f) => new Vector4(
+        public static Vector4 operator *(Vector4 v, float f) => new(
             v.X * f,
             v.Y * f,
             v.Z * f,
@@ -167,7 +167,7 @@ namespace _4XRD.Physics
         /// <param name="v"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static Vector4 operator |(Vector4 v, Bivector4 b) => new Vector4(
+        public static Vector4 operator |(Vector4 v, Bivector4 b) => new(
             -(b.XY * v.Y + b.XZ * v.Z + b.XW * v.W),
             b.XY * v.X - b.YZ * v.Z - b.YW * v.W,
             b.XZ * v.X + b.YZ * v.Y - b.ZW * v.W,
@@ -180,7 +180,7 @@ namespace _4XRD.Physics
         /// <param name="u"></param>
         /// <param name="v"></param>
         /// <returns></returns>
-        public static Bivector4 operator ^(Vector4 u, Vector4 v) => new Bivector4(
+        public static Bivector4 operator ^(Vector4 u, Vector4 v) => new(
             u.X * v.Y - u.Y * v.X,
             u.X * v.Z - u.Z * v.X,
             u.X * v.W - u.W * v.X,
@@ -195,7 +195,7 @@ namespace _4XRD.Physics
         /// <param name="u"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static Trivector4 operator ^(Vector4 u, Bivector4 b) => new Trivector4(
+        public static Trivector4 operator ^(Vector4 u, Bivector4 b) => new(
             u.X * b.YZ - u.Y * b.XZ + u.Z * b.XY,
             u.X * b.YW - u.Y * b.XW + u.W * b.XY,
             u.X * b.ZW - u.Z * b.XW + u.W * b.XZ,
@@ -251,12 +251,10 @@ namespace _4XRD.Physics
             W = w;
         }
 
-        public UnityEngine.Vector3 DropW() => new UnityEngine.Vector3(X, Y, Z);
-
         /// <summary>
         /// Converts this vector to a Unity Vector4.
         /// </summary>
         /// <returns></returns>
-        public UnityEngine.Vector4 ToUnity() => new UnityEngine.Vector4(X, Y, Z, W);
+        public UnityEngine.Vector4 ToUnity() => new(X, Y, Z, W);
     }
 }

@@ -22,8 +22,6 @@ public class Object4D : MonoBehaviour
 
     private void Update()
     {
-        Transform transform = GetComponent<Transform>();
-        transform.position = transform4D.position.DropW();
-        GetComponent<MeshFilter>().mesh = mesh4D.GetSlice(transform4D.rotation, w_slider.value);
+        GetComponent<MeshFilter>().mesh = mesh4D.GetSlice(transform4D, w_slider.value);
     }
 }

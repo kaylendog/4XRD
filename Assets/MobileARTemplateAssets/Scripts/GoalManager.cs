@@ -95,7 +95,7 @@ public class GoalManager : MonoBehaviour
 
     [Tooltip("List of Goals/Steps to complete as part of the user onboarding.")]
     [SerializeField]
-    List<Step> m_StepList = new List<Step>();
+    List<Step> m_StepList = new();
 
     /// <summary>
     /// List of Goals/Steps to complete as part of the user onboarding.

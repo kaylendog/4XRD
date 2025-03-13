@@ -1,6 +1,5 @@
 using _4XRD.Mesh;
 using UnityEngine;
-using UnityEngine.Android;
 
 namespace _4XRD.Physics
 {
@@ -10,7 +9,7 @@ namespace _4XRD.Physics
         /// <summary>
         /// The transform of this rigidbody.
         /// </summary>
-        private Transform4D _transform4D;
+        private Transform4D _transform;
     
         /// <summary>
         /// The mesh associated with this rigidbody.
@@ -25,12 +24,12 @@ namespace _4XRD.Physics
         /// <summary>
         /// The linear velocity of this rigidbody.
         /// </summary>
-        public Vector4 velocity = Vector4.zero;
+        public Vector4 velocity = Vector4.Zero;
             
         /// <summary>
         /// The angular velocity of this rigidbody.
         /// </summary>
-        public Bivector4 angularVelocity = Bivector4.zero;
+        public Bivector4 angularVelocity = Bivector4.Zero;
 
         /// <summary>
         /// The mass of this body.
@@ -40,11 +39,11 @@ namespace _4XRD.Physics
         /// <summary>
         /// The center of mass of this body.
         /// </summary>
-        public Vector4 centerOfMass = Vector4.zero;
+        public Vector4 centerOfMass = Vector4.Zero;
         
         void OnEnable()
         {
-            _transform4D = GetComponent<Transform4D>();
+            _transform = GetComponent<Transform4D>();
             _mesh = GetComponent<Mesh4D>();
             _bounds = BoundingBox4D.FromMesh(_mesh);
         }
@@ -52,9 +51,9 @@ namespace _4XRD.Physics
         void FixedUpdate()
         {
             var dt = Time.fixedDeltaTime;
-            _transform4D.position = velocity * dt;
-            _transform4D.rotation *= (0.5f * angularVelocity * dt);
-            _transform4D.rotation = _transform4D.rotation.Normalized();
+            _transform.position += velocity * dt;
+            _transform.rotation *= 0.5f * angularVelocity * dt;
+            _transform.rotation = _transform.rotation.Normalized();
         }
     }
 }
