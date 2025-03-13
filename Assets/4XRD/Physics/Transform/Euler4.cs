@@ -1,5 +1,3 @@
-using UnityEngine;
-
 namespace _4XRD.Physics
 {
     /// <summary>

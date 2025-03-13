@@ -19,9 +19,9 @@ namespace _4XRD.Physics.Mesh
         public Mesh4D Build()
         {
             Vector4[] vertices = new Vector4[this.vertices.Count];
-            int[] edges = new int[this.edges.Count];
-            int[] faces = new int[this.faces.Count];
-            int[] cells = new int[this.cells.Count];
+            int[] edges = new int[this.edges.Count * 2];
+            int[] faces = new int[this.faces.Count * 3];
+            int[] cells = new int[this.cells.Count * 4];
 
             foreach (var (vertex, index) in this.vertices.Select((vertex, index) => (vertex, index)))
             {

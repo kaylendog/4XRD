@@ -44,8 +44,8 @@ namespace _4XRD.Physics.Mesh
                 v0,
                 (v, mirror) => v.Reflect(mirrorNormals[mirror]));
 
-
-            return new Mesh4D();
+            return null;
+            //return new Mesh4D();
         }
 
 
