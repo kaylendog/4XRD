@@ -48,11 +48,13 @@ namespace _4XRD.Physics
             );
         }
 
+        // TODO
         public static Rotor4 operator *(Rotor4 r, Vector4 v)
         {
             var (a1, a3) = r.B * v;
             var b3 = r.Q | v;
             var q1 = r.S * v + a1;
+            return null;
         }
         
         public static Rotor4 operator *(Rotor4 r, Bivector4 b)

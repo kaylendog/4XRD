@@ -58,12 +58,13 @@ namespace _4XRD.Mesh
             v0.z = -mirrorNormals[2].y * v0.y / mirrorNormals[2].z;
             v0.w = -mirrorNormals[3].z * v0.z / mirrorNormals[3].w;
             v0.Normalize();
-    
+
+            // Todo Implement Vector4.Reflect method
             // get vertices
-            var vertices = CosetTableBuilder.Fold(vertexTable,
-                0,
-                v0,
-                (v, mirror) => v.Reflect(mirrorNormals[mirror]));
+            // var vertices = CosetTableBuilder.Fold(vertexTable,
+            //     0,
+            //     v0,
+            //     (v, mirror) => v.Reflect(mirrorNormals[mirror]));
     
             // get edges
             var initialEdgeFaces = new int[8];
@@ -126,7 +127,8 @@ namespace _4XRD.Mesh
                     return next;
                 });
             
-            return new Mesh4D();
+            return null;
+            // return new Mesh4D();
         }
 
 

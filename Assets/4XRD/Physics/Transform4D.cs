@@ -11,7 +11,5 @@ namespace _4XRD.Physics
         public void Update() {}
     
         
-        }
     }
-    
 }
