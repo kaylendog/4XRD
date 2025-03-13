@@ -134,28 +134,34 @@ namespace _4XRD.Physics
             var minusMag = 2.0f * Mathf.Sqrt(
                 Mathf.Pow(rMinus.S, 2) + Mathf.Pow(rMinus.B.XY, 2) + Mathf.Pow(rMinus.B.XZ, 2) + Mathf.Pow(rMinus.B.XW, 2)
             );
-
+    
+            // handle no left isoclinic
             if (plusMag == 0)
             {
                 rPlus = identity;
             }
+            else
+            {
+                float invPlusMag = 1.0f / plusMag;
+                rPlus = new Rotor4(
+                    rPlus.S * invPlusMag, rPlus.B * invPlusMag, new Quadvector4(rPlus.S)
+                );
+            }
+            
+            // handle no right isoclinic
             if (minusMag == 0)
             {
                 rMinus = identity;
             }
-            
-            var invPlusMag = 1.0f / plusMag;
-            var invMinusMag = 1.0f / minusMag;
-            
-            var invPlus = new Rotor4(
-                rPlus.S * invPlusMag, rPlus.B * invPlusMag, new Quadvector4(rPlus.S)
+            else
+            {
+                var invMinusMag = 1.0f / minusMag;
+                rMinus = new Rotor4(
+                    rMinus.S * invMinusMag, rMinus.B * invMinusMag, new Quadvector4(-rMinus.S)
                 );
+            }
             
-            var invMinus = new Rotor4(
-                rMinus.S * invMinusMag, rMinus.B * invMinusMag, new Quadvector4(-rMinus.S)
-            );
-            
-            return invPlus * invMinus;
+            return rPlus * rMinus;
         }
 
         /// <summary>
