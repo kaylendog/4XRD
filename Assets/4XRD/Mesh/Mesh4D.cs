@@ -84,9 +84,6 @@ namespace _4XRD.Mesh
                 Vector4 v1 = rotation * Vertices[Edges[i]] + Vector4.Ana * transform.position.W;
                 Vector4 v2 = rotation * Vertices[Edges[i + 1]] + Vector4.Ana * transform.position.W;
 
-                Debug.Log(v1);
-                Debug.Log(v2);
-
                 AddIntersection(v1, v2, w, vertices);
             }
 
@@ -128,7 +125,13 @@ namespace _4XRD.Mesh
             {
                 vertices4[i] = new Vertex(vertices[i]);
             }
-            var result = ConvexHull.Create(vertices4).Result;
+            var resultObject = ConvexHull.Create(vertices4);
+            if (resultObject.Outcome != ConvexHullCreationResultOutcome.Success)
+            {
+                Debug.LogError("Failed to create convex hull: " + resultObject.ErrorMessage);
+                return null;
+            }
+            var result = resultObject.Result;
 
             Vector3[] vertices3 = new Vector3[result.Faces.Count() * 3];
             int[] triangles = new int[result.Faces.Count() * 3];
