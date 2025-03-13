@@ -98,6 +98,19 @@ namespace _4XRD.Physics
         );
 
         /// <summary>
+        /// Inner product with a trivector.
+        /// </summary>
+        /// <param name="b"></param>
+        /// <param name="t"></param>
+        /// <returns></returns>
+        public static Vector4 operator |(Bivector4 b, Trivector4 t) => new Vector4(
+            -b.YW * t.XYW - b.YZ * t.XYZ - b.ZW * t.XZW,
+            b.XW * t.XYW + b.XZ * t.XYZ - b.ZW * t.YZW,
+            b.XW * t.XZW - b.XY * t.XYZ + b.YW * t.YZW,
+           -b.XY * t.XYW - b.XZ * t.XZW - b.YZ * t.YZW
+        );
+
+        /// <summary>
         /// Outer product with a vector.
         /// </summary>
         /// <param name="b"></param>
@@ -164,7 +177,7 @@ namespace _4XRD.Physics
             YW = yw;
             ZW = zw;
         }
-
+        
         /// <summary>
         /// Decompose this bivector.
         /// </summary>
