@@ -10,7 +10,7 @@ namespace _4XRD.Physics
         /// <summary>
         /// The zero trivector.
         /// </summary>
-        public static Trivector4 Zero
+        public static Trivector4 zero
         {
             get => new();
         }

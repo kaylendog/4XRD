@@ -9,7 +9,7 @@ namespace _4XRD.Physics
         /// <summary>
         /// The transform of this rigidbody.
         /// </summary>
-        private Transform4D _transform;
+        Transform4D _transform;
     
         /// <summary>
         /// The mesh associated with this rigidbody.

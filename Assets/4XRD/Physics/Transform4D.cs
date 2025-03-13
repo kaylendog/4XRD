@@ -8,7 +8,7 @@ namespace _4XRD.Physics
     {
         public Vector4 position = Vector4.Zero;
         public Vector4 scale = Vector4.One;
-        public Rotor4 rotation = Rotor4.Identity;
+        public Rotor4 rotation = Rotor4.identity;
 
         void Update()
         {
