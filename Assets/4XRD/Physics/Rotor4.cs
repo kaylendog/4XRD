@@ -97,7 +97,12 @@ namespace _4XRD.Physics
         /// <summary>
         /// Construct a zero rotor.
         /// </summary>
-        public Rotor4() {}
+        public Rotor4()
+        {
+            S = 1.0f;
+            B = Bivector4.zero;
+            Q = Quadvector4.zero;
+        }
 
         /// <summary>
         /// Construct a rotor with the given components.
