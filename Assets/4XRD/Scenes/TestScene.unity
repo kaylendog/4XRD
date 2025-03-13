@@ -696,6 +696,8 @@ GameObject:
   - component: {fileID: 1622733731}
   - component: {fileID: 1622733730}
   - component: {fileID: 1622733729}
+  - component: {fileID: 1622733733}
+  - component: {fileID: 1622733732}
   m_Layer: 0
   m_Name: Tesseract
   m_TagString: Untagged
@@ -784,6 +786,50 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   type: 1
+--- !u!114 &1622733732
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1622733727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d5aa82433f33c4c74a0f495c7cce7970, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  velocity:
+    <X>k__BackingField: 0
+    <Y>k__BackingField: 0
+    <Z>k__BackingField: 0
+    <W>k__BackingField: 0
+  angularVelocity:
+    <X>k__BackingField: 0
+    <Y>k__BackingField: 0
+    <Z>k__BackingField: 0
+    <W>k__BackingField: 0
+--- !u!114 &1622733733
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1622733727}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: de67e92f7f0846a187c66d79518dc883, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  position:
+    <X>k__BackingField: 0
+    <Y>k__BackingField: 0
+    <Z>k__BackingField: 0
+    <W>k__BackingField: 0
+  scale:
+    <X>k__BackingField: 1
+    <Y>k__BackingField: 1
+    <Z>k__BackingField: 1
+    <W>k__BackingField: 1
 --- !u!1 &1657900190
 GameObject:
   m_ObjectHideFlags: 0
