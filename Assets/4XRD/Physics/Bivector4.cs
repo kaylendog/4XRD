@@ -192,7 +192,11 @@ namespace _4XRD.Physics
 
             return (bPlus, bMinus);
         }
-
+    
+        /// <summary>
+        /// Convert this bivector into a rotor.
+        /// </summary>
+        /// <returns></returns>
         public Rotor4 Exp()
         {
             var (bPlus, bMinus) = Decompose();

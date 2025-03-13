@@ -1,7 +1,5 @@
 using System;
-using Unity.VersionControl.Git;
 using UnityEngine;
-using UnityEngine.XR.Interaction.Toolkit.Samples.StarterAssets;
 
 namespace _4XRD.Physics
 {
@@ -169,7 +167,7 @@ namespace _4XRD.Physics
         {
             var x = this * Vector4.right;
             var y = this * Vector4.up;
-            var z = this * (-Vector4.forward);
+            var z = this * -Vector4.forward;
             var w = this * Vector4.ana;
             return new Matrix4x4(x.ToUnity(), y.ToUnity(), z.ToUnity(), w.ToUnity());
         }
