@@ -1,10 +1,10 @@
-using System;
+using _4XRD.Mesh;
 using UnityEngine;
 using UnityEngine.Android;
 
 namespace _4XRD.Physics
 {
-    [RequireComponent(typeof(Transform4D))]
+    [RequireComponent(typeof(Transform4D), typeof(Mesh4D))]
     public class RigidBody4D : MonoBehaviour
     {
         /// <summary>
@@ -12,6 +12,16 @@ namespace _4XRD.Physics
         /// </summary>
         private Transform4D _transform4D;
     
+        /// <summary>
+        /// The mesh associated with this rigidbody.
+        /// </summary>
+        Mesh4D _mesh;
+
+        /// <summary>
+        /// The bounding box of the mesh.
+        /// </summary>
+        BoundingBox4D _bounds;
+        
         /// <summary>
         /// The linear velocity of this rigidbody.
         /// </summary>
@@ -35,14 +45,16 @@ namespace _4XRD.Physics
         void OnEnable()
         {
             _transform4D = GetComponent<Transform4D>();
+            _mesh = GetComponent<Mesh4D>();
+            _bounds = BoundingBox4D.FromMesh(_mesh);
         }
 
         void FixedUpdate()
         {
             var dt = Time.fixedDeltaTime;
-            _transform.position = velocity * dt;
-            _transform.rotation *= (0.5f * angularVelocity * dt);
-            _transform.rotation = _transform.rotation.Normalized();
+            _transform4D.position = velocity * dt;
+            _transform4D.rotation *= (0.5f * angularVelocity * dt);
+            _transform4D.rotation = _transform4D.rotation.Normalized();
         }
     }
 }
