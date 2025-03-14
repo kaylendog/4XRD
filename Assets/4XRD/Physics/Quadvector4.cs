@@ -1,8 +1,11 @@
+using System;
+
 namespace _4XRD.Physics
 {
     /// <summary>
     /// A quadvector, or 4-blade.
     /// </summary>
+    [Serializable]
     public struct Quadvector4
     {
         public readonly float XYZW;

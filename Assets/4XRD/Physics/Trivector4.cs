@@ -1,8 +1,11 @@
+using System;
+
 namespace _4XRD.Physics
 {
     /// <summary>
     /// A trivector, or 4-vector.
     /// </summary>
+    [Serializable]
     public record Trivector4
     {
         public readonly float XYZ, XYW, XZW, YZW;

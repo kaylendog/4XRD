@@ -3,6 +3,7 @@ using UnityEngine;
 
 namespace _4XRD.Physics
 {
+    [Serializable]
     public record Rotor4
     {
         public readonly float S = 1.0f;
@@ -118,7 +119,6 @@ namespace _4XRD.Physics
         /// Normalize this rotor.
         /// </summary>
         /// <returns></returns>
-        /// <exception cref="ArithmeticException"></exception>
         public Rotor4 Normalized()
         {
             var (rPlus, rMinus) = Decompose();
