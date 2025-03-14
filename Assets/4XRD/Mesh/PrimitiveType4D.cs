@@ -6,13 +6,13 @@ namespace _4XRD.Mesh
     public enum PrimitiveType4D
     {
         /// <summary>
-        ///     A 4-dimensional version of a plane.
-        /// </summary>
-        Hyperplane,
-
-        /// <summary>
         ///     A 4-dimensional version of a cube.
         /// </summary>
-        Tesseract
+        Tesseract,
+
+        /// <summary>
+        ///     A 4-dimensional 4-simplex.
+        /// </summary>
+        Simplex4
     }
 }

@@ -59,26 +59,31 @@ namespace _4XRD.Mesh
             return vertices.Count - 1;
         }
 
+        public int AddVertex(Vector4 vertex)
+        {
+            vertices.Add(vertex);
+            return vertices.Count - 1;
+        }
+
         public void AddEdge(int vertex1, int vertex2)
         {
-            if (vertex1 < vertex2)
-            {
-                edges.Add(new Edge(vertex1, vertex2));
-            }
-            else
-            {
-                edges.Add(new Edge(vertex2, vertex1));
-            }
+            List<int> vertices = new() { vertex1, vertex2 };
+            vertices.Sort();
+            edges.Add(new Edge(vertices[0], vertices[1]));
         }
 
         public void AddFace(int vertex1, int vertex2, int vertex3)
         {
-            faces.Add(new Face(vertex1, vertex2, vertex3));
+            List<int> vertices = new() { vertex1, vertex2, vertex3 };
+            vertices.Sort();
+            faces.Add(new Face(vertices[0], vertices[1], vertices[2]));
         }
 
         public void AddCell(int vertex1, int vertex2, int vertex3, int vertex4)
         {
-            cells.Add(new Cell(vertex1, vertex2, vertex3, vertex4));
+            List<int> vertices = new() { vertex1, vertex2, vertex3, vertex4 };
+            vertices.Sort();
+            cells.Add(new Cell(vertices[0], vertices[1], vertices[2], vertices[3]));
         }
     }
     public record Edge (int Vertex1, int Vertex2);

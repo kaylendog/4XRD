@@ -52,7 +52,6 @@ namespace _4XRD.Mesh
             int point7
         )
         {
-            // Edges
             AddEdge(point0, point1);
             AddEdge(point2, point3);
             AddEdge(point0, point2);
@@ -74,7 +73,6 @@ namespace _4XRD.Mesh
             AddEdge(point2, point4);
             AddEdge(point2, point7);
 
-            // Counter Clockwise Winding
             AddFace(point0, point2, point1);
             AddFace(point1, point2, point3);
             AddFace(point4, point5, point6);

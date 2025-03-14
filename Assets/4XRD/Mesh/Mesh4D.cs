@@ -63,6 +63,8 @@ namespace _4XRD.Mesh
             {
                 case PrimitiveType4D.Tesseract:
                     return new TesseractBuilder().Build();
+                case PrimitiveType4D.Simplex4:
+                    return new Simplex4Builder().Build();
                 default:
                     throw new NotImplementedException();
             }
