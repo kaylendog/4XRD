@@ -8,7 +8,8 @@ using Vector4 = _4XRD.Physics.Vector4;
 
 namespace _4XRD.Mesh
 {
-    public class Mesh4D : UnityEngine.Object
+    [Serializable]
+    public class Mesh4D : ScriptableObject
     {
 
         /// <summary>
@@ -163,9 +164,11 @@ namespace _4XRD.Mesh
                 j++;
             }
 
-            UnityEngine.Mesh mesh = new();
-            mesh.vertices = vertices3;
-            mesh.triangles = triangles;
+            UnityEngine.Mesh mesh = new()
+            {
+                vertices = vertices3,
+                triangles = triangles,
+            };
 
             mesh.RecalculateNormals();
             return mesh;

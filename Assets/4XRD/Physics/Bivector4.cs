@@ -1,3 +1,4 @@
+using System;
 using UnityEngine;
 
 namespace _4XRD.Physics
@@ -5,6 +6,7 @@ namespace _4XRD.Physics
     /// <summary>
     /// A bivector, or 2-blade.
     /// </summary>
+    [Serializable]
     public record Bivector4
     {
         public readonly float XY, XZ, XW, YZ, YW, ZW;
