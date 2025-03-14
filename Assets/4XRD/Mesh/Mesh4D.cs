@@ -4,12 +4,13 @@ using System.Linq;
 using MIConvexHull;
 using UnityEngine;
 using _4XRD.Physics;
+using Object = UnityEngine.Object;
 using Vector4 = _4XRD.Physics.Vector4;
 
 namespace _4XRD.Mesh
 {
     [Serializable]
-    public class Mesh4D : ScriptableObject
+    public class Mesh4D : Object
     {
 
         /// <summary>
