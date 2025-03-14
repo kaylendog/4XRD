@@ -15,22 +15,22 @@ namespace _4XRD.Mesh
         /// <summary>
         ///     Vertices of the 4D mesh.
         /// </summary>
-        public readonly Vector4[] Vertices;
+        public Vector4[] Vertices { get; private set; }
 
         /// <summary>
         ///     Array of edge vertex indices.
         /// </summary>
-        public readonly int[] Edges;
+        public int[] Edges { get; private set; }
 
         /// <summary>
         ///     Array of triangle vertex indices.
         /// </summary>
-        public readonly int[] Faces;
+        public int[] Faces { get; private set; }
 
         /// <summary>
         ///     Array of tetrahedral cell vertex indices.
         /// </summary>
-        public readonly int[] Cells;
+        public int[] Cells { get; private set; }
 
         /// <summary>
         ///     Construct a new mesh with the given data.
@@ -39,17 +39,15 @@ namespace _4XRD.Mesh
         /// <param name="edges"></param>
         /// <param name="faces"></param>
         /// <param name="cells"></param>
-        public Mesh4D(
-            Vector4[] vertices,
-            int[] edges,
-            int[] faces,
-            int[] cells
-        )
+        public static Mesh4D CreateInstance(Vector4[] vertices, int[] edges, int[] faces, int[] cells)
         {
-            Vertices = vertices;
-            Edges = edges;
-            Faces = faces;
-            Cells = cells;
+            
+            Mesh4D mesh = CreateInstance<Mesh4D>();
+            mesh.Vertices = vertices;
+            mesh.Edges = edges;
+            mesh.Faces = faces;
+            mesh.Cells = cells;
+            return mesh;
         }
 
         /// <summary>

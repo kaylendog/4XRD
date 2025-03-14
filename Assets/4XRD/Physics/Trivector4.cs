@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace _4XRD.Physics
 {
@@ -8,7 +9,17 @@ namespace _4XRD.Physics
     [Serializable]
     public record Trivector4
     {
-        public readonly float XYZ, XYW, XZW, YZW;
+        [field: SerializeField]
+        public float XYZ { get; private set; }
+        
+        [field: SerializeField]
+        public float XYW { get; private set; }
+        
+        [field: SerializeField]
+        public float XZW { get; private set; }
+        
+        [field: SerializeField]
+        public float YZW { get; private set; }
 
         /// <summary>
         /// The zero trivector.
@@ -41,10 +52,10 @@ namespace _4XRD.Physics
         /// <param name="b"></param>
         /// <returns></returns>
         public static Trivector4 operator +(Trivector4 a, Trivector4 b) => new(
-            a.XYZ + b .XYZ,
-            a.XYW + b .XYW,
-            a.XZW + b .XZW,
-            a.YZW + b .YZW
+            a.XYZ + b.XYZ,
+            a.XYW + b.XYW,
+            a.XZW + b.XZW,
+            a.YZW + b.YZW
         );
 
         /// <summary>

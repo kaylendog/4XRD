@@ -1,5 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 using Vector4 = _4XRD.Physics.Vector4;
 
 // Makes records work
@@ -50,7 +51,7 @@ namespace _4XRD.Mesh
                 cells[index * 4 + 3] = cell.Vertex4;
             }
             
-            return new Mesh4D(vertices, edges, faces, cells);
+            return Mesh4D.CreateInstance(vertices, edges, faces, cells);
         }
 
         public int AddVertex(float x, float y, float z, float w)

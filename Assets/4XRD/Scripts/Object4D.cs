@@ -6,40 +6,43 @@ using UnityEngine.UI;
 
 namespace _4XRD.Scripts
 {
-    [RequireComponent(typeof(MeshFilter), typeof(Transform4D))]
+    [RequireComponent(typeof(MeshFilter), typeof(MeshRenderer), typeof(RigidBody4D))]
     [ExecuteInEditMode]
     public class Object4D : MonoBehaviour
     {
         [SerializeField] PrimitiveType4D type;
-        
+
         /// <summary>
-        /// The mesh of this object.
+        /// The mesh filter.
         /// </summary>
-        public Mesh4D mesh;
-        
+        MeshFilter _meshFilter;
+
         /// <summary>
         /// This object's transform.
         /// </summary>
         Transform4D _transform4D;
+
+        /// <summary>
+        /// The 4D mesh filter.
+        /// </summary>
+        MeshFilter4D _meshFilter4D;
         
         /// <summary>
         /// The global W slider.
         /// </summary>
         Slider _wSlider;
     
-        MeshFilter _meshFilter;
-    
         void OnEnable()
         {
-            mesh = Mesh4D.CreatePrimitive(type);
+            _meshFilter = GetComponent<MeshFilter>();
             _transform4D = GetComponent<Transform4D>();
+            _meshFilter4D=  GetComponent<MeshFilter4D>();
             _wSlider = GameObject.Find("W_Slider").GetComponent<Slider>();
-            _meshFilter=  GetComponent<MeshFilter>();
         }
 
         void Update()
         {
-            _meshFilter.mesh = mesh.GetSlice(_transform4D, _wSlider.value);
+            _meshFilter.mesh = _meshFilter4D.Mesh.GetSlice(_transform4D, _wSlider.value);
         }
     }
 }

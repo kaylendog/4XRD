@@ -6,9 +6,14 @@ namespace _4XRD.Physics
     [Serializable]
     public record Rotor4
     {
-        public readonly float S = 1.0f;
-        public readonly Bivector4 B;
-        public readonly Quadvector4 Q;
+        [field: SerializeField]
+        public float S { get; private set; } = 1.0f;
+
+        [field: SerializeField]
+        public Bivector4 B { get; private set; }
+
+        [field: SerializeField]
+        public Quadvector4 Q { get; private set; }
 
         /// <summary>
         /// The identity rotor.

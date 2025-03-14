@@ -1,4 +1,5 @@
 using System;
+using UnityEngine;
 
 namespace _4XRD.Physics
 {
@@ -8,7 +9,8 @@ namespace _4XRD.Physics
     [Serializable]
     public struct Quadvector4
     {
-        public readonly float XYZW;
+        [field: SerializeField]
+        public float XYZW { get; private set;}
 
         /// <summary>
         /// The zero quadvector.

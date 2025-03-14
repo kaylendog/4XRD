@@ -9,7 +9,23 @@ namespace _4XRD.Physics
     [Serializable]
     public record Bivector4
     {
-        public readonly float XY, XZ, XW, YZ, YW, ZW;
+        [field: SerializeField]
+        public float XY { get; private set; }
+
+        [field: SerializeField]
+        public float XZ { get; private set; }
+
+        [field: SerializeField]
+        public float XW { get; private set; }
+
+        [field: SerializeField]
+        public float YZ { get; private set; }
+
+        [field: SerializeField]
+        public float YW { get; private set; }
+        
+        [field: SerializeField]
+        public float ZW { get; private set; }
 
         /// <summary>
         /// The zero bivector.
