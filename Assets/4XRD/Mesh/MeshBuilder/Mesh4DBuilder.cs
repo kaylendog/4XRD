@@ -1,6 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using Vector4 = _4XRD.Physics.Tensors.Vector4;
+using UnityEngine;
 
 // Makes records work
 namespace System.Runtime.CompilerServices
@@ -26,7 +26,7 @@ namespace _4XRD.Mesh.MeshBuilder
 
             foreach (var (vertex, index) in this.vertices.Select((vertex, index) => (vertex, index)))
             {
-                vertices[index] = new Vector4(vertex.X, vertex.Y, vertex.Z, vertex.W);
+                vertices[index] = new Vector4(vertex.x, vertex.y, vertex.z, vertex.w);
             }
 
             foreach (var (edge, index) in this.edges.Select((edge, index) => (edge, index)))

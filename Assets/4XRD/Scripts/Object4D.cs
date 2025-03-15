@@ -40,7 +40,6 @@ namespace _4XRD.Scripts
 
         void Update()
         {
-            Debug.Log("Vertices " + _meshFilter4D.Mesh.Vertices.Length);
             _meshFilter.mesh = _meshFilter4D.Mesh.GetSlice(_transform4D, _wSlider.value);
         }
     }

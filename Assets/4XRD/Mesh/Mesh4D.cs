@@ -6,7 +6,6 @@ using UnityEngine;
 using UnityEditor;
 using _4XRD.Physics;
 using _4XRD.Physics.Tensors;
-using Vector4 = _4XRD.Physics.Tensors.Vector4;
 
 namespace _4XRD.Mesh
 {
@@ -79,13 +78,20 @@ namespace _4XRD.Mesh
         /// <returns></returns>
         public UnityEngine.Mesh GetSlice(Transform4D transform, float w)
         {
-            Rotor4 rotation = transform. rotation;
+            Rotation4x4 rotation = transform.rotationMat;
+            Vector4 wTranslation = new Vector4(0, 0, 0, 1) * transform.position.w;
+
             List<Vector4> vertices = new();
-            
             for (int i = 0; i < Edges.Length; i+=2)
             {
-                Vector4 v1 = rotation * Vertices[Edges[i]] + Vector4.Ana * transform.position.W;
-                Vector4 v2 = rotation * Vertices[Edges[i + 1]] + Vector4.Ana * transform.position.W;
+                Vector4 v1 = Vertices[Edges[i]];
+                Vector4 v2 = Vertices[Edges[i + 1]];
+
+                float v1w = v1.w * transform.scale.w;
+                float v2w = v2.w * transform.scale.w;
+
+                v1 = rotation * new Vector4(v1.x, v1.y, v1.z, v1w) + wTranslation;
+                v2 = rotation * new Vector4(v2.x, v2.y, v2.z, v2w) + wTranslation;
 
                 AddIntersection(v1, v2, w, vertices);
             }
@@ -100,19 +106,19 @@ namespace _4XRD.Mesh
 
         void AddIntersection(Vector4 v1, Vector4 v2, float w, List<Vector4> vertices)
         {
-            if (Mathf.Approximately(v1.W, w) && Mathf.Approximately(v2.W, w))
+            if (Mathf.Approximately(v1.w, w) && Mathf.Approximately(v2.w, w))
             {
                 vertices.Add(v1);
                 vertices.Add(v2);
                 return;
             }
             
-            if (Mathf.Approximately(v1.W, v2.W))
+            if (Mathf.Approximately(v1.w, v2.w))
             {
                 return;
             }
 
-            float t = (w - v1.W) / (v2.W - v1.W);
+            float t = (w - v1.w) / (v2.w - v1.w);
             if (t < 0 || t > 1)
             {
                 return;
@@ -176,6 +182,15 @@ namespace _4XRD.Mesh
             mesh.RecalculateNormals();
             return mesh;
         }
+
+        internal class Vertex : IVertex
+        {
+            public double[] Position { get; }
+            public Vertex(Vector4 v)
+            {
+                Position = new double[] {v.x, v.y, v.z};
+            }
+        }
     }
 
     public class AssetCreator : EditorWindow
@@ -197,33 +212,6 @@ namespace _4XRD.Mesh
                 AssetDatabase.SaveAssets();
                 AssetDatabase.Refresh();
             }
-        }
-
-        [MenuItem("Assets/Create/Mesh4D/Check Primitive Meshes")]
-        private static void CheckPrimitiveMeshes()
-        {
-            string directory = AssetDatabase.GUIDToAssetPath(Selection.assetGUIDs[0]);
-            if (System.IO.Path.HasExtension(directory)) {
-                directory = System.IO.Path.GetDirectoryName(directory);
-            }
-            
-            foreach (var type in Enum.GetValues(typeof(PrimitiveType4D)).Cast<PrimitiveType4D>())
-            {
-                string assetName = type.ToString() + ".asset";
-                string assetPath = System.IO.Path.Combine(directory, assetName);
-                Debug.Log(assetPath);
-                Mesh4D mesh4D = AssetDatabase.LoadAssetAtPath<Mesh4D>(assetPath);
-                Debug.Log(mesh4D.Vertices.Length);
-            }
-        }
-    }
-
-    class Vertex : IVertex
-    {
-        public double[] Position { get; }
-        public Vertex(Vector4 v)
-        {
-            Position = new double[] {v.X, v.Y, v.Z};
         }
     }
 }

@@ -1,19 +1,21 @@
+using System;
 using UnityEngine;
 using _4XRD.Mesh;
 
 namespace _4XRD.Physics.Tensors
 {
+    [Serializable]
     public record BoundingBox4D
     {
         /// <summary>
         /// The first corner of the bounding box.
         /// </summary>
-        public readonly Vector4 Min;
+        [field: SerializeField] public Vector4 Min { get; private set;}
 
         /// <summary>
         /// The second corner of the bounding box.
         /// </summary>
-        public readonly Vector4 Max;
+        [field: SerializeField] public Vector4 Max { get; private set;}
 
         /// <summary>
         /// The middle of the bounding box.
@@ -37,15 +39,15 @@ namespace _4XRD.Physics.Tensors
 
             foreach (var vertex in mesh.Vertices)
             {
-                minX = Mathf.Min(minX, vertex.X);
-                minY = Mathf.Min(minY, vertex.Y);
-                minZ = Mathf.Min(minZ, vertex.Z);
-                minW = Mathf.Min(minW, vertex.W);
+                minX = Mathf.Min(minX, vertex.x);
+                minY = Mathf.Min(minY, vertex.y);
+                minZ = Mathf.Min(minZ, vertex.z);
+                minW = Mathf.Min(minW, vertex.w);
 
-                maxX = Mathf.Max(maxX, vertex.X);
-                maxY = Mathf.Max(maxY, vertex.Y);
-                maxZ = Mathf.Max(maxZ, vertex.Z);
-                maxW = Mathf.Max(maxW, vertex.W);
+                maxX = Mathf.Max(maxX, vertex.x);
+                maxY = Mathf.Max(maxY, vertex.y);
+                maxZ = Mathf.Max(maxZ, vertex.z);
+                maxW = Mathf.Max(maxW, vertex.w);
             }
             
             return new BoundingBox4D(
@@ -72,14 +74,14 @@ namespace _4XRD.Physics.Tensors
         /// <returns></returns>
         public bool Includes(BoundingBox4D other)
         {
-            return Min.X <= other.Min.X &&
-                Min.Y <= other.Min.Y &&
-                Min.Z <= other.Min.Z &&
-                Min.W <= other.Min.W &&
-                Max.X >= other.Max.X &&
-                Max.Y >= other.Max.Y &&
-                Max.Z >= other.Max.Z &&
-                Max.W >= other.Max.W;
+            return Min.x <= other.Min.x &&
+                Min.y <= other.Min.y &&
+                Min.z <= other.Min.z &&
+                Min.w <= other.Min.w &&
+                Max.x >= other.Max.x &&
+                Max.y >= other.Max.y &&
+                Max.z >= other.Max.z &&
+                Max.w >= other.Max.w;
         }
 
         /// <summary>
@@ -89,15 +91,15 @@ namespace _4XRD.Physics.Tensors
         /// <returns></returns>
         public BoundingBox4D Intersection(BoundingBox4D other)
         {
-            float minX = Mathf.Max(Min.X, other.Min.X);
-            float minY = Mathf.Max(Min.Y, other.Min.Y);
-            float minZ = Mathf.Max(Min.Z, other.Min.Z);
-            float minW = Mathf.Max(Min.W, other.Min.W);
+            float minX = Mathf.Max(Min.x, other.Min.x);
+            float minY = Mathf.Max(Min.y, other.Min.y);
+            float minZ = Mathf.Max(Min.z, other.Min.z);
+            float minW = Mathf.Max(Min.w, other.Min.w);
 
-            float maxX = Mathf.Min(Max.X, other.Max.X);
-            float maxY = Mathf.Min(Max.Y, other.Max.Y);
-            float maxZ = Mathf.Min(Max.Z, other.Max.Z);
-            float maxW = Mathf.Min(Max.W, other.Max.W);
+            float maxX = Mathf.Min(Max.x, other.Max.x);
+            float maxY = Mathf.Min(Max.y, other.Max.y);
+            float maxZ = Mathf.Min(Max.z, other.Max.z);
+            float maxW = Mathf.Min(Max.w, other.Max.w);
             
             if (minX > maxX || minY > maxY || 
                 minZ > maxZ || minW > maxW)

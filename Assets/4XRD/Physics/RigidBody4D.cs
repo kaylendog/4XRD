@@ -1,7 +1,6 @@
 using UnityEngine;
 using _4XRD.Mesh;
 using _4XRD.Physics.Tensors;
-using Vector4 = _4XRD.Physics.Tensors.Vector4;
 
 namespace _4XRD.Physics
 {
@@ -26,12 +25,12 @@ namespace _4XRD.Physics
         /// <summary>
         /// The linear velocity of this rigidbody.
         /// </summary>
-        public Vector4 velocity = Vector4.Zero;
+        public Vector4 velocity = Vector4.zero;
             
         /// <summary>
         /// The angular velocity of this rigidbody.
         /// </summary>
-        public Bivector4 angularVelocity = Bivector4.Zero;
+        public Rotation6 angularVelocity = new();
 
         /// <summary>
         /// The mass of this body.
@@ -41,7 +40,7 @@ namespace _4XRD.Physics
         /// <summary>
         /// The center of mass of this body.
         /// </summary>
-        public Vector4 centerOfMass = Vector4.Zero;
+        public Vector4 centerOfMass = Vector4.zero;
         
         void OnEnable()
         {
@@ -54,8 +53,7 @@ namespace _4XRD.Physics
         {
             var dt = Time.fixedDeltaTime;
             _transform.position += velocity * dt;
-            _transform.rotation *= 0.5f * angularVelocity * dt;
-            _transform.rotation = _transform.rotation.Normalized();
+            _transform.rotationMat *= Rotation4x4.FromAngles(angularVelocity * dt);
         }
     }
 }

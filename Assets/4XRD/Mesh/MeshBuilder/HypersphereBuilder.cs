@@ -1,48 +1,53 @@
+using MIConvexHull;
 using UnityEngine;
 
 namespace _4XRD.Mesh.MeshBuilder
 {
     public class HypersphereBuilder : Mesh4DBuilder
     {
-        
         public new Mesh4D Build()
-        {   
-            // Cube 1 face down
-            int point0 = AddVertex( 1,  1,  1, -1/Mathf.Sqrt(5));
-            int point1 = AddVertex( 1, -1, -1, -1/Mathf.Sqrt(5));
-            int point2 = AddVertex(-1,  1, -1, -1/Mathf.Sqrt(5));
-            int point3 = AddVertex(-1, -1,  1, -1/Mathf.Sqrt(5));
-            int point4 = AddVertex( 0,  0,  0,  4/Mathf.Sqrt(5));
-
-            AddEdge(point0, point1);
-            AddEdge(point0, point2);
-            AddEdge(point0, point3);
-            AddEdge(point0, point4);
-            AddEdge(point1, point2);
-            AddEdge(point1, point3);
-            AddEdge(point1, point4);
-            AddEdge(point2, point3);
-            AddEdge(point2, point4);
-            AddEdge(point3, point4);
-
-            AddFace(point0, point1, point2);
-            AddFace(point0, point1, point3);
-            AddFace(point0, point1, point4);
-            AddFace(point0, point2, point3);
-            AddFace(point0, point2, point4);
-            AddFace(point0, point3, point4);
-            AddFace(point1, point2, point3);
-            AddFace(point1, point2, point4);
-            AddFace(point1, point3, point4);
-            AddFace(point2, point3, point4);
-
-            AddCell(point0, point1, point2, point3);
-            AddCell(point0, point1, point2, point4);
-            AddCell(point0, point1, point3, point4);
-            AddCell(point0, point2, point3, point4);
-            AddCell(point1, point2, point3, point4);
+        {
+            int NUM_VERTICES = 600;
+            Vertex[] vertices4 = new Vertex[NUM_VERTICES];
+            for (int i=0; i<NUM_VERTICES; i++){
+                vertices4[i] = new Vertex(SampleHypersphere());
+            }
 
             return base.Build();
+        }
+
+        Vector4 SampleHypersphere()
+        {
+            float x = SampleGaussian();
+            float y = SampleGaussian();
+            float z = SampleGaussian();
+            float w = SampleGaussian();
+            float rms = Mathf.Sqrt(x*x + y*y + z*z + w*w);
+            return new Vector4(x/rms, y/rms, z/rms, w/rms);
+        }
+
+        // Use Marsaglia Polar Method to sample gaussian from uniform
+        float SampleGaussian() {
+            float v1 = 0;
+            float v2 = 0;
+            float s = 0;
+
+            while (s <= 0 || s >= 1 ) {
+                v1 = 2 * Random.Range(0f, 1f) - 1;
+                v2 = 2 * Random.Range(0f, 1f) - 1;
+                s = v1 * v1 + v2 * v2;
+            }
+            
+            return v1 * Mathf.Sqrt(-2 * Mathf.Log(s) / s);
+        }
+
+        internal class Vertex : IVertex
+        {
+            public double[] Position { get; }
+            public Vertex(Vector4 v)
+            {
+                Position = new double[] {v.x, v.y, v.z, v.w};
+            }
         }
     }
 }
