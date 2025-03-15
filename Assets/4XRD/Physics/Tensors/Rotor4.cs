@@ -6,14 +6,11 @@ namespace _4XRD.Physics.Tensors
     [Serializable]
     public record Rotor4
     {
-        [field: SerializeField]
-        public float S { get; private set; } = 1.0f;
+        [field: SerializeField] public float S { get; private set; } = 1.0f;
 
-        [field: SerializeField]
-        public Bivector4 B { get; private set; }
+        [field: SerializeField] public Bivector4 B { get; private set; }
 
-        [field: SerializeField]
-        public Quadvector4 Q { get; private set; }
+        [field: SerializeField] public Quadvector4 Q { get; private set; }
 
         /// <summary>
         /// The identity rotor.
@@ -80,7 +77,7 @@ namespace _4XRD.Physics.Tensors
                 q
             );
         }
-        
+
         /// <summary>
         /// Product with another rotor.
         /// </summary>
@@ -127,42 +124,33 @@ namespace _4XRD.Physics.Tensors
         public Rotor4 Normalized()
         {
             var (rPlus, rMinus) = Decompose();
-            rPlus = new Rotor4(rPlus.S - 0.5f, rPlus.B, rPlus.Q);
-            rMinus = new Rotor4(rMinus.S - 0.5f, rMinus.B, rMinus.Q);
 
-            var plusMag = 2.0f * Mathf.Sqrt(
-                Mathf.Pow(rPlus.S, 2) + Mathf.Pow(rPlus.B.XY, 2) + Mathf.Pow(rPlus.B.XZ, 2) + Mathf.Pow(rPlus.B.XW, 2)
-            );
-            var minusMag = 2.0f * Mathf.Sqrt(
-                Mathf.Pow(rMinus.S, 2) + Mathf.Pow(rMinus.B.XY, 2) + Mathf.Pow(rMinus.B.XZ, 2) + Mathf.Pow(rMinus.B.XW, 2)
-            );
-    
-            // handle no left isoclinic
-            if (plusMag == 0)
+            var rPlusS = rPlus.S - 0.5f;
+            var rMinusS = rMinus.S - 0.5f;
+
+            var plusMag = 2.0f * Mathf.Sqrt(rPlusS * rPlusS + rPlus.B.XY * rPlus.B.XY + rPlus.B.XZ * rPlus.B.XZ + rPlus.B.XW * rPlus.B.XW);
+            var minusMag = 2.0f * Mathf.Sqrt(rMinusS * rMinusS + rMinus.B.XY * rMinus.B.XY + rMinus.B.XZ * rMinus.B.XZ + rMinus.B.XW * rMinus.B.XW);
+
+            if (plusMag > 0.0f)
+            {
+                var invPlusMag = 1.0f / plusMag;
+                rPlus = new Rotor4(rPlusS * invPlusMag + 0.5f, rPlus.B * invPlusMag, new Quadvector4(rPlusS * invPlusMag - 0.5f));
+            }
+            else
             {
                 rPlus = Identity;
             }
-            else
+
+            if (minusMag > 0.0f)
             {
-                float invPlusMag = 1.0f / plusMag;
-                rPlus = new Rotor4(
-                    rPlus.S * invPlusMag, rPlus.B * invPlusMag, new Quadvector4(rPlus.S)
-                );
+                var invMinusMag = 1.0f / minusMag;
+                rMinus = new Rotor4(rMinusS * invMinusMag + 0.5f, rMinus.B * invMinusMag, new Quadvector4(-rMinus.S * invMinusMag + 0.5f));
             }
-            
-            // handle no right isoclinic
-            if (minusMag == 0)
+            else
             {
                 rMinus = Identity;
             }
-            else
-            {
-                var invMinusMag = 1.0f / minusMag;
-                rMinus = new Rotor4(
-                    rMinus.S * invMinusMag, rMinus.B * invMinusMag, new Quadvector4(-rMinus.S)
-                );
-            }
-            
+
             return rPlus * rMinus;
         }
 
@@ -177,7 +165,7 @@ namespace _4XRD.Physics.Tensors
 
             return (
                 new Rotor4(0.5f + 0.5f * S + 0.5f * Q.XYZW, 0.5f * B + (posHalf | B), 0.5f * Q + S * posHalf + negHalf),
-                new Rotor4(0.5f + 0.5f * S - 0.5f * Q.XYZW, 0.5f * B + (posHalf | B), 0.5f * Q + S * posHalf + negHalf)
+                new Rotor4(0.5f + 0.5f * S - 0.5f * Q.XYZW, 0.5f * B + (negHalf | B), 0.5f * Q + S * negHalf + posHalf)
             );
         }
 

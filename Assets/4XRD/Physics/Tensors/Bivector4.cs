@@ -9,23 +9,17 @@ namespace _4XRD.Physics.Tensors
     [Serializable]
     public record Bivector4
     {
-        [field: SerializeField]
-        public float XY { get; private set; }
+        [field: SerializeField] public float XY { get; private set; }
 
-        [field: SerializeField]
-        public float XZ { get; private set; }
+        [field: SerializeField] public float XZ { get; private set; }
 
-        [field: SerializeField]
-        public float XW { get; private set; }
+        [field: SerializeField] public float XW { get; private set; }
 
-        [field: SerializeField]
-        public float YZ { get; private set; }
+        [field: SerializeField] public float YZ { get; private set; }
 
-        [field: SerializeField]
-        public float YW { get; private set; }
-        
-        [field: SerializeField]
-        public float ZW { get; private set; }
+        [field: SerializeField] public float YW { get; private set; }
+
+        [field: SerializeField] public float ZW { get; private set; }
 
         /// <summary>
         /// The zero bivector.
@@ -106,8 +100,8 @@ namespace _4XRD.Physics.Tensors
         /// <param name="v"></param>
         /// <returns></returns>
         public static Vector4 operator |(Bivector4 b, Vector4 v) => new Vector4(
-            b.XY * v.Y + b.XZ * v.Z + b.XW * v.W,
-            -b.XY * v.X + b.YZ * v.Z + b.YW * v.W,
+            b.XW * v.W + b.XY * v.Y + b.XZ * v.Z,
+            -b.XY * v.X + b.YW * v.W + b.YZ * v.Z,
             -b.XZ * v.X - b.YZ * v.Y + b.ZW * v.W,
             -b.XW * v.X - b.YW * v.Y - b.ZW * v.Z
         );
@@ -119,10 +113,10 @@ namespace _4XRD.Physics.Tensors
         /// <param name="t"></param>
         /// <returns></returns>
         public static Vector4 operator |(Bivector4 b, Trivector4 t) => new Vector4(
-            -b.YW * t.XYW - b.YZ * t.XYZ - b.ZW * t.XZW,
-            b.XW * t.XYW + b.XZ * t.XYZ - b.ZW * t.YZW,
+            -b.YW * t.XYZ - b.YZ * t.XYZ - b.ZW * t.XZW,
+            b.XW * t.XYZ + b.XZ * t.XYZ - b.ZW * t.YZW,
             b.XW * t.XZW - b.XY * t.XYZ + b.YW * t.YZW,
-           -b.XY * t.XYW - b.XZ * t.XZW - b.YZ * t.YZW
+            -b.XY * t.XYZ - b.XZ * t.XZW - b.YZ * t.YZW
         );
 
         /// <summary>
@@ -132,10 +126,10 @@ namespace _4XRD.Physics.Tensors
         /// <param name="v"></param>
         /// <returns></returns>
         public static Trivector4 operator ^(Bivector4 b, Vector4 v) => new Trivector4(
-            xyz: b.XY * v.Z - b.XZ * v.Y + b.YZ * v.X,
-            xyw: -b.XW * v.Y + b.XY * v.W + b.YW * v.X,
-            xzw: -b.XW * v.Z + b.XZ * v.W + b.ZW * v.X,
-            yzw: -b.YW * v.Z + b.YZ * v.W + b.ZW * v.Y
+            b.XY * v.Z - b.XZ * v.Y + b.YZ * v.X,
+            -b.XW * v.Y + b.XY * v.W + b.YW * v.X,
+            -b.XW * v.Z + b.XZ * v.W + b.ZW * v.X,
+            -b.YW * v.Z + b.YZ * v.W + b.ZW * v.Y
         );
 
         /// <summary>
@@ -192,7 +186,7 @@ namespace _4XRD.Physics.Tensors
             YW = yw;
             ZW = zw;
         }
-        
+
         /// <summary>
         /// Decompose this bivector.
         /// </summary>
@@ -207,7 +201,7 @@ namespace _4XRD.Physics.Tensors
 
             return (bPlus, bMinus);
         }
-    
+
         /// <summary>
         /// Convert this bivector into a rotor.
         /// </summary>
@@ -216,30 +210,19 @@ namespace _4XRD.Physics.Tensors
         {
             var (bPlus, bMinus) = Decompose();
 
-            var thetaPlus = 2.0f
-                * Mathf.Sqrt(Mathf.Pow(bPlus.XY, 2) + Mathf.Pow(bPlus.XZ, 2) + Mathf.Pow(bPlus.XW, 2));
-            var thetaMinus = 2.0f
-                * Mathf.Sqrt(Mathf.Pow(bMinus.XY, 2) + Mathf.Pow(bMinus.XZ, 2) + Mathf.Pow(bMinus.XW, 2));
+            var thetaPlus = 2.0f * Mathf.Sqrt(bPlus.XY * bPlus.XY + bPlus.XZ * bPlus.XZ + bPlus.XW * bPlus.XW);
+            var thetaMinus = 2.0f * Mathf.Sqrt(bMinus.XY * bMinus.XY + bMinus.XZ * bMinus.XZ + bMinus.XW * bMinus.XW);
 
-            var invThetaPlus = 0.0f;
-            if (thetaPlus > 0.0f)
-            {
-                invThetaPlus = 1.0f / thetaPlus;
-            }
-            var invThetaMinus = 0.0f;
-            if (thetaMinus > 0.0f)
-            {
-                invThetaMinus = 1.0f / thetaMinus;
-            }
+            var invThetaPlus = thetaPlus > 0.0f ? 1.0f / thetaPlus : 0.0f;
+            var invThetaMinus = thetaMinus > 0.0f ? 1.0f / thetaMinus : 0.0f;
 
-            var bPlusNorm = invThetaPlus * bPlus;
-            var bMinusNorm = invThetaMinus * bMinus;
+            var unitBPlus = invThetaPlus * bPlus;
+            var unitBMinus = invThetaMinus * bMinus;
 
             return new Rotor4(
-                0.5f * Mathf.Cos(thetaPlus) + 0.5f * Mathf.Sin(thetaPlus),
-                Mathf.Sin(thetaPlus) * bPlusNorm + Mathf.Sin(thetaMinus) * bMinusNorm,
-                new Quadvector4(
-                    0.5f * Mathf.Cos(thetaPlus) - 0.5f * Mathf.Sin(thetaPlus))
+                0.5f * Mathf.Cos(thetaPlus) + 0.5f * Mathf.Cos(thetaMinus),
+                thetaPlus * Mathf.Sin(thetaPlus) * unitBPlus + thetaMinus * Mathf.Sin(thetaMinus) * unitBMinus,
+                new Quadvector4(0.5f * Mathf.Cos(thetaPlus) - 0.5f * Mathf.Cos(thetaMinus))
             );
         }
     }

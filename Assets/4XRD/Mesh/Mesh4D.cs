@@ -74,6 +74,7 @@ namespace _4XRD.Mesh
         /// <summary>
         ///     Gets a 3D slice of the 4D mesh at the given w value.
         /// </summary>
+        /// <param name="transform"></param>
         /// <param name="w"></param>
         /// <returns></returns>
         public UnityEngine.Mesh GetSlice(Transform4D transform, float w)
