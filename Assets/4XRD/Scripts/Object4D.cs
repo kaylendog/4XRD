@@ -1,4 +1,4 @@
-
+using System.Linq;
 using _4XRD.Mesh;
 using _4XRD.Physics;
 using UnityEngine;
@@ -10,8 +10,6 @@ namespace _4XRD.Scripts
     [ExecuteInEditMode]
     public class Object4D : MonoBehaviour
     {
-        [SerializeField] PrimitiveType4D type;
-
         /// <summary>
         /// The mesh filter.
         /// </summary>
@@ -42,6 +40,7 @@ namespace _4XRD.Scripts
 
         void Update()
         {
+            Debug.Log("Vertices " + _meshFilter4D.Mesh.Vertices.Length);
             _meshFilter.mesh = _meshFilter4D.Mesh.GetSlice(_transform4D, _wSlider.value);
         }
     }

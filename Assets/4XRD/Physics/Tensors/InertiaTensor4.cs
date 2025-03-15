@@ -1,4 +1,4 @@
-namespace _4XRD.Physics
+namespace _4XRD.Physics.Tensors
 {
     /// <summary>
     /// The inertia tensor of a rigidbody.

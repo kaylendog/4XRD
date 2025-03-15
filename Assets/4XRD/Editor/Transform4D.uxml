@@ -1,9 +1,0 @@
-<ui:UXML xmlns:ui="UnityEngine.UIElements" xmlns:uie="UnityEditor.UIElements" editor-extension-mode="True">
-    <ui:VisualElement name="Position" style="flex-grow: 0; flex-direction: row; margin-top: 0; margin-bottom: 0;">
-        <ui:Label text="Position" name="Position" style="flex-grow: 1;" />
-        <ui:FloatField label="X" value="0" binding-path="position.X" enabled="true" readonly="false" style="width: auto; flex-shrink: 1;" />
-        <ui:FloatField label="Y" value="0" password="false" max-length="1000" binding-path="position.Y" readonly="false" style="height: auto; width: auto; flex-shrink: 1;" />
-        <ui:FloatField label="Z" value="0" binding-path="position.Z" style="flex-shrink: 1;" />
-        <ui:FloatField label="W" value="0" binding-path="position.W" style="flex-shrink: 1;" />
-    </ui:VisualElement>
-</ui:UXML>

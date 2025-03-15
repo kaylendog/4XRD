@@ -3,8 +3,10 @@ using System.Collections.Generic;
 using System.Linq;
 using MIConvexHull;
 using UnityEngine;
+using UnityEditor;
 using _4XRD.Physics;
-using Vector4 = _4XRD.Physics.Vector4;
+using _4XRD.Physics.Tensors;
+using Vector4 = _4XRD.Physics.Tensors.Vector4;
 
 namespace _4XRD.Mesh
 {
@@ -15,21 +17,25 @@ namespace _4XRD.Mesh
         /// <summary>
         ///     Vertices of the 4D mesh.
         /// </summary>
+        [field: SerializeField]
         public Vector4[] Vertices { get; private set; }
 
         /// <summary>
         ///     Array of edge vertex indices.
         /// </summary>
+        [field: SerializeField]
         public int[] Edges { get; private set; }
 
         /// <summary>
         ///     Array of triangle vertex indices.
         /// </summary>
+        [field: SerializeField]
         public int[] Faces { get; private set; }
 
         /// <summary>
         ///     Array of tetrahedral cell vertex indices.
         /// </summary>
+        [field: SerializeField]
         public int[] Cells { get; private set; }
 
         /// <summary>
@@ -41,7 +47,6 @@ namespace _4XRD.Mesh
         /// <param name="cells"></param>
         public static Mesh4D CreateInstance(Vector4[] vertices, int[] edges, int[] faces, int[] cells)
         {
-            
             Mesh4D mesh = CreateInstance<Mesh4D>();
             mesh.Vertices = vertices;
             mesh.Edges = edges;
@@ -58,15 +63,12 @@ namespace _4XRD.Mesh
         /// <exception cref="NotImplementedException"></exception>
         public static Mesh4D CreatePrimitive(PrimitiveType4D type)
         {
-            switch(type) 
+            return type switch
             {
-                case PrimitiveType4D.Tesseract:
-                    return new TesseractBuilder().Build();
-                case PrimitiveType4D.Simplex4:
-                    return new Simplex4Builder().Build();
-                default:
-                    throw new NotImplementedException();
-            }
+                PrimitiveType4D.Tesseract => new MeshBuilder.TesseractBuilder().Build(),
+                PrimitiveType4D.Simplex4 => new MeshBuilder.Simplex4Builder().Build(),
+                _ => throw new NotImplementedException(),
+            };
         }
 
         /// <summary>
@@ -76,9 +78,9 @@ namespace _4XRD.Mesh
         /// <returns></returns>
         public UnityEngine.Mesh GetSlice(Transform4D transform, float w)
         {
-            Rotor4 rotation = transform.rotation;
-
+            Rotor4 rotation = transform. rotation;
             List<Vector4> vertices = new();
+            
             for (int i = 0; i < Edges.Length; i+=2)
             {
                 Vector4 v1 = rotation * Vertices[Edges[i]] + Vector4.Ana * transform.position.W;
@@ -172,6 +174,46 @@ namespace _4XRD.Mesh
 
             mesh.RecalculateNormals();
             return mesh;
+        }
+    }
+
+    public class AssetCreator : EditorWindow
+    {
+        [MenuItem("Assets/Create/Mesh4D/Generate Primitive Meshes")]
+        private static void GeneratePrimitiveMeshes()
+        {
+            string directory = AssetDatabase.GUIDToAssetPath(Selection.assetGUIDs[0]);
+            if (System.IO.Path.HasExtension(directory)) {
+                directory = System.IO.Path.GetDirectoryName(directory);
+            }
+            
+            foreach (var type in Enum.GetValues(typeof(PrimitiveType4D)).Cast<PrimitiveType4D>())
+            {
+                string assetName = type.ToString() + ".asset";
+                string assetPath = System.IO.Path.Combine(directory, assetName);
+                Mesh4D mesh4D = Mesh4D.CreatePrimitive(type);
+                AssetDatabase.CreateAsset(mesh4D, assetPath);
+                AssetDatabase.SaveAssets();
+                AssetDatabase.Refresh();
+            }
+        }
+
+        [MenuItem("Assets/Create/Mesh4D/Check Primitive Meshes")]
+        private static void CheckPrimitiveMeshes()
+        {
+            string directory = AssetDatabase.GUIDToAssetPath(Selection.assetGUIDs[0]);
+            if (System.IO.Path.HasExtension(directory)) {
+                directory = System.IO.Path.GetDirectoryName(directory);
+            }
+            
+            foreach (var type in Enum.GetValues(typeof(PrimitiveType4D)).Cast<PrimitiveType4D>())
+            {
+                string assetName = type.ToString() + ".asset";
+                string assetPath = System.IO.Path.Combine(directory, assetName);
+                Debug.Log(assetPath);
+                Mesh4D mesh4D = AssetDatabase.LoadAssetAtPath<Mesh4D>(assetPath);
+                Debug.Log(mesh4D.Vertices.Length);
+            }
         }
     }
 

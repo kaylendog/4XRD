@@ -1,4 +1,6 @@
 using UnityEngine;
+using _4XRD.Physics.Tensors;
+using Vector4 = _4XRD.Physics.Tensors.Vector4;
 
 namespace _4XRD.Physics
 {

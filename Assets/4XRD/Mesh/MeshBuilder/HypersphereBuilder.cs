@@ -1,9 +1,8 @@
 using UnityEngine;
-using Vector4 = _4XRD.Physics.Vector4;
 
-namespace _4XRD.Mesh
+namespace _4XRD.Mesh.MeshBuilder
 {
-    public class Simplex4Builder : Mesh4DBuilder
+    public class HypersphereBuilder : Mesh4DBuilder
     {
         
         public new Mesh4D Build()

@@ -1,7 +1,7 @@
-using _4XRD.Mesh;
 using UnityEngine;
+using _4XRD.Mesh;
 
-namespace _4XRD.Physics
+namespace _4XRD.Physics.Tensors
 {
     public record BoundingBox4D
     {
@@ -18,10 +18,7 @@ namespace _4XRD.Physics
         /// <summary>
         /// The middle of the bounding box.
         /// </summary>
-        public Vector4 center
-        {
-            get => Vector4.Lerp(Min, Max, 0.5f);
-        }
+        public Vector4 Center => Vector4.Lerp(Min, Max, 0.5f);
 
         /// <summary>
         /// Compute a bounding box from a mesh.

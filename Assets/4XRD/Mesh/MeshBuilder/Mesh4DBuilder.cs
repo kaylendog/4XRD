@@ -1,7 +1,6 @@
 using System.Collections.Generic;
 using System.Linq;
-using UnityEngine;
-using Vector4 = _4XRD.Physics.Vector4;
+using Vector4 = _4XRD.Physics.Tensors.Vector4;
 
 // Makes records work
 namespace System.Runtime.CompilerServices
@@ -9,7 +8,7 @@ namespace System.Runtime.CompilerServices
     internal static class IsExternalInit {}
 }
 
-namespace _4XRD.Mesh
+namespace _4XRD.Mesh.MeshBuilder
 {
     public class Mesh4DBuilder : IMesh4DBuilder
     {

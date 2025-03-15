@@ -1,4 +1,4 @@
-namespace _4XRD.Mesh
+namespace _4XRD.Mesh.MeshBuilder
 {
     /// <summary>
     ///     An interface representing types capable of building 4D meshes.

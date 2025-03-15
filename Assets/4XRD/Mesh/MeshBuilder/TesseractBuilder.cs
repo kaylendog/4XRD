@@ -1,8 +1,7 @@
-namespace _4XRD.Mesh
+namespace _4XRD.Mesh.MeshBuilder
 {
     public class TesseractBuilder : Mesh4DBuilder
-    {
-        
+    { 
         public new Mesh4D Build()
         {   
             // Cube 1 face down
