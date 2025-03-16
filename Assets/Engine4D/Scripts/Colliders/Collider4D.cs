@@ -93,9 +93,8 @@ namespace Engine4D.Scripts.Colliders
                 hit.displacement *= (radius - dist) / dist;
                 hit.collider = this;
                 return true;
-            } else {
-                return false;
             }
+            return false;
         }
     }
 }

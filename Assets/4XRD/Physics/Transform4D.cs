@@ -13,11 +13,13 @@ namespace _4XRD.Physics
         /// <summary>
         /// The position in 4D space.
         /// </summary>
+        [SerializeField]
         public Vector4 position;
 
         /// <summary>
         /// The objects scale.
         /// </summary>
+        [SerializeField]
         public Vector4 scale;
 
         /// <summary>
@@ -33,19 +35,6 @@ namespace _4XRD.Physics
             Vector4.one,
             Rotation4x4.identity
         );
-        
-        /// <summary>
-        /// Construct a new Transform4D.
-        /// </summary>
-        /// <param name="position"></param>
-        /// <param name="scale"></param>
-        /// <param name="rotation"></param>
-        public Transform4D(Vector4 position, Vector4 scale, Rotation4x4 rotation)
-        {
-            this.position = position;
-            this.scale = scale;
-            this.rotation = rotation;
-        }
 
         /// <summary>
         /// Apply a transformation to a given vector.
@@ -82,5 +71,27 @@ namespace _4XRD.Physics
                 a.rotation * b.rotation
             );
         }
+        
+        /// <summary>
+        /// Construct a new Transform4D.
+        /// </summary>
+        /// <param name="position"></param>
+        /// <param name="scale"></param>
+        /// <param name="rotation"></param>
+        public Transform4D(Vector4 position, Vector4 scale, Rotation4x4 rotation)
+        {
+            this.position = position;
+            this.scale = scale;
+            this.rotation = rotation;
+        }
+
+        /// <summary>
+        /// The inverse of this transform.
+        /// </summary>
+        public Transform4D inverse => new Transform4D(
+            -(rotation * position),
+            new Vector4(1 / scale.x, 1 / scale.y, 1 / scale.z, 1 / scale.w),
+            rotation.inverse
+        );
     }
 }

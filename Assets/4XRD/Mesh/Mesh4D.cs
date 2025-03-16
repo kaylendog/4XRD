@@ -85,7 +85,6 @@ namespace _4XRD.Mesh
         /// <returns></returns>
         public UnityEngine.Mesh GetSlice(Transform4D transform, float w)
         {
-            // TODO change rotation placeholder
             Rotation4x4 rotation = transform.rotation;
             Vector4 wTranslation = new Vector4(0, 0, 0, 1) * transform.position.w;
 
