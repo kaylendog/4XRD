@@ -1,4 +1,3 @@
-using _4XRD.Scripts;
 using UnityEngine;
 
 namespace _4XRD.Physics
@@ -36,7 +35,7 @@ namespace _4XRD.Physics
         /// </summary>
         public float radius = 1.0f;
         
-        void OnEnable()
+        void Awake()
         {
             _object4D = GetComponent<Object4D>();
         }

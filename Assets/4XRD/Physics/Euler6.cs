@@ -38,6 +38,18 @@ namespace _4XRD.Physics
             this.ZW = ZW;
         }
 
+        public static Euler6 FromEuler3(Vector3 euler)
+        {
+            return new Euler6(
+                euler.z,
+                euler.y,
+                0,
+                euler.x,
+                0,
+                0
+            );
+        }
+
         public static Euler6 zero => new Euler6();
 
         /// <summary>
