@@ -23,6 +23,16 @@ namespace _4XRD.Physics
         public Vector4 scale;
 
         /// <summary>
+        /// The euler angles of this transform.
+        /// </summary>
+        public Euler6 eulerAngles
+        {
+            get => Euler6.From(rotation);
+            // editor-only
+            private set => rotation = Rotation4x4.FromAngles(value);
+        }
+
+        /// <summary>
         /// The rotation in 4D space.
         /// </summary>
         public Rotation4x4 rotation;

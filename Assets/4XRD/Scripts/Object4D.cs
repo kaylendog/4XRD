@@ -44,6 +44,7 @@ namespace _4XRD.Scripts
         void Update()
         {
             _meshFilter.mesh = _meshFilter4D.Mesh.GetSlice(transform4D, _wSlider.value);
+            transform.position = transform4D.position;
         }
     }
 }

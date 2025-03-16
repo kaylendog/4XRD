@@ -6,7 +6,7 @@ namespace _4XRD.Physics
     [Serializable]
     public class Rotation4x4
     {
-        readonly Matrix4x4 _matrix;
+        public readonly Matrix4x4 matrix;
         
         /// <summary>
         /// The identity rotation.
@@ -32,13 +32,13 @@ namespace _4XRD.Physics
         
         public static Rotation4x4 operator *(Rotation4x4 a, Rotation4x4 b)
         {
-            Matrix4x4 result = a._matrix * b._matrix;
+            Matrix4x4 result = a.matrix * b.matrix;
             return new Rotation4x4(result);
         }
 
         public static Vector4 operator *(Rotation4x4 rotation, Vector4 vector)
         {
-            return rotation._matrix * vector;
+            return rotation.matrix * vector;
         }
         
         /// <summary>
@@ -46,18 +46,18 @@ namespace _4XRD.Physics
         /// </summary>
         public Rotation4x4()
         {
-            _matrix = Matrix4x4.identity;
+            matrix = Matrix4x4.identity;
         }
 
         public Rotation4x4(Matrix4x4 matrix)
         {
-            _matrix = matrix;
+            this.matrix = matrix;
         }
 
         /// <summary>
         /// Return the inverse rotation.
         /// </summary>
-        public Rotation4x4 inverse => new Rotation4x4(_matrix.inverse);
+        public Rotation4x4 inverse => new Rotation4x4(matrix.inverse);
 
         public Rotation4x4 RotateXY(float angle)
         {
@@ -136,7 +136,5 @@ namespace _4XRD.Physics
             );
             return this * new Rotation4x4(rotationMatrix);
         }
-
-      
     }
 }

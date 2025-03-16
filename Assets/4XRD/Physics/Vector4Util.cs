@@ -61,5 +61,12 @@ namespace _4XRD.Physics
         {
             return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
         }
+            
+        /// <summary>
+        /// Create a vector 4 from a vector 3.
+        /// </summary>
+        /// <param name="v"></param>
+        /// <returns></returns>
+        public static Vector4 XYZW(this Vector3 v) { return new Vector4(v.x, v.y, v.z, 0f); }
     }
 }

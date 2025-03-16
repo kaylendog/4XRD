@@ -106,5 +106,34 @@ namespace _4XRD.Physics
         /// <param name="r"></param>
         /// <returns></returns>
         public static Euler6 operator *(float f, Euler6 r) => r * f;
+
+        /// <summary>
+        /// Reverse engineer an Euler6 from a rotation.
+        /// </summary>
+        /// <param name="rot"></param>
+        /// <returns></returns>
+        public static Euler6 From(Rotation4x4 rot)
+        {
+            var euler = new Euler6();
+
+            euler.XY = Mathf.Atan2(rot.matrix.m10, rot.matrix.m00);
+            rot = rot.RotateXY(-euler.XY);
+
+            euler.XZ = Mathf.Atan2(-rot.matrix.m20, rot.matrix.m00);
+            rot = rot.RotateXZ(-euler.XZ);
+            
+            euler.XW = Mathf.Atan2(-rot.matrix.m30, rot.matrix.m00);
+            rot = rot.RotateXW(-euler.XW);
+            
+            euler.YZ = Mathf.Atan2(rot.matrix.m21, rot.matrix.m11);
+            rot = rot.RotateYZ(-euler.YZ);
+
+            euler.YW = Mathf.Atan2(-rot.matrix.m31, rot.matrix.m11);
+            rot = rot.RotateYW(-euler.YW);
+
+            euler.ZW = Mathf.Atan2(rot.matrix.m32, rot.matrix.m22);
+            
+            return euler;
+        }
     }
 }
