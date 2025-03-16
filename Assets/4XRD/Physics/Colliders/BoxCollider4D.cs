@@ -21,8 +21,9 @@ namespace _4XRD.Physics.Colliders
         /// The normal to the surface at a given point.
         /// </summary>
         /// <param name="position"></param>
+        /// <param name="radius"></param>
         /// <returns></returns>
-        public override Vector4 Normal(Vector4 position)
+        public override Vector4 Normal(Vector4 position, float radius)
         {
             return Vector4.zero;
         }

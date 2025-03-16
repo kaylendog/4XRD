@@ -14,7 +14,7 @@
 //         [field: SerializeField] public float Y { get; private set;}
 
 //         [field: SerializeField] public float Z { get; private set;}
-        
+
 //         [field: SerializeField] public float W { get; private set;}
 
 //         /// <summary>
@@ -53,7 +53,7 @@
 //         /// <param name="v"></param>
 //         /// <returns></returns>
 //         public static Vector4 Splat(float v) => new(v, v, v, v);
-    
+
 //         /// <summary>
 //         /// Linearly interpolate between two vectors.
 //         /// </summary>
@@ -99,7 +99,7 @@
 //             a.Z + b.Z,
 //             a.W + b.W
 //         );
-        
+
 //         /// <summary>
 //         /// Vector subtraction.
 //         /// </summary>
@@ -128,7 +128,7 @@
 //         /// <param name="v"></param>
 //         /// <returns></returns>
 //         public static Vector4 operator *(float f, Vector4 v) => v * f;
-    
+
 
 //         /// <summary>
 //         /// Inner product with a vector.
@@ -137,7 +137,7 @@
 //         /// <param name="b"></param>
 //         /// <returns></returns>
 //         public static float operator |(Vector4 a, Vector4 b) => a.X * b.X + a.Y * b.Y + a.Z * b.Z + a.W * b.W;
-            
+
 //         /// <summary>
 //         /// Inner product with a bivector.
 //         /// </summary>
@@ -165,7 +165,7 @@
 //             u.Y * v.W - u.W * v.Y,
 //             u.Z * v.W - u.W * v.Z
 //         );
-        
+
 //         // /// <summary>
 //         // /// Outer product with a bivector.
 //         // /// </summary>
@@ -189,7 +189,7 @@
 //             u | v,
 //             u ^ v
 //         );
-        
+
 //         // /// <summary>
 //         // /// Geometric product of a vector with a bivector
 //         // /// </summary>
@@ -235,3 +235,5 @@
 //         public UnityEngine.Vector4 ToUnity() => new(X, Y, Z, W);
 //     }
 // }
+
+

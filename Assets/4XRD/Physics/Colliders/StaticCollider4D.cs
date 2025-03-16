@@ -18,6 +18,16 @@ namespace _4XRD.Physics.Colliders
         /// Internal reference to the 4D transform.
         /// </summary>
         public Transform4D transform4D => Object4D.transform4D;
+
+        /// <summary>
+        /// The restitution of this surface.
+        /// </summary>
+        public float restitution = 0.6f;
+
+        /// <summary>
+        /// The friction of this surface.
+        /// </summary>
+        public float friction = 0.95f;
         
         protected virtual void Awake()
         {
@@ -28,6 +38,7 @@ namespace _4XRD.Physics.Colliders
         /// Compute the signed distance between this collider and a given point.
         /// </summary>
         /// <param name="position"></param>
+        /// <param name="radius"></param>
         /// <returns></returns>
         public abstract float SignedDistance(Vector4 position, float radius);
         
@@ -35,7 +46,8 @@ namespace _4XRD.Physics.Colliders
         /// The normal to the surface at a given point.
         /// </summary>
         /// <param name="position"></param>
+        /// <param name="radius"></param>
         /// <returns></returns>
-        public abstract Vector4 Normal(Vector4 position);
+        public abstract Vector4 Normal(Vector4 position, float radius);
     }
 }

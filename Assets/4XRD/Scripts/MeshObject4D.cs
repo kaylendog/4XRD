@@ -37,7 +37,9 @@ namespace _4XRD.Scripts
 
         void Update()
         {
-            _meshFilter.mesh = mesh.GetSlice(transform4D, _wSlider.value);
+            _meshFilter.mesh = mesh.GetSlice(transform4D, _wSlider ? _wSlider.value : 0f);
+            transform.position = transform4D.position;
+            transform.localScale = transform4D.scale;
         }
     }
 }

@@ -8,6 +8,6 @@ namespace _4XRD.Physics.Tensors
     [Serializable]
     public class InertiaTensor4D
     {
-       
+
     }
 }

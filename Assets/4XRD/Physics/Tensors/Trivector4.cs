@@ -10,11 +10,11 @@
 //     public record Trivector4
 //     {
 //         [field: SerializeField] public float XYZ { get; private set; }
-        
+
 //         [field: SerializeField] public float XYW { get; private set; }
-        
+
 //         [field: SerializeField] public float XZW { get; private set; }
-        
+
 //         [field: SerializeField] public float YZW { get; private set; }
 
 //         /// <summary>
@@ -82,7 +82,7 @@
 //         /// <param name="v"></param>
 //         /// <returns></returns>
 //         public static Trivector4 operator *(float f, Trivector4 v) => v * f;
-    
+
 //         /// <summary>
 //         /// Inner product with a quadvector.
 //         /// </summary>
@@ -105,3 +105,5 @@
 //         }
 //     }
 // }
+
+

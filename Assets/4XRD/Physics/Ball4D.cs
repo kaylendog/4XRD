@@ -1,5 +1,6 @@
 using _4XRD.Scripts;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 namespace _4XRD.Physics
 {
@@ -9,12 +10,15 @@ namespace _4XRD.Physics
         /// <summary>
         /// The object this body is attached to.
         /// </summary>
-        Object4D _object4D;
+        public Object4D object4D;
         
         /// <summary>
         /// The transform of this rigidbody.
         /// </summary>
-        Transform4D _transform4D => _object4D.transform4D;
+        public Transform4D transform4D { 
+            get => object4D.transform4D;
+            set => object4D.transform4D = value;
+        }
         
         /// <summary>
         /// The linear velocity of this rigidbody.
@@ -25,16 +29,20 @@ namespace _4XRD.Physics
         ///     The radius of this body.
         /// </summary>
         public float radius = 1.0f;
+
+        /// <summary>
+        /// The mass of this body.
+        /// </summary>
+        public float mass = 1.0f;
+        
+        /// <summary>
+        /// Whether or not this body is static.
+        /// </summary>
+        public bool isStatic = false;
         
         void Awake()
         {
-            _object4D = GetComponent<Object4D>();
-        }
-
-        void FixedUpdate()
-        {
-            var dt = Time.fixedDeltaTime;
-            _object4D.transform4D.position += velocity * dt;
+            object4D = GetComponent<Object4D>();
         }
     }
 }

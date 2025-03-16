@@ -14,7 +14,7 @@ namespace _4XRD.Physics.Colliders
             return normal.Dot(point - transform4D.position) - radius;
         }
 
-        public override Vector4 Normal(Vector4 position)
+        public override Vector4 Normal(Vector4 position, float radius)
         {
             return normal;
         }

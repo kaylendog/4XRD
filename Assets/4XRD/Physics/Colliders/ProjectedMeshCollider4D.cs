@@ -24,7 +24,7 @@ namespace _4XRD.Physics.Colliders
             return (_projectedCollider.ClosestPoint(position.XYZ()) - position.XYZ()).magnitude - radius;
         }
 
-        public override Vector4 Normal(Vector4 position)
+        public override Vector4 Normal(Vector4 position, float radius)
         {
             return (_projectedCollider.ClosestPoint(position.XYZ()) - position.XYZ()).normalized.XYZW();
         }
