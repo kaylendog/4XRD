@@ -1,4 +1,3 @@
-using _4XRD.Mesh;
 using _4XRD.Scripts;
 using UnityEngine;
 
@@ -7,7 +6,7 @@ namespace _4XRD.Physics.Colliders
     /// <summary>
     /// An arbitrary 4D collider.
     /// </summary>
-    [RequireComponent(typeof(Object4D),  typeof(MeshFilter4D))]
+    [RequireComponent(typeof(Object4D))]
     public abstract class StaticCollider4D : MonoBehaviour 
     {
         /// <summary>
