@@ -50,5 +50,16 @@ namespace _4XRD.Physics
                 -Vector3.Dot(WXY(a), Vector3.Cross(WXY(b), WXY(c))),
                 Vector3.Dot(XYZ(a), Vector3.Cross(XYZ(b), XYZ(c))));
         }
+
+        /// <summary>
+        /// Vector dot product.
+        /// </summary>
+        /// <param name="a"></param>
+        /// <param name="b"></param>
+        /// <returns></returns>
+        public static float Dot(this Vector4 a, Vector4 b)
+        {
+            return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
+        }
     }
 }

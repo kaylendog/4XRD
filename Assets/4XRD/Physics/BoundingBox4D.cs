@@ -9,17 +9,17 @@ namespace _4XRD.Physics
         /// <summary>
         /// The first corner of the bounding box.
         /// </summary>
-        [field: SerializeField] public Vector4 Min { get; private set;}
+        [field: SerializeField] public Vector4 min { get; private set;}
 
         /// <summary>
         /// The second corner of the bounding box.
         /// </summary>
-        [field: SerializeField] public Vector4 Max { get; private set;}
+        [field: SerializeField] public Vector4 max { get; private set;}
 
         /// <summary>
         /// The middle of the bounding box.
         /// </summary>
-        public Vector4 Center => Vector4.Lerp(Min, Max, 0.5f);
+        public Vector4 center => Vector4.Lerp(min, max, 0.5f);
 
         /// <summary>
         /// Compute a bounding box from a mesh.
@@ -62,8 +62,8 @@ namespace _4XRD.Physics
         /// <param name="max"></param>
         public BoundingBox4D(Vector4 min, Vector4 max)
         {
-            Min = min;
-            Max = max;
+            this.min = min;
+            this.max = max;
         }
 
         /// <summary>
@@ -73,14 +73,14 @@ namespace _4XRD.Physics
         /// <returns></returns>
         public bool Includes(BoundingBox4D other)
         {
-            return Min.x <= other.Min.x &&
-                Min.y <= other.Min.y &&
-                Min.z <= other.Min.z &&
-                Min.w <= other.Min.w &&
-                Max.x >= other.Max.x &&
-                Max.y >= other.Max.y &&
-                Max.z >= other.Max.z &&
-                Max.w >= other.Max.w;
+            return min.x <= other.min.x &&
+                min.y <= other.min.y &&
+                min.z <= other.min.z &&
+                min.w <= other.min.w &&
+                max.x >= other.max.x &&
+                max.y >= other.max.y &&
+                max.z >= other.max.z &&
+                max.w >= other.max.w;
         }
 
         /// <summary>
@@ -90,15 +90,15 @@ namespace _4XRD.Physics
         /// <returns></returns>
         public BoundingBox4D Intersection(BoundingBox4D other)
         {
-            float minX = Mathf.Max(Min.x, other.Min.x);
-            float minY = Mathf.Max(Min.y, other.Min.y);
-            float minZ = Mathf.Max(Min.z, other.Min.z);
-            float minW = Mathf.Max(Min.w, other.Min.w);
+            float minX = Mathf.Max(min.x, other.min.x);
+            float minY = Mathf.Max(min.y, other.min.y);
+            float minZ = Mathf.Max(min.z, other.min.z);
+            float minW = Mathf.Max(min.w, other.min.w);
 
-            float maxX = Mathf.Min(Max.x, other.Max.x);
-            float maxY = Mathf.Min(Max.y, other.Max.y);
-            float maxZ = Mathf.Min(Max.z, other.Max.z);
-            float maxW = Mathf.Min(Max.w, other.Max.w);
+            float maxX = Mathf.Min(max.x, other.max.x);
+            float maxY = Mathf.Min(max.y, other.max.y);
+            float maxZ = Mathf.Min(max.z, other.max.z);
+            float maxW = Mathf.Min(max.w, other.max.w);
             
             if (minX > maxX || minY > maxY || 
                 minZ > maxZ || minW > maxW)
@@ -129,10 +129,10 @@ namespace _4XRD.Physics
         /// <returns></returns>
         public bool Includes(Vector4 point)
         {
-            return Min.x <= point.x && point.x <= Max.x &&
-                Min.y <= point.y && point.y <= Max.y &&
-                Min.z <= point.z && point.z <= Max.z &&
-                Min.w <= point.w && point.w <= Max.w;
+            return min.x <= point.x && point.x <= max.x &&
+                min.y <= point.y && point.y <= max.y &&
+                min.z <= point.z && point.z <= max.z &&
+                min.w <= point.w && point.w <= max.w;
         }
     }
 }

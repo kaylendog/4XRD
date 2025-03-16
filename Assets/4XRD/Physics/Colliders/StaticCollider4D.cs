@@ -8,7 +8,7 @@ namespace _4XRD.Physics.Colliders
     /// An arbitrary 4D collider.
     /// </summary>
     [RequireComponent(typeof(Object4D),  typeof(MeshFilter4D))]
-    public abstract class Collider4D : MonoBehaviour 
+    public abstract class StaticCollider4D : MonoBehaviour 
     {
         /// <summary>
         /// A hit between two or more colliders.
@@ -28,7 +28,7 @@ namespace _4XRD.Physics.Colliders
             /// <summary>
             /// The collider that was hit.
             /// </summary>
-            public Collider4D collider;
+            public StaticCollider4D StaticCollider;
         }
 
         /// <summary>
@@ -37,14 +37,9 @@ namespace _4XRD.Physics.Colliders
         protected Object4D Object4D;
 
         /// <summary>
-        /// The 4D mesh.
-        /// </summary>
-        protected Mesh4D Mesh => Object4D.mesh;
-
-        /// <summary>
         /// Internal reference to the 4D transform.
         /// </summary>
-        protected transform4D transform4D => Object4D.Transform4D;
+        public Transform4D transform4D => Object4D.transform4D;
         
         protected virtual void Awake()
         {
@@ -64,9 +59,21 @@ namespace _4XRD.Physics.Colliders
             ref Hit hit
         )
         {
-            // get vector in local space
-            var localPosition = transform4D.inverse * position;
-            return Mesh.BoundingBox.Includes(localPosition);
+            return false;
         }
+        
+        /// <summary>
+        /// Compute the signed distance between this collider and a given point.
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
+        public abstract float SignedDistance(Vector4 position);
+        
+        /// <summary>
+        /// The normal to the surface at a given point.
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
+        public abstract Vector4 Normal(Vector4 position);
     }
 }

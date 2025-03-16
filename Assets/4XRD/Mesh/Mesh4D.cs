@@ -82,10 +82,10 @@ namespace _4XRD.Mesh
         /// <param name="transform"></param>
         /// <param name="w"></param>
         /// <returns></returns>
-        public UnityEngine.Mesh GetSlice(transform4D transform, float w)
+        public UnityEngine.Mesh GetSlice(Transform4D transform, float w)
         {
-            Rotation4x4 rotation = transform.Rotation;
-            Vector4 wTranslation = new Vector4(0, 0, 0, 1) * transform.Position.w;
+            Rotation4x4 rotation = transform.rotation;
+            Vector4 wTranslation = new Vector4(0, 0, 0, 1) * transform.position.w;
 
             List<Vector4> vertices = new();
             for (int i = 0; i < Edges.Length; i += 2)
@@ -93,8 +93,8 @@ namespace _4XRD.Mesh
                 Vector4 v1 = Vertices[Edges[i]];
                 Vector4 v2 = Vertices[Edges[i + 1]];
 
-                float v1w = v1.w * transform.Scale.w;
-                float v2w = v2.w * transform.Scale.w;
+                float v1w = v1.w * transform.scale.w;
+                float v2w = v2.w * transform.scale.w;
 
                 v1 = rotation * new Vector4(v1.x, v1.y, v1.z, v1w) + wTranslation;
                 v2 = rotation * new Vector4(v2.x, v2.y, v2.z, v2w) + wTranslation;
