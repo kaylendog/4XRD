@@ -13,6 +13,11 @@ namespace _4XRD.Mesh
         /// <summary>
         ///     A 4-dimensional 4-simplex.
         /// </summary>
-        Simplex4
+        Simplex4,
+
+        /// <summary>
+        ///     A 4-dimensional version of a sphere.
+        /// </summary>
+        Hypersphere,
     }
 }

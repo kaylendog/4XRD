@@ -72,6 +72,7 @@ namespace _4XRD.Mesh
             {
                 PrimitiveType4D.Tesseract => new MeshBuilder.TesseractBuilder().Build(),
                 PrimitiveType4D.Simplex4 => new MeshBuilder.Simplex4Builder().Build(),
+                PrimitiveType4D.Hypersphere => new MeshBuilder.HypersphereBuilder().Build(),
                 _ => throw new NotImplementedException(),
             };
         }
@@ -202,4 +203,6 @@ namespace _4XRD.Mesh
             }
         }
     }
+
+    
 }

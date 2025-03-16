@@ -1,4 +1,3 @@
-using UnityEditor;
 using UnityEngine;
 
 namespace _4XRD.Physics.Colliders
@@ -17,7 +16,12 @@ namespace _4XRD.Physics.Colliders
                 Mathf.Abs(localPosition.w)
             ) - 1f / 2;
         }
-
+        
+        /// <summary>
+        /// The normal to the surface at a given point.
+        /// </summary>
+        /// <param name="position"></param>
+        /// <returns></returns>
         public override Vector4 Normal(Vector4 position)
         {
             return Vector4.zero;

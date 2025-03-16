@@ -13,6 +13,36 @@ namespace _4XRD.Mesh.MeshBuilder
                 vertices4[i] = new Vertex(SampleHypersphere());
             }
 
+            var resultObject = ConvexHull.Create(vertices4);
+            if (resultObject.Outcome != ConvexHullCreationResultOutcome.Success)
+            {
+                Debug.LogError("Failed to create convex hull: " + resultObject.ErrorMessage);
+                return null;
+            }
+            var result = resultObject.Result;
+
+            foreach (var cell in result.Faces)
+            {
+                int point0 = AddVertex(cell.Vertices[0].ToVector4());
+                int point1 = AddVertex(cell.Vertices[1].ToVector4());
+                int point2 = AddVertex(cell.Vertices[2].ToVector4());
+                int point3 = AddVertex(cell.Vertices[3].ToVector4());
+
+                AddEdge(point0, point1);
+                AddEdge(point0, point2);
+                AddEdge(point0, point3);
+                AddEdge(point1, point2);
+                AddEdge(point1, point3);
+                AddEdge(point2, point3);
+
+                AddFace(point0, point1, point2);
+                AddFace(point0, point1, point3);
+                AddFace(point0, point2, point3);
+                AddFace(point1, point2, point3);
+
+                AddCell(point0, point1, point2, point3);
+            }
+
             return base.Build();
         }
 
@@ -47,6 +77,11 @@ namespace _4XRD.Mesh.MeshBuilder
             public Vertex(Vector4 v)
             {
                 Position = new double[] {v.x, v.y, v.z, v.w};
+            }
+
+            public Vector4 ToVector4()
+            {
+                return new Vector4((float)Position[0], (float)Position[1], (float)Position[2], (float)Position[3]);
             }
         }
     }
