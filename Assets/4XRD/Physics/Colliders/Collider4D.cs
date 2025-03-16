@@ -44,7 +44,7 @@ namespace _4XRD.Physics.Colliders
         /// <summary>
         /// Internal reference to the 4D transform.
         /// </summary>
-        protected transform4D transform4D => Object4D.Transform4D;
+        protected Transform4D transform4D => Object4D.transform4D;
         
         protected virtual void Awake()
         {
@@ -65,8 +65,9 @@ namespace _4XRD.Physics.Colliders
         )
         {
             // get vector in local space
-            var localPosition = transform4D.inverse * position;
-            return Mesh.BoundingBox.Includes(localPosition);
+            // var localPosition = Transform4D.inverse * position;
+            // return Mesh.BoundingBox.Includes(localPosition);
+            return false;
         }
     }
 }

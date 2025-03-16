@@ -28,7 +28,7 @@ namespace _4XRD.Physics
         /// <summary>
         /// The identity transformation.
         /// </summary>
-        public static Transform4D identity = new Transform4D(
+        public static Transform4D identity = new(
             Vector4.zero,
             Vector4.one,
             Rotation4x4.identity

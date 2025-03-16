@@ -9,7 +9,7 @@ namespace _4XRD.Physics
         /// <summary>
         /// The transform of this rigidbody.
         /// </summary>
-        transform4D _transform;
+        Transform4D _transform;
         
         /// <summary>
         /// The linear velocity of this rigidbody.
@@ -28,14 +28,14 @@ namespace _4XRD.Physics
         
         void OnEnable()
         {
-            _transform = GetComponent<transform4D>();
+            _transform = GetComponent<Transform4D>();
         }
 
         void FixedUpdate()
         {
             var dt = Time.fixedDeltaTime;
-            _transform.Position += velocity * dt;
-            _transform.Rotation *= Rotation4x4.FromAngles(angularVelocity * dt);
+            _transform.position += velocity * dt;
+            _transform.rotation *= Rotation4x4.FromAngles(angularVelocity * dt);
         }
     }
 }

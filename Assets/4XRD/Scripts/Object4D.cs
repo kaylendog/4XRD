@@ -27,7 +27,7 @@ namespace _4XRD.Scripts
         /// <summary>
         /// This object's transform.
         /// </summary>
-        public readonly transform4D Transform4D = new transform4D();
+        public Transform4D transform4D = Transform4D.identity;
 
         /// <summary>
         /// The mesh this object is using.
@@ -43,7 +43,7 @@ namespace _4XRD.Scripts
 
         void Update()
         {
-            _meshFilter.mesh = _meshFilter4D.Mesh.GetSlice(Transform4D, _wSlider.value);
+            _meshFilter.mesh = mesh.GetSlice(transform4D, _wSlider.value);
         }
     }
 }
