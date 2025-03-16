@@ -1,24 +1,24 @@
 using System;
 using UnityEngine;
 
-namespace _4XRD.Physics.Tensors
+namespace _4XRD.Physics
 {
     [Serializable]
-    public class Rotation6
+    public class Euler6
     {
         [field: SerializeField] public float XY { get; private set; }
-        
+
         [field: SerializeField] public float XZ { get; private set; }
-        
+
         [field: SerializeField] public float XW { get; private set; }
-        
+
         [field: SerializeField] public float YZ { get; private set; }
-        
+
         [field: SerializeField] public float YW { get; private set; }
-        
+
         [field: SerializeField] public float ZW { get; private set; }
 
-        public Rotation6()
+        public Euler6()
         {
             XY = 0;
             XZ = 0;
@@ -28,7 +28,7 @@ namespace _4XRD.Physics.Tensors
             ZW = 0;
         }
 
-        public Rotation6(float XY, float XZ, float XW, float YZ, float YW, float ZW)
+        public Euler6(float XY, float XZ, float XW, float YZ, float YW, float ZW)
         {
             this.XY = XY;
             this.XZ = XZ;
@@ -38,21 +38,21 @@ namespace _4XRD.Physics.Tensors
             this.ZW = ZW;
         }
 
-        public static Rotation6 zero => new Rotation6();
+        public static Euler6 zero => new Euler6();
 
         /// <summary>
         /// Rotation6 unary, equivalent to the identity.
         /// </summary>
         /// <param name="r"></param>
         /// <returns></returns>
-        public static Rotation6 operator +(Rotation6 r) => r;
+        public static Euler6 operator +(Euler6 r) => r;
 
         /// <summary>
         /// Rotation6 unary, equivalent to scaling by -1.
         /// </summary>
         /// <param name="r"></param>
         /// <returns></returns>
-        public static Rotation6 operator -(Rotation6 r) => new(
+        public static Euler6 operator -(Euler6 r) => new(
             -r.XY,
             -r.XZ,
             -r.XW,
@@ -67,7 +67,7 @@ namespace _4XRD.Physics.Tensors
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static Rotation6 operator +(Rotation6 a, Rotation6 b) => new(
+        public static Euler6 operator +(Euler6 a, Euler6 b) => new(
             a.XY + b.XY,
             a.XZ + b.XZ,
             a.XW + b.XW,
@@ -75,14 +75,14 @@ namespace _4XRD.Physics.Tensors
             a.YW + b.YW,
             a.ZW + b.ZW
         );
-        
+
         /// <summary>
         /// Rotation6 subtraction.
         /// </summary>
         /// <param name="a"></param>
         /// <param name="b"></param>
         /// <returns></returns>
-        public static Rotation6 operator -(Rotation6 a, Rotation6 b) => a + -b;
+        public static Euler6 operator -(Euler6 a, Euler6 b) => a + -b;
 
         /// <summary>
         /// Right multiplication by a scalar.
@@ -90,7 +90,7 @@ namespace _4XRD.Physics.Tensors
         /// <param name="r"></param>
         /// <param name="f"></param>
         /// <returns></returns>
-        public static Rotation6 operator *(Rotation6 r, float f) => new(
+        public static Euler6 operator *(Euler6 r, float f) => new(
             r.XY * f,
             r.XZ * f,
             r.XW * f,
@@ -105,6 +105,6 @@ namespace _4XRD.Physics.Tensors
         /// <param name="f"></param>
         /// <param name="r"></param>
         /// <returns></returns>
-        public static Rotation6 operator *(float f, Rotation6 r) => r * f;
+        public static Euler6 operator *(float f, Euler6 r) => r * f;
     }
 }

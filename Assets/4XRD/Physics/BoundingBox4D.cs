@@ -1,8 +1,7 @@
 using System;
 using UnityEngine;
-using _4XRD.Mesh;
 
-namespace _4XRD.Physics.Tensors
+namespace _4XRD.Physics
 {
     [Serializable]
     public record BoundingBox4D
@@ -26,7 +25,7 @@ namespace _4XRD.Physics.Tensors
         /// Compute a bounding box from a mesh.
         /// </summary>
         /// <param name="mesh"></param>
-        public static BoundingBox4D FromMesh(Mesh4D mesh)
+        public static BoundingBox4D FromMesh(_4XRD.Mesh.Mesh4D mesh)
         {
             float minX = float.MaxValue;
             float minY = float.MaxValue;
@@ -121,6 +120,19 @@ namespace _4XRD.Physics.Tensors
         public bool Overlaps(BoundingBox4D other)
         {
             return Intersection(other) != null;
+        }
+
+        /// <summary>
+        /// Returns whether the given point is inside this bounding box.
+        /// </summary>
+        /// <param name="point"></param>
+        /// <returns></returns>
+        public bool Includes(Vector4 point)
+        {
+            return Min.x <= point.x && point.x <= Max.x &&
+                Min.y <= point.y && point.y <= Max.y &&
+                Min.z <= point.z && point.z <= Max.z &&
+                Min.w <= point.w && point.w <= Max.w;
         }
     }
 }

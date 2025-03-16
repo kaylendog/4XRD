@@ -2,21 +2,19 @@ using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-// Makes records work
-namespace System.Runtime.CompilerServices
-{
-    internal static class IsExternalInit {}
-}
-
 namespace _4XRD.Mesh.MeshBuilder
 {
-    public class Mesh4DBuilder : IMesh4DBuilder
+    public abstract class Mesh4DBuilder : IMesh4DBuilder
     {
         readonly List<Vector4> vertices = new();
         readonly HashSet<Edge> edges = new();
         readonly HashSet<Face> faces = new();
         readonly HashSet<Cell> cells = new();
         
+        /// <summary>
+        ///     Build this mesh.
+        /// </summary>
+        /// <returns></returns>
         public Mesh4D Build()
         {
             Vector4[] vertices = new Vector4[this.vertices.Count];

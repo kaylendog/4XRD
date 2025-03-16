@@ -1,11 +1,10 @@
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using _4XRD.Physics;
 using MIConvexHull;
 using UnityEngine;
 using UnityEditor;
-using _4XRD.Physics;
-using _4XRD.Physics.Tensors;
 
 namespace _4XRD.Mesh
 {
@@ -38,6 +37,12 @@ namespace _4XRD.Mesh
         public int[] Cells { get; private set; }
 
         /// <summary>
+        ///     The bounding box of this mesh.
+        /// </summary>
+        [field: SerializeField]
+        public BoundingBox4D BoundingBox { get; private set; }
+
+        /// <summary>
         ///     Construct a new mesh with the given data.
         /// </summary>
         /// <param name="vertices"></param>
@@ -51,6 +56,7 @@ namespace _4XRD.Mesh
             mesh.Edges = edges;
             mesh.Faces = faces;
             mesh.Cells = cells;
+            mesh.BoundingBox = BoundingBox4D.FromMesh(mesh);
             return mesh;
         }
 
@@ -76,19 +82,19 @@ namespace _4XRD.Mesh
         /// <param name="transform"></param>
         /// <param name="w"></param>
         /// <returns></returns>
-        public UnityEngine.Mesh GetSlice(Transform4D transform, float w)
+        public UnityEngine.Mesh GetSlice(transform4D transform, float w)
         {
-            Rotation4x4 rotation = transform.rotationMat;
-            Vector4 wTranslation = new Vector4(0, 0, 0, 1) * transform.position.w;
+            Rotation4x4 rotation = transform.Rotation;
+            Vector4 wTranslation = new Vector4(0, 0, 0, 1) * transform.Position.w;
 
             List<Vector4> vertices = new();
-            for (int i = 0; i < Edges.Length; i+=2)
+            for (int i = 0; i < Edges.Length; i += 2)
             {
                 Vector4 v1 = Vertices[Edges[i]];
                 Vector4 v2 = Vertices[Edges[i + 1]];
 
-                float v1w = v1.w * transform.scale.w;
-                float v2w = v2.w * transform.scale.w;
+                float v1w = v1.w * transform.Scale.w;
+                float v2w = v2.w * transform.Scale.w;
 
                 v1 = rotation * new Vector4(v1.x, v1.y, v1.z, v1w) + wTranslation;
                 v2 = rotation * new Vector4(v2.x, v2.y, v2.z, v2w) + wTranslation;
@@ -112,7 +118,7 @@ namespace _4XRD.Mesh
                 vertices.Add(v2);
                 return;
             }
-            
+
             if (Mathf.Approximately(v1.w, v2.w))
             {
                 return;
@@ -128,7 +134,7 @@ namespace _4XRD.Mesh
         }
 
         UnityEngine.Mesh GenerateMesh(List<Vector4> vertices)
-        {   
+        {
             Vertex[] vertices4 = new Vertex[vertices.Count];
             for (int i = 0; i < vertices.Count; i++)
             {
@@ -172,7 +178,7 @@ namespace _4XRD.Mesh
                 triangles[j] = j;
                 j++;
             }
-
+            
             UnityEngine.Mesh mesh = new()
             {
                 vertices = vertices3,
@@ -183,34 +189,16 @@ namespace _4XRD.Mesh
             return mesh;
         }
 
-        internal class Vertex : IVertex
+        internal struct Vertex : IVertex
         {
             public double[] Position { get; }
+
             public Vertex(Vector4 v)
             {
-                Position = new double[] {v.x, v.y, v.z};
-            }
-        }
-    }
-
-    public class AssetCreator : EditorWindow
-    {
-        [MenuItem("Assets/Create/Mesh4D/Generate Primitive Meshes")]
-        private static void GeneratePrimitiveMeshes()
-        {
-            string directory = AssetDatabase.GUIDToAssetPath(Selection.assetGUIDs[0]);
-            if (System.IO.Path.HasExtension(directory)) {
-                directory = System.IO.Path.GetDirectoryName(directory);
-            }
-            
-            foreach (var type in Enum.GetValues(typeof(PrimitiveType4D)).Cast<PrimitiveType4D>())
-            {
-                string assetName = type.ToString() + ".asset";
-                string assetPath = System.IO.Path.Combine(directory, assetName);
-                Mesh4D mesh4D = Mesh4D.CreatePrimitive(type);
-                AssetDatabase.CreateAsset(mesh4D, assetPath);
-                AssetDatabase.SaveAssets();
-                AssetDatabase.Refresh();
+                Position = new double[]
+                {
+                    v.x, v.y, v.z
+                };
             }
         }
     }

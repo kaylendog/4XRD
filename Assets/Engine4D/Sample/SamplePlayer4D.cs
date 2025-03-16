@@ -1,5 +1,6 @@
 using System.Collections;
 using System.Collections.Generic;
+using Engine4D.Scripts;
 using UnityEngine;
 
 public class SamplePlayer4D : CameraControl4D {

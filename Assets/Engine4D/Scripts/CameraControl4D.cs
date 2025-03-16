@@ -4,6 +4,7 @@
 #define USE_4D
 using System.Collections;
 using System.Collections.Generic;
+using Engine4D.Scripts;
 using UnityEngine;
 
 public class CameraControl4D : BasicCamera4D {

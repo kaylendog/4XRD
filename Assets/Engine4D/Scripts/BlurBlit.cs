@@ -1,7 +1,8 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
-public class BlurBlit : MonoBehaviour {
-    //Ignore this file for open-source release.
+namespace Engine4D.Scripts
+{
+    public class BlurBlit : MonoBehaviour {
+        //Ignore this file for open-source release.
+    }
 }

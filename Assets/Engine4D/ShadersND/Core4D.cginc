@@ -261,7 +261,7 @@ void frag(v2f i, out float4 color : SV_Target) {
 #else
   color.rgb = diffuse * lerp(color.rgb, skyColor, specularMul) + specularPow * specular;
 #endif
-#endif
+#endifP
 
   //Add fog
 #ifdef FOG

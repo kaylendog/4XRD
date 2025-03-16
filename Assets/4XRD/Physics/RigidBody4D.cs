@@ -4,13 +4,13 @@ using _4XRD.Physics.Tensors;
 
 namespace _4XRD.Physics
 {
-    [RequireComponent(typeof(Transform4D), typeof(MeshFilter4D))]
+    [RequireComponent(typeof(transform4D), typeof(MeshFilter4D))]
     public class RigidBody4D : MonoBehaviour
     {
         /// <summary>
         /// The transform of this rigidbody.
         /// </summary>
-        Transform4D _transform;
+        transform4D _transform;
     
         /// <summary>
         /// The mesh associated with this rigidbody.
@@ -30,7 +30,7 @@ namespace _4XRD.Physics
         /// <summary>
         /// The angular velocity of this rigidbody.
         /// </summary>
-        public Rotation6 angularVelocity = new();
+        public Euler6 angularVelocity = new();
 
         /// <summary>
         /// The mass of this body.
@@ -44,7 +44,7 @@ namespace _4XRD.Physics
         
         void OnEnable()
         {
-            _transform = GetComponent<Transform4D>();
+            _transform = GetComponent<transform4D>();
             _meshFilter = GetComponent<MeshFilter4D>();
             _bounds = BoundingBox4D.FromMesh(_meshFilter.Mesh);
         }
@@ -52,8 +52,8 @@ namespace _4XRD.Physics
         void FixedUpdate()
         {
             var dt = Time.fixedDeltaTime;
-            _transform.position += velocity * dt;
-            _transform.rotationMat *= Rotation4x4.FromAngles(angularVelocity * dt);
+            _transform.Position += velocity * dt;
+            _transform.Rotation *= Rotation4x4.FromAngles(angularVelocity * dt);
         }
     }
 }
