@@ -24,17 +24,17 @@ namespace _4XRD.Mesh
         [field: SerializeField]
         public int[] Edges { get; private set; }
 
-        /// <summary>
-        ///     Array of triangle vertex indices.
-        /// </summary>
-        [field: SerializeField]
-        public int[] Faces { get; private set; }
+        // /// <summary>
+        // ///     Array of triangle vertex indices.
+        // /// </summary>
+        // [field: SerializeField]
+        // public int[] Faces { get; private set; }
 
-        /// <summary>
-        ///     Array of tetrahedral cell vertex indices.
-        /// </summary>
-        [field: SerializeField]
-        public int[] Cells { get; private set; }
+        // /// <summary>
+        // ///     Array of tetrahedral cell vertex indices.
+        // /// </summary>
+        // [field: SerializeField]
+        // public int[] Cells { get; private set; }
 
         /// <summary>
         ///     The bounding box of this mesh.
@@ -49,13 +49,13 @@ namespace _4XRD.Mesh
         /// <param name="edges"></param>
         /// <param name="faces"></param>
         /// <param name="cells"></param>
-        public static Mesh4D CreateInstance(Vector4[] vertices, int[] edges, int[] faces, int[] cells)
+        public static Mesh4D CreateInstance(Vector4[] vertices, int[] edges)
         {
             Mesh4D mesh = CreateInstance<Mesh4D>();
             mesh.Vertices = vertices;
             mesh.Edges = edges;
-            mesh.Faces = faces;
-            mesh.Cells = cells;
+            // mesh.Faces = faces;
+            // mesh.Cells = cells;
             mesh.BoundingBox = BoundingBox4D.FromMesh(mesh);
             return mesh;
         }

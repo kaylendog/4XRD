@@ -18,6 +18,7 @@ namespace _4XRD.Scripts
         {
             _object4D.transform4D.position = transform.position;
             _object4D.transform4D.rotation = Rotation4x4.FromAngles(Euler6.FromEuler3(transform.rotation.eulerAngles));
+            _object4D.transform4D.scale = transform.localScale;
         }
     }
 }
