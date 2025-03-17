@@ -10,7 +10,12 @@ namespace _4XRD.Physics
         /// <summary>
         /// The object this body is attached to.
         /// </summary>
-        public Object4D object4D;
+        public Object4D object4D
+        {
+            get => _object4D;
+        }
+
+        Object4D _object4D;
         
         /// <summary>
         /// The transform of this rigidbody.
@@ -35,14 +40,9 @@ namespace _4XRD.Physics
         /// </summary>
         public float mass = 1.0f;
         
-        /// <summary>
-        /// Whether or not this body is static.
-        /// </summary>
-        public bool isStatic;
-        
         void Awake()
         {
-            object4D = GetComponent<Object4D>();
+            _object4D = GetComponent<Object4D>();
         }
     }
 }

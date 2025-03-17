@@ -1,7 +1,9 @@
 using System;
 using System.Collections.Generic;
+using System.Linq;
 using _4XRD.Physics.Colliders;
 using UnityEngine;
+using UnityEngine.Assertions;
 
 namespace _4XRD.Physics
 {
@@ -71,12 +73,12 @@ namespace _4XRD.Physics
         /// <summary>
         /// A list of all colliders.
         /// </summary>
-        StaticCollider4D[] _colliders;
+        HashSet<StaticCollider4D> _colliders;
 
         /// <summary>
         /// A list of all balls.
         /// </summary>
-        Ball4D[] _balls;
+        HashSet<Ball4D> _balls;
 
         /// <summary>
         /// Number of substeps per update.
@@ -88,17 +90,33 @@ namespace _4XRD.Physics
 
         void Awake()
         {
-            _colliders = FindObjectsByType<StaticCollider4D>(FindObjectsSortMode.None);
-            _balls = FindObjectsByType<Ball4D>(FindObjectsSortMode.None);
+            _colliders = FindObjectsByType<StaticCollider4D>(FindObjectsSortMode.None).ToHashSet();
+            _balls = FindObjectsByType<Ball4D>(FindObjectsSortMode.None).ToHashSet();
         }
 
         void FixedUpdate()
         {
             // UpdateSegments();
+            UpdateIntegrands();
             for (int i = 0; i < substeps; ++i)
             {
                 IntegrateVelocities();
                 IntegrateCollisions();
+            }
+        }
+
+        /// <summary>
+        /// Update the integrands.
+        /// </summary>
+        void UpdateIntegrands()
+        {
+            foreach (var col in FindObjectsByType<StaticCollider4D>(FindObjectsSortMode.None))
+            {
+                _colliders.Add(col);
+            }
+            foreach (var ball in FindObjectsByType<Ball4D>(FindObjectsSortMode.None))
+            {
+                _balls.Add(ball);
             }
         }
 
@@ -143,7 +161,7 @@ namespace _4XRD.Physics
             foreach (var current in _balls)
             {
                 // ignore static bodies
-                if (current.isStatic)
+                if (current.object4D.isStatic)
                 {
                     continue;
                 }
@@ -192,7 +210,7 @@ namespace _4XRD.Physics
                     // compute outgoing velocity (inelastic)
                     var normalVelocity = current.velocity.Dot(normal) * normal;
                     var tangentVelocity = current.velocity - normalVelocity;
-                    
+
                     current.velocity = tangentVelocity * col.friction - normalVelocity * col.restitution;
                 }
             }

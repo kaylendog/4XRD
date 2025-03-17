@@ -24,22 +24,22 @@ namespace _4XRD.Mesh.MeshBuilder
             AddEdge(point2, point4);
             AddEdge(point3, point4);
 
-            AddFace(point0, point1, point2);
-            AddFace(point0, point1, point3);
-            AddFace(point0, point1, point4);
-            AddFace(point0, point2, point3);
-            AddFace(point0, point2, point4);
-            AddFace(point0, point3, point4);
-            AddFace(point1, point2, point3);
-            AddFace(point1, point2, point4);
-            AddFace(point1, point3, point4);
-            AddFace(point2, point3, point4);
+            // AddFace(point0, point1, point2);
+            // AddFace(point0, point1, point3);
+            // AddFace(point0, point1, point4);
+            // AddFace(point0, point2, point3);
+            // AddFace(point0, point2, point4);
+            // AddFace(point0, point3, point4);
+            // AddFace(point1, point2, point3);
+            // AddFace(point1, point2, point4);
+            // AddFace(point1, point3, point4);
+            // AddFace(point2, point3, point4);
 
-            AddCell(point0, point1, point2, point3);
-            AddCell(point0, point1, point2, point4);
-            AddCell(point0, point1, point3, point4);
-            AddCell(point0, point2, point3, point4);
-            AddCell(point1, point2, point3, point4);
+            // AddCell(point0, point1, point2, point3);
+            // AddCell(point0, point1, point2, point4);
+            // AddCell(point0, point1, point3, point4);
+            // AddCell(point0, point2, point3, point4);
+            // AddCell(point1, point2, point3, point4);
 
             return base.Build();
         }

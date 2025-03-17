@@ -24,17 +24,17 @@ namespace _4XRD.Mesh
         [field: SerializeField]
         public int[] Edges { get; private set; }
 
-        /// <summary>
-        ///     Array of triangle vertex indices.
-        /// </summary>
-        [field: SerializeField]
-        public int[] Faces { get; private set; }
+        // /// <summary>
+        // ///     Array of triangle vertex indices.
+        // /// </summary>
+        // [field: SerializeField]
+        // public int[] Faces { get; private set; }
 
-        /// <summary>
-        ///     Array of tetrahedral cell vertex indices.
-        /// </summary>
-        [field: SerializeField]
-        public int[] Cells { get; private set; }
+        // /// <summary>
+        // ///     Array of tetrahedral cell vertex indices.
+        // /// </summary>
+        // [field: SerializeField]
+        // public int[] Cells { get; private set; }
 
         /// <summary>
         ///     The bounding box of this mesh.
@@ -49,13 +49,13 @@ namespace _4XRD.Mesh
         /// <param name="edges"></param>
         /// <param name="faces"></param>
         /// <param name="cells"></param>
-        public static Mesh4D CreateInstance(Vector4[] vertices, int[] edges, int[] faces, int[] cells)
+        public static Mesh4D CreateInstance(Vector4[] vertices, int[] edges)
         {
             Mesh4D mesh = CreateInstance<Mesh4D>();
             mesh.Vertices = vertices;
             mesh.Edges = edges;
-            mesh.Faces = faces;
-            mesh.Cells = cells;
+            // mesh.Faces = faces;
+            // mesh.Cells = cells;
             mesh.BoundingBox = BoundingBox4D.FromMesh(mesh);
             return mesh;
         }
@@ -85,8 +85,9 @@ namespace _4XRD.Mesh
         /// <returns></returns>
         public UnityEngine.Mesh GetSlice(Transform4D transform, float w)
         {
-            Rotation4x4 rotation = transform.rotation;
             Vector4 wTranslation = new Vector4(0, 0, 0, 1) * transform.position.w;
+            Rotation4x4 wRotation = Rotation4x4.FromAngles(transform.eulerAngles.GetWRotations());
+            float wScale = transform.scale.w;
 
             List<Vector4> vertices = new();
             for (int i = 0; i < Edges.Length; i += 2)
@@ -94,11 +95,11 @@ namespace _4XRD.Mesh
                 Vector4 v1 = Vertices[Edges[i]];
                 Vector4 v2 = Vertices[Edges[i + 1]];
 
-                float v1w = v1.w * transform.scale.w;
-                float v2w = v2.w * transform.scale.w;
+                float v1w = v1.w * wScale;
+                float v2w = v2.w * wScale;
 
-                v1 = rotation * new Vector4(v1.x, v1.y, v1.z, v1w) + wTranslation;
-                v2 = rotation * new Vector4(v2.x, v2.y, v2.z, v2w) + wTranslation;
+                v1 = wRotation * new Vector4(v1.x, v1.y, v1.z, v1w) + wTranslation;
+                v2 = wRotation * new Vector4(v2.x, v2.y, v2.z, v2w) + wTranslation;
 
                 AddIntersection(v1, v2, w, vertices);
             }

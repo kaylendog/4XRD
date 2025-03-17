@@ -22,12 +22,12 @@ namespace _4XRD.Physics
         {
             Rotation4x4 rotation = new();
             return rotation
-                .RotateXY(euler6.XY)
-                .RotateXZ(euler6.XZ)
                 .RotateXW(euler6.XW)
-                .RotateYZ(euler6.YZ)
                 .RotateYW(euler6.YW)
-                .RotateZW(euler6.ZW);
+                .RotateZW(euler6.ZW)
+                .RotateXY(euler6.XY)
+                .RotateYZ(euler6.YZ)
+                .RotateXZ(euler6.XZ);
         }
         
         public static Rotation4x4 operator *(Rotation4x4 a, Rotation4x4 b)
@@ -69,7 +69,7 @@ namespace _4XRD.Physics
                 new Vector4(0, 0, 1, 0),
                 new Vector4(0, 0, 0, 1)
             );
-            return this * new Rotation4x4(rotationMatrix);
+            return new Rotation4x4(rotationMatrix) * this;
         }
 
         public Rotation4x4 RotateXZ(float angle)
@@ -82,7 +82,7 @@ namespace _4XRD.Physics
                 new Vector4(sin, 0, cos, 0),
                 new Vector4(0, 0, 0, 1)
             );
-            return this * new Rotation4x4(rotationMatrix);
+            return new Rotation4x4(rotationMatrix) * this;
         }
 
         public Rotation4x4 RotateXW(float angle)
@@ -95,7 +95,7 @@ namespace _4XRD.Physics
                 new Vector4(0, 0, 1, 0),
                 new Vector4(sin, 0, 0, cos)
             );
-            return this * new Rotation4x4(rotationMatrix);
+            return new Rotation4x4(rotationMatrix) * this;
         }
 
         public Rotation4x4 RotateYZ(float angle)
@@ -108,7 +108,7 @@ namespace _4XRD.Physics
                 new Vector4(0, sin, cos, 0),
                 new Vector4(0, 0, 0, 1)
             );
-            return this * new Rotation4x4(rotationMatrix);
+            return new Rotation4x4(rotationMatrix) * this;
         }
 
         public Rotation4x4 RotateYW(float angle)
@@ -121,7 +121,7 @@ namespace _4XRD.Physics
                 new Vector4(0, 0, 1, 0),
                 new Vector4(0, sin, 0, cos)
             );
-            return this * new Rotation4x4(rotationMatrix);
+            return new Rotation4x4(rotationMatrix) * this;
         }
 
         public Rotation4x4 RotateZW(float angle)
@@ -134,7 +134,17 @@ namespace _4XRD.Physics
                 new Vector4(0, 0, cos, -sin),
                 new Vector4(0, 0, sin, cos)
             );
-            return this * new Rotation4x4(rotationMatrix);
+            return new Rotation4x4(rotationMatrix) * this;
+        }
+
+        public override string ToString()
+        {
+            return $"Rotation4x4(\n" +
+                    $"  {matrix.m00:F2}, {matrix.m01:F2}, {matrix.m02:F2}, {matrix.m03:F2}\n" +
+                    $"  {matrix.m10:F2}, {matrix.m11:F2}, {matrix.m12:F2}, {matrix.m13:F2}\n" +
+                    $"  {matrix.m20:F2}, {matrix.m21:F2}, {matrix.m22:F2}, {matrix.m23:F2}\n" +
+                    $"  {matrix.m30:F2}, {matrix.m31:F2}, {matrix.m32:F2}, {matrix.m33:F2}\n" +
+                    $")";
         }
     }
 }

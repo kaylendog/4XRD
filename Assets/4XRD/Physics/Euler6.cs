@@ -6,48 +6,36 @@ namespace _4XRD.Physics
     [Serializable]
     public class Euler6
     {
-        [field: SerializeField] public float XY { get; private set; }
-
-        [field: SerializeField] public float XZ { get; private set; }
-
         [field: SerializeField] public float XW { get; private set; }
-
-        [field: SerializeField] public float YZ { get; private set; }
 
         [field: SerializeField] public float YW { get; private set; }
 
         [field: SerializeField] public float ZW { get; private set; }
+        
+        [field: SerializeField] public float XY { get; private set; }
+
+        [field: SerializeField] public float YZ { get; private set; }
+
+        [field: SerializeField] public float XZ { get; private set; }
 
         public Euler6()
         {
-            XY = 0;
-            XZ = 0;
             XW = 0;
-            YZ = 0;
             YW = 0;
             ZW = 0;
+            XY = 0;
+            YZ = 0;
+            XZ = 0;
         }
 
-        public Euler6(float XY, float XZ, float XW, float YZ, float YW, float ZW)
+        public Euler6(float XW, float YW, float ZW, float XY, float YZ, float XZ)
         {
-            this.XY = XY;
-            this.XZ = XZ;
             this.XW = XW;
-            this.YZ = YZ;
             this.YW = YW;
             this.ZW = ZW;
-        }
-
-        public static Euler6 FromEuler3(Vector3 euler)
-        {
-            return new Euler6(
-                euler.z,
-                euler.y,
-                0,
-                euler.x,
-                0,
-                0
-            );
+            this.XY = XY;
+            this.YZ = YZ;
+            this.XZ = XZ;
         }
 
         public static Euler6 zero => new Euler6();
@@ -65,12 +53,12 @@ namespace _4XRD.Physics
         /// <param name="r"></param>
         /// <returns></returns>
         public static Euler6 operator -(Euler6 r) => new(
-            -r.XY,
-            -r.XZ,
             -r.XW,
-            -r.YZ,
             -r.YW,
-            -r.ZW
+            -r.ZW,
+            -r.XY,
+            -r.YZ,
+            -r.XZ
         );
 
         /// <summary>
@@ -80,12 +68,12 @@ namespace _4XRD.Physics
         /// <param name="b"></param>
         /// <returns></returns>
         public static Euler6 operator +(Euler6 a, Euler6 b) => new(
-            a.XY + b.XY,
-            a.XZ + b.XZ,
             a.XW + b.XW,
-            a.YZ + b.YZ,
             a.YW + b.YW,
-            a.ZW + b.ZW
+            a.ZW + b.ZW,
+            a.XY + b.XY,
+            a.YZ + b.YZ,
+            a.XZ + b.XZ
         );
 
         /// <summary>
@@ -103,12 +91,12 @@ namespace _4XRD.Physics
         /// <param name="f"></param>
         /// <returns></returns>
         public static Euler6 operator *(Euler6 r, float f) => new(
-            r.XY * f,
-            r.XZ * f,
             r.XW * f,
-            r.YZ * f,
             r.YW * f,
-            r.ZW * f
+            r.ZW * f,
+            r.XY * f,
+            r.YZ * f,
+            r.XZ * f
         );
 
         /// <summary>
@@ -126,26 +114,56 @@ namespace _4XRD.Physics
         /// <returns></returns>
         public static Euler6 From(Rotation4x4 rot)
         {
+            Debug.Log("Using Matrix4 to Euler6, not recommended.");
             var euler = new Euler6();
-
-            euler.XY = Mathf.Atan2(rot.matrix.m10, rot.matrix.m00);
-            rot = rot.RotateXY(-euler.XY);
 
             euler.XZ = Mathf.Atan2(-rot.matrix.m20, rot.matrix.m00);
             rot = rot.RotateXZ(-euler.XZ);
-            
-            euler.XW = Mathf.Atan2(-rot.matrix.m30, rot.matrix.m00);
-            rot = rot.RotateXW(-euler.XW);
-            
-            euler.YZ = Mathf.Atan2(rot.matrix.m21, rot.matrix.m11);
+
+            euler.YZ = Mathf.Atan2(-rot.matrix.m21, rot.matrix.m11);
             rot = rot.RotateYZ(-euler.YZ);
+
+            euler.XY = Mathf.Atan2(rot.matrix.m01, rot.matrix.m00);
+            rot = rot.RotateXY(-euler.XY);
+
+            euler.ZW = Mathf.Atan2(-rot.matrix.m32, rot.matrix.m22);
+            rot = rot.RotateZW(-euler.ZW);
 
             euler.YW = Mathf.Atan2(-rot.matrix.m31, rot.matrix.m11);
             rot = rot.RotateYW(-euler.YW);
 
-            euler.ZW = Mathf.Atan2(rot.matrix.m32, rot.matrix.m22);
+            euler.XW = Mathf.Atan2(-rot.matrix.m30, rot.matrix.m00);
+            rot = rot.RotateXW(-euler.XW);
             
             return euler;
+        }
+
+        public Euler6 GetWRotations()
+        {
+            return new Euler6(XW, YW, ZW, 0, 0, 0);
+        }
+
+        public Euler6 SetUnityEuler3(Vector3 euler)
+        {
+            euler *= Mathf.Deg2Rad;
+            return new Euler6(
+                XW,
+                YW,
+                ZW,
+                -euler.z,
+                -euler.x,
+                euler.y
+            );
+        }
+
+        public Vector3 GetUnityEuler3()
+        {
+            return new Vector3(-YZ, XZ, -XY) * Mathf.Rad2Deg;
+        }
+
+        public override string ToString()
+        {
+            return $"({XW}, {YW}, {ZW}, {XY}, {YZ}, {XZ})";
         }
     }
 }

@@ -7,7 +7,7 @@ namespace _4XRD.Mesh.MeshBuilder
     {
         public new Mesh4D Build()
         {
-            int NUM_VERTICES = 600;
+            int NUM_VERTICES = 50;
             Vertex[] vertices4 = new Vertex[NUM_VERTICES];
             for (int i=0; i<NUM_VERTICES; i++){
                 vertices4[i] = new Vertex(SampleHypersphere());
@@ -35,12 +35,12 @@ namespace _4XRD.Mesh.MeshBuilder
                 AddEdge(point1, point3);
                 AddEdge(point2, point3);
 
-                AddFace(point0, point1, point2);
-                AddFace(point0, point1, point3);
-                AddFace(point0, point2, point3);
-                AddFace(point1, point2, point3);
+                // AddFace(point0, point1, point2);
+                // AddFace(point0, point1, point3);
+                // AddFace(point0, point2, point3);
+                // AddFace(point1, point2, point3);
 
-                AddCell(point0, point1, point2, point3);
+                // AddCell(point0, point1, point2, point3);
             }
 
             return base.Build();

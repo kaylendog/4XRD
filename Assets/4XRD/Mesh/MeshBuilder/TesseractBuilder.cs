@@ -72,25 +72,25 @@ namespace _4XRD.Mesh.MeshBuilder
             AddEdge(point2, point4);
             AddEdge(point2, point7);
 
-            AddFace(point0, point2, point1);
-            AddFace(point1, point2, point3);
-            AddFace(point4, point5, point6);
-            AddFace(point5, point7, point6);
-            AddFace(point0, point4, point2);
-            AddFace(point2, point4, point6);
-            AddFace(point1, point3, point5);
-            AddFace(point3, point7, point5);
-            AddFace(point0, point1, point5);
-            AddFace(point0, point5, point4);
-            AddFace(point2, point7, point3);
-            AddFace(point2, point6, point7);
+            // AddFace(point0, point2, point1);
+            // AddFace(point1, point2, point3);
+            // AddFace(point4, point5, point6);
+            // AddFace(point5, point7, point6);
+            // AddFace(point0, point4, point2);
+            // AddFace(point2, point4, point6);
+            // AddFace(point1, point3, point5);
+            // AddFace(point3, point7, point5);
+            // AddFace(point0, point1, point5);
+            // AddFace(point0, point5, point4);
+            // AddFace(point2, point7, point3);
+            // AddFace(point2, point6, point7);
 
-            AddCell(point0, point1, point2, point5);
-            AddCell(point1, point3, point5, point2);
-            AddCell(point4, point0, point5, point2);
-            AddCell(point3, point7, point2, point5);
-            AddCell(point6, point4, point5, point2);
-            AddCell(point7, point6, point5, point2);
+            // AddCell(point0, point1, point2, point5);
+            // AddCell(point1, point3, point5, point2);
+            // AddCell(point4, point0, point5, point2);
+            // AddCell(point3, point7, point2, point5);
+            // AddCell(point6, point4, point5, point2);
+            // AddCell(point7, point6, point5, point2);
         }
     }
 }

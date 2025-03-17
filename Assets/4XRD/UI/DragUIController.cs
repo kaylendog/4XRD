@@ -1,6 +1,7 @@
 using System;
 using _4XRD.Mesh;
 using _4XRD.Physics;
+using _4XRD.Physics.Colliders;
 using _4XRD.Scripts;
 using UnityEngine;
 using UnityEngine.Assertions;
@@ -140,9 +141,13 @@ namespace _4XRD.UI
             }
         
             // update transform (use ray for safety)
+            var transform4D = _dragTarget.GetComponent<Object4D>().transform4D;
             var targetPosition = hit.point - ray.direction * 2.0f;
             _dragTarget.transform.position = targetPosition;
-            _dragTarget.GetComponent<MeshObject4D>().transform4D.position = targetPosition;
+            transform4D.position = targetPosition;
+
+            // set to currently viewed slice
+            transform4D.position.w = MeshObject4D.SlicingConstant;
         }
 
         /// <summary>
@@ -150,10 +155,10 @@ namespace _4XRD.UI
         /// </summary>
         public void EndDrag()
         {
-            var ball4D = _dragTarget.GetComponent<Ball4D>();
-            if (ball4D != null)
+            var obj = _dragTarget.GetComponent<Object4D>();
+            if (obj != null)
             {
-                ball4D.isStatic = false;
+                obj.isStatic = false;
             }
             _dragTarget = null;
         }

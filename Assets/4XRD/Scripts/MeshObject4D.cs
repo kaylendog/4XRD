@@ -1,6 +1,5 @@
 using _4XRD.Mesh;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace _4XRD.Scripts
 {
@@ -34,11 +33,10 @@ namespace _4XRD.Scripts
             _meshFilter4D = GetComponent<MeshFilter4D>();
         }
 
-        void Update()
+        public override void Update()
         {
+            base.Update();
             _meshFilter.mesh = mesh.GetSlice(transform4D, SlicingConstant);
-            transform.position = transform4D.position;
-            transform.localScale = transform4D.scale;
         }
     }
 }
