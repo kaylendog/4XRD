@@ -85,8 +85,9 @@ namespace _4XRD.Mesh
         /// <returns></returns>
         public UnityEngine.Mesh GetSlice(Transform4D transform, float w)
         {
-            Rotation4x4 rotation = transform.rotation;
             Vector4 wTranslation = new Vector4(0, 0, 0, 1) * transform.position.w;
+            Rotation4x4 wRotation = Rotation4x4.FromAngles(transform.eulerAngles.GetWRotations());
+            float wScale = transform.scale.w;
 
             List<Vector4> vertices = new();
             for (int i = 0; i < Edges.Length; i += 2)
@@ -94,11 +95,11 @@ namespace _4XRD.Mesh
                 Vector4 v1 = Vertices[Edges[i]];
                 Vector4 v2 = Vertices[Edges[i + 1]];
 
-                float v1w = v1.w * transform.scale.w;
-                float v2w = v2.w * transform.scale.w;
+                float v1w = v1.w * wScale;
+                float v2w = v2.w * wScale;
 
-                v1 = rotation * new Vector4(v1.x, v1.y, v1.z, v1w) + wTranslation;
-                v2 = rotation * new Vector4(v2.x, v2.y, v2.z, v2w) + wTranslation;
+                v1 = wRotation * new Vector4(v1.x, v1.y, v1.z, v1w) + wTranslation;
+                v2 = wRotation * new Vector4(v2.x, v2.y, v2.z, v2w) + wTranslation;
 
                 AddIntersection(v1, v2, w, vertices);
             }

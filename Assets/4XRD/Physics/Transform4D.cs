@@ -1,4 +1,5 @@
 using System;
+using System.Runtime.InteropServices;
 using UnityEngine;
 using UnityEngine.Rendering.Universal;
 using UnityEngine.Serialization;
@@ -14,29 +15,19 @@ namespace _4XRD.Physics
         /// <summary>
         /// The position in 4D space.
         /// </summary>
-        [SerializeField]
         public Vector4 position;
 
         /// <summary>
         /// The objects scale.
         /// </summary>
-        [SerializeField]
         public Vector4 scale;
 
         /// <summary>
         /// The euler angles of this transform.
         /// </summary>
-        [SerializeField]
-        private Euler6 _eulerAngles;
+        public Euler6 eulerAngles;
 
-        /// <summary>
-        /// The rotation in 4D space.
-        /// </summary>
-        public Rotation4x4 rotation
-        {
-            readonly get => Rotation4x4.FromAngles(_eulerAngles);
-            set => _eulerAngles = Euler6.From(value);
-        }
+        public Rotation4x4 rotation => Rotation4x4.FromAngles(eulerAngles);
         
         /// <summary>
         /// The identity transformation.
@@ -93,7 +84,7 @@ namespace _4XRD.Physics
         {
             this.position = position;
             this.scale = scale;
-            this._eulerAngles = Euler6.From(rotation);
+            this.eulerAngles = Euler6.From(rotation);
         }
 
         /// <summary>

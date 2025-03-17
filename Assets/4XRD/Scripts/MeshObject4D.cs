@@ -37,8 +37,8 @@ namespace _4XRD.Scripts
 
         public override void Update()
         {
-            _meshFilter.mesh = mesh.GetSlice(transform4D, _wSlider ? _wSlider.value : 0f);
             base.Update();
+            _meshFilter.mesh = mesh.GetSlice(transform4D, _wSlider ? _wSlider.value : 0f);
         }
     }
 }
