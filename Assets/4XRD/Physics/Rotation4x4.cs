@@ -55,9 +55,9 @@ namespace _4XRD.Physics
         }
 
         /// <summary>
-        /// Return the inverse rotation.
+        /// Return the inverse rotation, defined by the transpose of the rotation matrix (way quicker to compute than inverse).
         /// </summary>
-        public Rotation4x4 inverse => new Rotation4x4(matrix.inverse);
+        public Rotation4x4 inverse => new Rotation4x4(matrix.transpose);
 
         public Rotation4x4 RotateXY(float angle)
         {

@@ -114,7 +114,6 @@ namespace _4XRD.Physics
         /// <returns></returns>
         public static Euler6 From(Rotation4x4 rot)
         {
-            Debug.Log("Using Matrix4 to Euler6, not recommended.");
             var euler = new Euler6();
 
             euler.XZ = Mathf.Atan2(-rot.matrix.m20, rot.matrix.m00);

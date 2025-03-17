@@ -1,7 +1,5 @@
 using System;
 using _4XRD.Mesh;
-using _4XRD.Physics;
-using _4XRD.Physics.Colliders;
 using _4XRD.Scripts;
 using UnityEngine;
 using UnityEngine.Assertions;
