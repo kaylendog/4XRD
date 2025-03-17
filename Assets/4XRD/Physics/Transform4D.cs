@@ -28,7 +28,7 @@ namespace _4XRD.Physics
         public Euler6 eulerAngles;
 
         public Rotation4x4 rotation => Rotation4x4.FromAngles(eulerAngles);
-        
+
         /// <summary>
         /// The identity transformation.
         /// </summary>
@@ -54,7 +54,7 @@ namespace _4XRD.Physics
             );
             return transform.rotation * scaled + transform.position;
         }
-        
+
         /// <summary>
         /// Compose two transformations.
         /// </summary>
@@ -73,7 +73,7 @@ namespace _4XRD.Physics
                 a.rotation * b.rotation
             );
         }
-        
+
         /// <summary>
         /// Construct a new Transform4D.
         /// </summary>

@@ -7,7 +7,7 @@ namespace _4XRD.Physics
     public class Rotation4x4
     {
         public readonly Matrix4x4 matrix;
-        
+
         /// <summary>
         /// The identity rotation.
         /// </summary>
@@ -29,7 +29,7 @@ namespace _4XRD.Physics
                 .RotateYZ(euler6.YZ)
                 .RotateXZ(euler6.XZ);
         }
-        
+
         public static Rotation4x4 operator *(Rotation4x4 a, Rotation4x4 b)
         {
             Matrix4x4 result = a.matrix * b.matrix;
@@ -40,7 +40,7 @@ namespace _4XRD.Physics
         {
             return rotation.matrix * vector;
         }
-        
+
         /// <summary>
         /// Create a new rotation.
         /// </summary>
@@ -140,11 +140,11 @@ namespace _4XRD.Physics
         public override string ToString()
         {
             return $"Rotation4x4(\n" +
-                    $"  {matrix.m00:F2}, {matrix.m01:F2}, {matrix.m02:F2}, {matrix.m03:F2}\n" +
-                    $"  {matrix.m10:F2}, {matrix.m11:F2}, {matrix.m12:F2}, {matrix.m13:F2}\n" +
-                    $"  {matrix.m20:F2}, {matrix.m21:F2}, {matrix.m22:F2}, {matrix.m23:F2}\n" +
-                    $"  {matrix.m30:F2}, {matrix.m31:F2}, {matrix.m32:F2}, {matrix.m33:F2}\n" +
-                    $")";
+                $"  {matrix.m00:F2}, {matrix.m01:F2}, {matrix.m02:F2}, {matrix.m03:F2}\n" +
+                $"  {matrix.m10:F2}, {matrix.m11:F2}, {matrix.m12:F2}, {matrix.m13:F2}\n" +
+                $"  {matrix.m20:F2}, {matrix.m21:F2}, {matrix.m22:F2}, {matrix.m23:F2}\n" +
+                $"  {matrix.m30:F2}, {matrix.m31:F2}, {matrix.m32:F2}, {matrix.m33:F2}\n" +
+                $")";
         }
     }
 }

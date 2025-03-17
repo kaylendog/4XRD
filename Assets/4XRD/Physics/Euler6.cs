@@ -11,7 +11,7 @@ namespace _4XRD.Physics
         [field: SerializeField] public float YW { get; private set; }
 
         [field: SerializeField] public float ZW { get; private set; }
-        
+
         [field: SerializeField] public float XY { get; private set; }
 
         [field: SerializeField] public float YZ { get; private set; }
@@ -133,7 +133,7 @@ namespace _4XRD.Physics
 
             euler.XW = Mathf.Atan2(-rot.matrix.m30, rot.matrix.m00);
             rot = rot.RotateXW(-euler.XW);
-            
+
             return euler;
         }
 

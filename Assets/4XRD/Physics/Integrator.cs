@@ -70,13 +70,13 @@ namespace _4XRD.Physics
                 return HashCode.Combine(_x, _y, _z, _w);
             }
         }
-        
+
         static ProfilerMarker integrateColliders = new ProfilerMarker("IntegrateColliders");
         static ProfilerMarker integrateBalls = new ProfilerMarker("IntegrateBalls");
 
         static ProfilerMarker checkCollisions = new ProfilerMarker("CheckCollisions");
         static ProfilerMarker resolveCollisions = new ProfilerMarker("ResolveCollisions");
-        
+
         /// <summary>
         /// A list of all colliders.
         /// </summary>
@@ -187,7 +187,7 @@ namespace _4XRD.Physics
                     }
 
                     // check if overlapping - line of centers (loc)
-                    var loc = (other.transform4D.position - current.transform4D.position);
+                    var loc = other.transform4D.position - current.transform4D.position;
                     if (loc.magnitude > current.radius + other.radius - 0.05f)
                     {
                         continue;
@@ -207,12 +207,12 @@ namespace _4XRD.Physics
                     other.velocity = outOtherSpeed * locNorm + other.velocity - other.velocity.Dot(locNorm) * locNorm;
                 }
                 integrateBalls.End();
-                
+
                 integrateColliders.Begin();
                 foreach (var col in _colliders)
                 {
                     checkCollisions.Begin();
-                    
+
                     var d = current.transform4D.position - col.ClosestPoint(current.transform4D.position, current.radius);
                     var normal = col.Normal(current.transform4D.position);
 
@@ -222,7 +222,7 @@ namespace _4XRD.Physics
                         checkCollisions.End();
                         continue;
                     }
-                    
+
                     checkCollisions.End();
                     resolveCollisions.Begin();
 
@@ -234,7 +234,7 @@ namespace _4XRD.Physics
                     var tangentVelocity = current.velocity - normalVelocity;
 
                     current.velocity = tangentVelocity * col.friction - normalVelocity * col.restitution;
-                        
+
                     resolveCollisions.End();
                 }
                 integrateColliders.End();

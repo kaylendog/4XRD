@@ -48,7 +48,7 @@ namespace _4XRD.Physics.Colliders
         {
             return (transform4D.inverse * LocalClosestPoint(transform4D * position)).normalized;
         }
-        
+
         /// <summary>
         /// Return the closet point on this colliders surface.
         /// </summary>
