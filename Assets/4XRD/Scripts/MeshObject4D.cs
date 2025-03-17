@@ -1,6 +1,5 @@
 using _4XRD.Mesh;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace _4XRD.Scripts
 {
@@ -17,11 +16,11 @@ namespace _4XRD.Scripts
         /// The 4D mesh filter.
         /// </summary>
         MeshFilter4D _meshFilter4D;
-    
+
         /// <summary>
-        /// The global W slider.
+        /// The slicing constant.
         /// </summary>
-        Slider _wSlider;
+        public static float SlicingConstant = 0.0f;
 
         /// <summary>
         /// The mesh this object is using.
@@ -32,13 +31,12 @@ namespace _4XRD.Scripts
         {
             _meshFilter = GetComponent<MeshFilter>();
             _meshFilter4D = GetComponent<MeshFilter4D>();
-            _wSlider = GameObject.Find("W_Slider").GetComponent<Slider>();
         }
 
         public override void Update()
         {
             base.Update();
-            _meshFilter.mesh = mesh.GetSlice(transform4D, _wSlider ? _wSlider.value : 0f);
+            _meshFilter.mesh = mesh.GetSlice(transform4D, SlicingConstant);
         }
     }
 }

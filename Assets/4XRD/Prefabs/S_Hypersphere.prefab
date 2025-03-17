@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 4169030796049098034}
   - component: {fileID: 6974341422298744887}
   m_Layer: 0
-  m_Name: Hypersphere
+  m_Name: S_Hypersphere
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -124,7 +124,7 @@ MonoBehaviour:
       <XY>k__BackingField: -0
       <YZ>k__BackingField: 0
       <XZ>k__BackingField: 0
-  isStatic: 0
+  isStatic: 1
 --- !u!114 &6974341422298744887
 MonoBehaviour:
   m_ObjectHideFlags: 0
