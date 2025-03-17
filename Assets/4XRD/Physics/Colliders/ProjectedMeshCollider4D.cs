@@ -18,15 +18,14 @@ namespace _4XRD.Physics.Colliders
             _projectedCollider = GetComponent<MeshCollider>();
         }
 
-        public override float SignedDistance(Vector4 position, float radius)
+        protected override Vector4 LocalClosestPoint(Vector4 position)
         {
-            // assumes convex
-            return (_projectedCollider.ClosestPoint(position.XYZ()) - position.XYZ()).magnitude - radius;
+            return _projectedCollider.ClosestPoint(position);
         }
 
-        public override Vector4 Normal(Vector4 position, float radius)
+        protected override Vector4 LocalNormal(Vector4 position)
         {
-            return (_projectedCollider.ClosestPoint(position.XYZ()) - position.XYZ()).normalized.XYZW();
+            return (_projectedCollider.ClosestPoint(position).XYZW() - position).normalized;
         }
     }
 }

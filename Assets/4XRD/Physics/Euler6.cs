@@ -11,7 +11,7 @@ namespace _4XRD.Physics
         [field: SerializeField] public float YW { get; private set; }
 
         [field: SerializeField] public float ZW { get; private set; }
-        
+
         [field: SerializeField] public float XY { get; private set; }
 
         [field: SerializeField] public float YZ { get; private set; }
@@ -114,7 +114,6 @@ namespace _4XRD.Physics
         /// <returns></returns>
         public static Euler6 From(Rotation4x4 rot)
         {
-            Debug.Log("Using Matrix4 to Euler6, not recommended.");
             var euler = new Euler6();
 
             euler.XZ = Mathf.Atan2(-rot.matrix.m20, rot.matrix.m00);
@@ -134,7 +133,7 @@ namespace _4XRD.Physics
 
             euler.XW = Mathf.Atan2(-rot.matrix.m30, rot.matrix.m00);
             rot = rot.RotateXW(-euler.XW);
-            
+
             return euler;
         }
 

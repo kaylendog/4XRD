@@ -9,12 +9,14 @@ namespace _4XRD.Physics
         /// <summary>
         /// The first corner of the bounding box.
         /// </summary>
-        [field: SerializeField] public Vector4 min { get; private set;}
+        [field: SerializeField]
+        public Vector4 min { get; private set; }
 
         /// <summary>
         /// The second corner of the bounding box.
         /// </summary>
-        [field: SerializeField] public Vector4 max { get; private set;}
+        [field: SerializeField]
+        public Vector4 max { get; private set; }
 
         /// <summary>
         /// The middle of the bounding box.
@@ -48,7 +50,7 @@ namespace _4XRD.Physics
                 maxZ = Mathf.Max(maxZ, vertex.z);
                 maxW = Mathf.Max(maxW, vertex.w);
             }
-            
+
             return new BoundingBox4D(
                 new Vector4(minX, minY, minZ, minW),
                 new Vector4(maxX, maxY, maxZ, maxW)
@@ -99,8 +101,8 @@ namespace _4XRD.Physics
             float maxY = Mathf.Min(max.y, other.max.y);
             float maxZ = Mathf.Min(max.z, other.max.z);
             float maxW = Mathf.Min(max.w, other.max.w);
-            
-            if (minX > maxX || minY > maxY || 
+
+            if (minX > maxX || minY > maxY ||
                 minZ > maxZ || minW > maxW)
             {
                 return null;

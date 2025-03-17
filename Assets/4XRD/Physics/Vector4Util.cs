@@ -13,29 +13,29 @@ namespace _4XRD.Physics
         /// <param name="v"></param>
         /// <returns></returns>
         public static Vector3 XYZ(this Vector4 v) { return new Vector3(v.x, v.y, v.z); }
-        
+
         /// <summary>
         /// Return a YZW swizzle.
         /// </summary>
         /// <param name="v"></param>
         /// <returns></returns>
         public static Vector3 YZW(this Vector4 v) { return new Vector3(v.y, v.z, v.w); }
-        
+
         /// <summary>
         /// Return a ZWX swizzle.
         /// </summary>
         /// <param name="v"></param>
         /// <returns></returns>
         public static Vector3 ZWX(this Vector4 v) { return new Vector3(v.z, v.w, v.x); }
-        
+
         /// <summary>
         /// Return a WXY swizzle.
         /// </summary>
         /// <param name="v"></param>
         /// <returns></returns>
         public static Vector3 WXY(this Vector4 v) { return new Vector3(v.w, v.x, v.y); }
-        
-        
+
+
         /// <summary>
         /// Construct a Vector4 normal to all 3 arguments.
         /// </summary>
@@ -43,7 +43,8 @@ namespace _4XRD.Physics
         /// <param name="b"></param>
         /// <param name="c"></param>
         /// <returns></returns>
-        public static Vector4 TripleCross(this Vector4 a, Vector4 b, Vector4 c) {
+        public static Vector4 TripleCross(this Vector4 a, Vector4 b, Vector4 c)
+        {
             return new Vector4(
                 -Vector3.Dot(YZW(a), Vector3.Cross(YZW(b), YZW(c))),
                 Vector3.Dot(ZWX(a), Vector3.Cross(ZWX(b), ZWX(c))),
@@ -61,7 +62,7 @@ namespace _4XRD.Physics
         {
             return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
         }
-            
+
         /// <summary>
         /// Create a vector 4 from a vector 3.
         /// </summary>

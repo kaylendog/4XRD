@@ -2,6 +2,7 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using _4XRD.Physics.Colliders;
+using Unity.Profiling;
 using UnityEngine;
 using UnityEngine.Assertions;
 
@@ -70,6 +71,12 @@ namespace _4XRD.Physics
             }
         }
 
+        static ProfilerMarker integrateColliders = new ProfilerMarker("IntegrateColliders");
+        static ProfilerMarker integrateBalls = new ProfilerMarker("IntegrateBalls");
+
+        static ProfilerMarker checkCollisions = new ProfilerMarker("CheckCollisions");
+        static ProfilerMarker resolveCollisions = new ProfilerMarker("ResolveCollisions");
+
         /// <summary>
         /// A list of all colliders.
         /// </summary>
@@ -87,6 +94,11 @@ namespace _4XRD.Physics
 
         readonly Dictionary<Segment, HashSet<StaticCollider4D>> _segmentToColliders = new();
         readonly Dictionary<StaticCollider4D, Segment> _colliderToSegment = new();
+
+        /// <summary>
+        /// Bias to add to normal offsets.
+        /// </summary>
+        public float bias = 0.05f;
 
         void Awake()
         {
@@ -166,6 +178,7 @@ namespace _4XRD.Physics
                     continue;
                 }
 
+                integrateBalls.Begin();
                 foreach (var other in _balls)
                 {
                     if (current == other)
@@ -174,7 +187,7 @@ namespace _4XRD.Physics
                     }
 
                     // check if overlapping - line of centers (loc)
-                    var loc = (other.transform4D.position - current.transform4D.position);
+                    var loc = other.transform4D.position - current.transform4D.position;
                     if (loc.magnitude > current.radius + other.radius - 0.05f)
                     {
                         continue;
@@ -193,26 +206,38 @@ namespace _4XRD.Physics
                     current.velocity = outCurrSpeed * locNorm + current.velocity - current.velocity.Dot(locNorm) * locNorm;
                     other.velocity = outOtherSpeed * locNorm + other.velocity - other.velocity.Dot(locNorm) * locNorm;
                 }
+                integrateBalls.End();
 
+                integrateColliders.Begin();
                 foreach (var col in _colliders)
                 {
-                    // check distance to collider
-                    var d = col.SignedDistance(current.transform4D.position, current.radius);
-                    if (d > 0f)
+                    checkCollisions.Begin();
+
+                    var d = current.transform4D.position - col.ClosestPoint(current.transform4D.position, current.radius);
+                    var normal = col.Normal(current.transform4D.position);
+
+                    // for convex objects, we are always inside if we lie behind the plane defined by the normal
+                    if (d.normalized.Dot(normal) > 0.0)
                     {
+                        checkCollisions.End();
                         continue;
                     }
 
+                    checkCollisions.End();
+                    resolveCollisions.Begin();
+
                     // move away from surface
-                    var normal = col.Normal(current.transform4D.position, current.radius);
-                    current.object4D.transform4D.position -= normal * d;
+                    current.object4D.transform4D.position += normal * ((current.transform4D.position - d).magnitude - current.radius + bias);
 
                     // compute outgoing velocity (inelastic)
                     var normalVelocity = current.velocity.Dot(normal) * normal;
                     var tangentVelocity = current.velocity - normalVelocity;
 
                     current.velocity = tangentVelocity * col.friction - normalVelocity * col.restitution;
+
+                    resolveCollisions.End();
                 }
+                integrateColliders.End();
             }
         }
     }
