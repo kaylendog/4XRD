@@ -9,7 +9,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 6979049950963179277}
-  - component: {fileID: 1351672418495467567}
   - component: {fileID: 4943493316826335058}
   m_Layer: 0
   m_Name: ARHumanBody4D
@@ -33,19 +32,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1351672418495467567
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 2266501192475172976}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e9084ac900ac140359edfd560f097dc9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  m_DestroyOnRemoval: 1
 --- !u!114 &4943493316826335058
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -58,3 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e0fa5de7ba2e4c9bb898a4bc6721f2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  limbPrefab: {fileID: 5913209248947020669, guid: 2af597bb7b65c436294ac03bccf60925,
+    type: 3}
