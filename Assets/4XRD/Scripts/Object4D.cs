@@ -13,10 +13,15 @@ namespace _4XRD.Scripts
         /// </summary>
         public Transform4D transform4D = Transform4D.identity;
 
+        public bool isStatic = false;
+
         void Update()
         {
-            transform.position = transform4D.position;
-            transform.localScale = transform4D.scale;
+            if (!isStatic)
+            {
+                transform.position = transform4D.position;
+                transform.localScale = transform4D.scale;
+            }
         }
     }
 }

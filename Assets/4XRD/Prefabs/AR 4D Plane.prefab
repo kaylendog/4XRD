@@ -95,6 +95,7 @@ MonoBehaviour:
       <YZ>k__BackingField: 0
       <YW>k__BackingField: 0
       <ZW>k__BackingField: 0
+  isStatic: 1
 --- !u!114 &7915753038611189473
 MonoBehaviour:
   m_ObjectHideFlags: 0
