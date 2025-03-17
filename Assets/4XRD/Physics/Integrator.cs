@@ -95,6 +95,11 @@ namespace _4XRD.Physics
         readonly Dictionary<Segment, HashSet<StaticCollider4D>> _segmentToColliders = new();
         readonly Dictionary<StaticCollider4D, Segment> _colliderToSegment = new();
 
+        /// <summary>
+        /// Bias to add to normal offsets.
+        /// </summary>
+        public float bias = 0.05f;
+
         void Awake()
         {
             _colliders = FindObjectsByType<StaticCollider4D>(FindObjectsSortMode.None).ToHashSet();
@@ -222,7 +227,7 @@ namespace _4XRD.Physics
                     resolveCollisions.Begin();
 
                     // move away from surface
-                    current.object4D.transform4D.position += normal * ((current.transform4D.position - d).magnitude - current.radius);
+                    current.object4D.transform4D.position += normal * ((current.transform4D.position - d).magnitude - current.radius + bias);
 
                     // compute outgoing velocity (inelastic)
                     var normalVelocity = current.velocity.Dot(normal) * normal;
