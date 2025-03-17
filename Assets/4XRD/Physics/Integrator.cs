@@ -213,11 +213,11 @@ namespace _4XRD.Physics
                 {
                     checkCollisions.Begin();
 
-                    var d = current.transform4D.position - col.ClosestPoint(current.transform4D.position, current.radius);
                     var normal = col.Normal(current.transform4D.position);
+                    var d = current.transform4D.position - col.ClosestPoint(current.transform4D.position, current.radius) - bias * normal;
 
                     // for convex objects, we are always inside if we lie behind the plane defined by the normal
-                    if (d.normalized.Dot(normal) > 0.0)
+                    if (d.Dot(normal) > 0.0)
                     {
                         checkCollisions.End();
                         continue;
