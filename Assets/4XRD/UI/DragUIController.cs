@@ -3,12 +3,15 @@ using _4XRD.Mesh;
 using _4XRD.Physics;
 using _4XRD.Physics.Colliders;
 using _4XRD.Scripts;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
+using UnityEngine.UI;
 
 namespace _4XRD.UI
 {
+    [ExecuteInEditMode]
     public class DragUIController : MonoBehaviour
     {
         /// <summary>
@@ -26,10 +29,14 @@ namespace _4XRD.UI
         /// </summary>
         public EventTrigger hypersphereTrigger;
 
+        public Slider slicingSlider;
+
         /// <summary>
         /// The drag target.
         /// </summary>
         GameObject _dragTarget = null;
+
+        PrimitiveType4D _dragType = PrimitiveType4D.Tesseract;
 
         /// <summary>
         /// Tesseract template.
@@ -46,24 +53,80 @@ namespace _4XRD.UI
         /// Hypersphere template
         /// </summary>
         public GameObject hypersphere;
-        
-        void Start()
+
+        void Awake()
         {
-            EventTrigger.Entry tesseractEntry = new EventTrigger.Entry();
-            EventTrigger.Entry simplexEntry = new EventTrigger.Entry();
-            EventTrigger.Entry hypersphereEntry = new EventTrigger.Entry();
+            slicingSlider = GameObject.Find("SlicingSlider").GetComponent<Slider>();
+            var inventoryDrawer = GameObject.Find("InventoryDrawer");
+            tesseractTrigger = inventoryDrawer.GetNamedChild("Tesseract").GetComponent<EventTrigger>();
+            simplexTrigger = inventoryDrawer.GetNamedChild("Simplex").GetComponent<EventTrigger>();
+            hypersphereTrigger = inventoryDrawer.GetNamedChild("Hypersphere").GetComponent<EventTrigger>();
+        }
+
+        void OnEnable()
+        {
+            slicingSlider.onValueChanged.RemoveListener(UpdateSliderValue);
+            tesseractTrigger.triggers.Clear();
+            simplexTrigger.triggers.Clear();
+            hypersphereTrigger.triggers.Clear();
             
-            tesseractEntry.eventID = EventTriggerType.Drag;
-            simplexEntry.eventID = EventTriggerType.Drag;
-            hypersphereEntry.eventID = EventTriggerType.Drag;
+            slicingSlider.onValueChanged.AddListener(UpdateSliderValue);
             
-            tesseractEntry.callback.AddListener(data => { OnDrag((PointerEventData) data); });
-            simplexEntry.callback.AddListener(data => { OnDrag((PointerEventData) data); });
-            hypersphereEntry.callback.AddListener(data => { OnDrag((PointerEventData) data); });
+            EventTrigger.Entry tesseractBeginDrag = new();
+            EventTrigger.Entry simplexBeginDrag = new();
+            EventTrigger.Entry hypersphereBeginDrag = new();
             
-            tesseractTrigger.triggers.Add(tesseractEntry);
-            simplexTrigger.triggers.Add(simplexEntry);
-            hypersphereTrigger.triggers.Add(hypersphereEntry);
+            tesseractBeginDrag.eventID = EventTriggerType.BeginDrag;
+            simplexBeginDrag.eventID = EventTriggerType.BeginDrag;
+            hypersphereBeginDrag.eventID = EventTriggerType.BeginDrag;
+            
+            tesseractBeginDrag.callback.AddListener(data => { InitiateTesseractDrag(); });
+            simplexBeginDrag.callback.AddListener(data => { InitiateSimplexDrag(); });
+            hypersphereBeginDrag.callback.AddListener(data => { InitiateHypersphereDrag(); });
+            
+            tesseractTrigger.triggers.Add(tesseractBeginDrag);
+            simplexTrigger.triggers.Add(simplexBeginDrag);
+            hypersphereTrigger.triggers.Add(hypersphereBeginDrag);
+            
+            EventTrigger.Entry tesseractDrag = new();
+            EventTrigger.Entry simplexDrag = new();
+            EventTrigger.Entry hypersphereDrag = new();
+            
+            tesseractDrag.eventID = EventTriggerType.Drag;
+            simplexDrag.eventID = EventTriggerType.Drag;
+            hypersphereDrag.eventID = EventTriggerType.Drag;
+            
+            tesseractDrag.callback.AddListener(data => { OnDrag((PointerEventData) data); });
+            simplexDrag.callback.AddListener(data => { OnDrag((PointerEventData) data); });
+            hypersphereDrag.callback.AddListener(data => { OnDrag((PointerEventData) data); });
+            
+            tesseractTrigger.triggers.Add(tesseractDrag);
+            simplexTrigger.triggers.Add(simplexDrag);
+            hypersphereTrigger.triggers.Add(hypersphereDrag);
+
+            EventTrigger.Entry tesseractEndDrag = new();
+            EventTrigger.Entry simplexEndDrag = new();
+            EventTrigger.Entry hypersphereEndDrag = new();
+            
+            tesseractEndDrag.eventID = EventTriggerType.EndDrag;
+            simplexEndDrag.eventID = EventTriggerType.EndDrag;
+            hypersphereEndDrag.eventID = EventTriggerType.EndDrag;
+            
+            tesseractEndDrag.callback.AddListener(data => { EndDrag(); });
+            simplexEndDrag.callback.AddListener(data => { EndDrag(); });
+            hypersphereEndDrag.callback.AddListener(data => { EndDrag(); });
+            
+            tesseractTrigger.triggers.Add(tesseractEndDrag);
+            simplexTrigger.triggers.Add(simplexEndDrag);
+            hypersphereTrigger.triggers.Add(hypersphereEndDrag);
+        }
+
+        void OnDisable()
+        {
+            slicingSlider.onValueChanged.RemoveListener(UpdateSliderValue);
+            tesseractTrigger.triggers.Clear();
+            simplexTrigger.triggers.Clear();
+            hypersphereTrigger.triggers.Clear();
         }
         
         /// <summary>
@@ -78,24 +141,16 @@ namespace _4XRD.UI
         /// Initiate a drag.
         /// </summary>
         /// <param name="type"></param>
-        public void InitiateDrag(
-            PrimitiveType4D type
-        )
+        public void InitiateDrag(PrimitiveType4D type)
         {
-            switch (type)
+            _dragType = type;
+            _dragTarget = type switch
             {
-                case PrimitiveType4D.Tesseract:
-                    _dragTarget = Instantiate(tesseract);
-                    break;
-                case PrimitiveType4D.Simplex4:
-                    _dragTarget = Instantiate(simplex);
-                    break;
-                case PrimitiveType4D.Hypersphere:
-                    _dragTarget = Instantiate(hypersphere);
-                    break;
-                default:
-                    throw new ArgumentOutOfRangeException(nameof(type), type, null);
-            }
+                PrimitiveType4D.Tesseract => Instantiate(tesseract),
+                PrimitiveType4D.Simplex4 => Instantiate(simplex),
+                PrimitiveType4D.Hypersphere => Instantiate(hypersphere),
+                _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
+            };
         }
 
         /// <summary>
@@ -131,9 +186,9 @@ namespace _4XRD.UI
         {
             // raycast with floor
             Assert.IsNotNull(Camera.main);
+            RaycastHit hit;
             var ray = Camera.main.ScreenPointToRay(data.position);
-            var didHit = UnityEngine.Physics.Raycast(ray, out RaycastHit hit);
-            
+            var didHit = UnityEngine.Physics.Raycast(ray, out hit);
             // ignore no-hits and bad targets
             if (!didHit || _dragTarget == null)
             {
@@ -148,6 +203,10 @@ namespace _4XRD.UI
 
             // set to currently viewed slice
             transform4D.position.w = MeshObject4D.SlicingConstant;
+
+            // set parent to hit object
+            var parent = hit.collider.gameObject;
+            _dragTarget.transform.SetParent(parent.transform);
         }
 
         /// <summary>
@@ -158,7 +217,7 @@ namespace _4XRD.UI
             var obj = _dragTarget.GetComponent<Object4D>();
             if (obj != null)
             {
-                obj.isStatic = false;
+                obj.isStatic = true;
             }
             _dragTarget = null;
         }
