@@ -1,4 +1,5 @@
 using System;
+using System.Collections.Generic;
 using _4XRD.Mesh;
 using _4XRD.Scripts;
 using Unity.XR.CoreUtils;
@@ -6,6 +7,8 @@ using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
 using UnityEngine.UI;
+using UnityEngine.XR.ARFoundation;
+using UnityEngine.XR.ARSubsystems;
 
 namespace _4XRD.UI
 {
@@ -26,6 +29,10 @@ namespace _4XRD.UI
         /// The hypersphere trigger.
         /// </summary>
         public EventTrigger hypersphereTrigger;
+
+        public ARPlaneManager _ARPlaneManager;
+        
+        public ARRaycastManager _ARRaycastManager;
 
         public Slider slicingSlider;
 
@@ -59,6 +66,8 @@ namespace _4XRD.UI
             tesseractTrigger = inventoryDrawer.GetNamedChild("Tesseract").GetComponent<EventTrigger>();
             simplexTrigger = inventoryDrawer.GetNamedChild("Simplex").GetComponent<EventTrigger>();
             hypersphereTrigger = inventoryDrawer.GetNamedChild("Hypersphere").GetComponent<EventTrigger>();
+            _ARPlaneManager = GameObject.Find("XR Origin").GetComponent<ARPlaneManager>();
+            _ARRaycastManager = GameObject.Find("XR Origin").GetComponent<ARRaycastManager>();
         }
 
         void OnEnable()
@@ -184,27 +193,45 @@ namespace _4XRD.UI
         {
             // raycast with floor
             Assert.IsNotNull(Camera.main);
-            RaycastHit hit;
-            var ray = Camera.main.ScreenPointToRay(data.position);
-            var didHit = UnityEngine.Physics.Raycast(ray, out hit);
+            List<ARRaycastHit> hits = new();
+            Ray ray = Camera.main.ScreenPointToRay(data.position);
+            _ARRaycastManager.Raycast(ray, hits, TrackableType.PlaneWithinPolygon);
+
             // ignore no-hits and bad targets
-            if (!didHit || _dragTarget == null)
+            if (hits.Count == 0 || _dragTarget == null)
             {
                 return;
             }
-        
-            // update transform (use ray for safety)
-            var transform4D = _dragTarget.GetComponent<Object4D>().transform4D;
-            var targetPosition = hit.point - ray.direction * 2.0f;
-            _dragTarget.transform.position = targetPosition;
-            transform4D.position = targetPosition;
 
-            // set to currently viewed slice
-            transform4D.position.w = MeshObject4D.SlicingConstant;
+            ARRaycastHit? raycastHit = null;
+            foreach (var hit in hits)
+            {
+                if ((hit.hitType & TrackableType.Planes) != 0)
+                {
+                    ARPlane plane = _ARPlaneManager.GetPlane(hit.trackableId);
+                    if (plane.subsumedBy != null)
+                    {
+                        raycastHit = hit;
+                        break;
+                    }
+                }
+            }
 
-            // set parent to hit object
-            var parent = hit.collider.gameObject;
-            _dragTarget.transform.SetParent(parent.transform);
+            if (raycastHit.HasValue)
+            {
+                // update transform (use ray for safety)
+                var transform4D = _dragTarget.GetComponent<Object4D>().transform4D;
+                var targetPosition = raycastHit.Value.pose.position - ray.direction * 2.0f;
+                _dragTarget.transform.position = targetPosition;
+                transform4D.position = targetPosition;
+
+                // set to currently viewed slice
+                transform4D.position.w = MeshObject4D.SlicingConstant;
+
+                // set parent to hit object
+                var parent = raycastHit.Value.trackable.gameObject;
+                _dragTarget.transform.SetParent(parent.transform);
+            }
         }
 
         /// <summary>

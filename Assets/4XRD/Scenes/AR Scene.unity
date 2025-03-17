@@ -828,6 +828,8 @@ MonoBehaviour:
   tesseractTrigger: {fileID: 101097965}
   simplexTrigger: {fileID: 1319642803}
   hypersphereTrigger: {fileID: 148940087}
+  _ARPlaneManager: {fileID: 0}
+  _ARRaycastManager: {fileID: 0}
   slicingSlider: {fileID: 767863120}
   tesseract: {fileID: 0}
   simplex: {fileID: 0}
@@ -849,7 +851,7 @@ GameObject:
   - component: {fileID: 1105134355}
   - component: {fileID: 1105134356}
   m_Layer: 0
-  m_Name: XR Origin (Mobile AR)
+  m_Name: XR Origin
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -862,7 +864,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1105134349}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: fa17d122634046b4a8e23048891fafc5, type: 3}
   m_Name: 
@@ -1358,6 +1360,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   substeps: 8
+  bias: 0.05
 --- !u!4 &1474932667
 Transform:
   m_ObjectHideFlags: 0
