@@ -35,11 +35,10 @@ namespace _4XRD.Scripts
             _wSlider = GameObject.Find("W_Slider").GetComponent<Slider>();
         }
 
-        void Update()
+        public override void Update()
         {
             _meshFilter.mesh = mesh.GetSlice(transform4D, _wSlider ? _wSlider.value : 0f);
-            transform.position = transform4D.position;
-            transform.localScale = transform4D.scale;
+            base.Update();
         }
     }
 }

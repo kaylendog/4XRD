@@ -14,7 +14,6 @@ GameObject:
   - component: {fileID: 6348157844217912903}
   - component: {fileID: 7915753038611189473}
   - component: {fileID: 3124928349310453058}
-  - component: {fileID: 6951463119488016405}
   m_Layer: 0
   m_Name: AR 4D Plane
   m_TagString: Untagged
@@ -87,13 +86,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transform4D:
     position: {x: 0, y: 0, z: 0, w: 0}
-    scale: {x: 1, y: 1, z: 1, w: 1}
+    scale: {x: 1, y: 1, z: 1, w: 0}
     _eulerAngles:
       <XY>k__BackingField: 0
-      <XZ>k__BackingField: 0
-      <XW>k__BackingField: 0
+      <XZ>k__BackingField: -0
+      <XW>k__BackingField: -0
       <YZ>k__BackingField: 0
-      <YW>k__BackingField: 0
+      <YW>k__BackingField: -0
       <ZW>k__BackingField: 0
   isStatic: 1
 --- !u!114 &7915753038611189473
@@ -124,15 +123,3 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_TrackingStateVisibilityThreshold: 0
   m_HideSubsumed: 1
---- !u!114 &6951463119488016405
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 6956672063304476673}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 257b828c9a1194fccae70a221c441706, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 

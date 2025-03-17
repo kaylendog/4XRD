@@ -44,5 +44,10 @@ namespace _4XRD.Physics
         {
             object4D = GetComponent<Object4D>();
         }
+
+        void Update()
+        {
+            isStatic = object4D.isStatic;
+        }
     }
 }

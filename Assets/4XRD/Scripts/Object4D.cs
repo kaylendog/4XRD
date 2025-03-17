@@ -15,9 +15,14 @@ namespace _4XRD.Scripts
 
         public bool isStatic = false;
 
-        void Update()
+        public virtual void Update()
         {
-            if (!isStatic)
+            if (isStatic)
+            {
+                transform4D.position = transform.position;
+                transform4D.rotation = Rotation4x4.FromAngles(Euler6.FromEuler3(transform.rotation.eulerAngles));
+                transform4D.scale = transform.localScale;
+            }
             {
                 transform.position = transform4D.position;
                 transform.localScale = transform4D.scale;
