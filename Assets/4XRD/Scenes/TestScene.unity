@@ -587,7 +587,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls: []
---- !u!43 &1193337901
+--- !u!43 &1172709461
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -873,7 +873,7 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 0
---- !u!43 &1414932346
+--- !u!43 &1505256951
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1286,7 +1286,7 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 5}
   m_SizeDelta: {x: 0, y: -20}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!43 &2086438755
+--- !u!43 &2049462639
 Mesh:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -1463,7 +1463,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 1193337901}
+      objectReference: {fileID: 1172709461}
     - target: {fileID: 2911372616419821876, guid: 2af597bb7b65c436294ac03bccf60925,
         type: 3}
       propertyPath: m_LocalScale.x
@@ -1673,17 +1673,17 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 8460094014455107, guid: 9c17bfff51ddf40c99da0caa0f8c79cd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 8460094014455107, guid: 9c17bfff51ddf40c99da0caa0f8c79cd, type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: 10
       objectReference: {fileID: 0}
     - target: {fileID: 81175990186260980, guid: 9c17bfff51ddf40c99da0caa0f8c79cd,
         type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 2086438755}
+      objectReference: {fileID: 2049462639}
     - target: {fileID: 4169030796049098034, guid: 9c17bfff51ddf40c99da0caa0f8c79cd,
         type: 3}
       propertyPath: transform4D.scale.w
@@ -1791,7 +1791,7 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Mesh
       value: 
-      objectReference: {fileID: 1414932346}
+      objectReference: {fileID: 1505256951}
     - target: {fileID: 8764522791950920358, guid: 0b69ff537c0524c279ed03587a582e84,
         type: 3}
       propertyPath: transform4D.scale.w

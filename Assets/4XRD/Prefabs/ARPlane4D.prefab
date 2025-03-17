@@ -15,7 +15,7 @@ GameObject:
   - component: {fileID: 7915753038611189473}
   - component: {fileID: 3124928349310453058}
   m_Layer: 0
-  m_Name: AR 4D Plane
+  m_Name: ARPlane4D
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -86,14 +86,14 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   transform4D:
     position: {x: 0, y: 0, z: 0, w: 0}
-    scale: {x: 1, y: 1, z: 1, w: 0}
-    _eulerAngles:
-      <XY>k__BackingField: 0
-      <XZ>k__BackingField: -0
+    scale: {x: 1, y: 1, z: 1, w: 1}
+    eulerAngles:
       <XW>k__BackingField: -0
-      <YZ>k__BackingField: 0
       <YW>k__BackingField: -0
       <ZW>k__BackingField: 0
+      <XY>k__BackingField: -0
+      <YZ>k__BackingField: 0
+      <XZ>k__BackingField: 0
   isStatic: 1
 --- !u!114 &7915753038611189473
 MonoBehaviour:
