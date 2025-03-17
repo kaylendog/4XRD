@@ -38,7 +38,7 @@ namespace _4XRD.Physics
         /// <summary>
         /// Whether or not this body is static.
         /// </summary>
-        public bool isStatic = false;
+        public bool isStatic;
         
         void Awake()
         {
