@@ -147,11 +147,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 51635706}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 905b51f6f30e147f68c39ab91e101796, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  arPlane4DController: {fileID: 0}
   transform4D:
     position: {x: -7.5, y: 1.5, z: -7.5, w: 0}
     scale: {x: 1, y: 1, z: 1, w: 1}
@@ -628,7 +629,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3840a9120c406daeab9d86bfbd16714a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arPlaneManager: {fileID: 0}
   arRaycastManager: {fileID: 0}
   tesseractTrigger: {fileID: 2032500894}
   simplexTrigger: {fileID: 2130217763}
@@ -1104,11 +1104,12 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1196179723}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 952049ae2df8c4cf1a98b175bbed467c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  arPlane4DController: {fileID: 0}
   transform4D:
     position: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1, w: 1}
@@ -1344,14 +1345,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - eventID: 5
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
-  - eventID: 5
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
 --- !u!114 &1334864166
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1365,7 +1358,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.68573797, g: 1, b: 0.19999999, a: 1}
+  m_Color: {r: 0.19999999, g: 1, b: 0.5430328, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
@@ -1492,7 +1485,7 @@ MonoBehaviour:
   m_OnValueChanged:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 642888064}
         m_TargetAssemblyTypeName: _4XRD.UI.DragUIController, Assembly-CSharp
         m_MethodName: UpdateSliderValue
         m_Mode: 0
@@ -1700,14 +1693,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - eventID: 5
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
-  - eventID: 5
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
 --- !u!43 &2084061629
 Mesh:
   m_ObjectHideFlags: 0
@@ -1994,14 +1979,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - eventID: 5
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
-  - eventID: 5
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
 --- !u!1 &2130217759
 GameObject:
   m_ObjectHideFlags: 0
@@ -2091,22 +2068,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates:
-  - eventID: 5
-    callback:
-      m_PersistentCalls:
-        m_Calls:
-        - m_Target: {fileID: 642888064}
-          m_TargetAssemblyTypeName: _4XRD.UI.DragUIController, Assembly-CSharp
-          m_MethodName: InitiateSimplexDrag
-          m_Mode: 1
-          m_Arguments:
-            m_ObjectArgument: {fileID: 0}
-            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-            m_IntArgument: 0
-            m_FloatArgument: 0
-            m_StringArgument: 
-            m_BoolArgument: 0
-          m_CallState: 2
   - eventID: 14
     callback:
       m_PersistentCalls:
@@ -2123,14 +2084,22 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - eventID: 5
+  - eventID: 13
     callback:
       m_PersistentCalls:
-        m_Calls: []
-  - eventID: 5
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
+        m_Calls:
+        - m_Target: {fileID: 642888064}
+          m_TargetAssemblyTypeName: _4XRD.UI.DragUIController, Assembly-CSharp
+          m_MethodName: InitiateSimplexDrag
+          m_Mode: 1
+          m_Arguments:
+            m_ObjectArgument: {fileID: 0}
+            m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+            m_IntArgument: 0
+            m_FloatArgument: 0
+            m_StringArgument: 
+            m_BoolArgument: 0
+          m_CallState: 2
 --- !u!1660057539 &9223372036854775807
 SceneRoots:
   m_ObjectHideFlags: 0

@@ -147,6 +147,25 @@ namespace _4XRD.UI
         {
             if (arRaycastManager == null)
             {
+                Assert.IsNotNull(Camera.main);
+                var _ray = Camera.main.ScreenPointToRay(data.position);
+                var didHit = UnityEngine.Physics.Raycast(_ray, out RaycastHit hit);
+                
+                // ignore no-hits and bad targets
+                if (!didHit || _dragTarget == null)
+                {
+                    return;
+                }
+            
+                // update transform (use ray for safety)
+                var targetPosition = hit.transform.position - _ray.direction * 2f;
+                _dragTarget.transform.position = targetPosition;
+
+                // set to currently viewed slice
+                var transform4D = _dragTarget.GetComponent<Object4D>().transform4D;
+                transform4D.position.w = MeshObject4D.SlicingConstant;
+
+                _dragLocation = hit.collider.gameObject;
                 return;
             }
             
@@ -193,6 +212,8 @@ namespace _4XRD.UI
                 return;
             }
 
+            var transform4D = _dragTarget.GetComponent<Object4D>().transform4D;
+            transform4D.position.w = MeshObject4D.SlicingConstant;
             _dragTarget.transform.SetParent(_dragLocation.transform);
             _dragTarget = null;
         }

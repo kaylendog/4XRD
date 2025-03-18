@@ -20,7 +20,7 @@ namespace _4XRD.Scripts
 
         public virtual void Awake()
         {
-            arPlane4DController = GameObject.Find("XR Origin").GetComponent<ARPlane4DController>();
+            arPlane4DController = GameObject.Find("XR Origin")?.GetComponent<ARPlane4DController>();
         }
 
         public virtual void Update()
@@ -39,6 +39,7 @@ namespace _4XRD.Scripts
                 transform4D.scale.y = transform.localScale.y;
                 transform4D.scale.z = transform.localScale.z;
             }
+            else
             {
                 transform.position = transform4D.position;
                 transform.rotation = Quaternion.Euler(transform4D.eulerAngles.GetUnityEuler3());

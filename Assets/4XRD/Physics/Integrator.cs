@@ -102,8 +102,8 @@ namespace _4XRD.Physics
 
         void Awake()
         {
-            _colliders = FindObjectsByType<StaticCollider4D>(FindObjectsSortMode.None).ToHashSet();
-            _balls = FindObjectsByType<Ball4D>(FindObjectsSortMode.None).ToHashSet();
+            _colliders = new();
+            _balls = new();
         }
 
         void FixedUpdate()
@@ -122,8 +122,8 @@ namespace _4XRD.Physics
         /// </summary>
         void UpdateIntegrands()
         {
-            _colliders.Clear();
-            _balls.Clear();
+            _colliders = new();
+            _balls = new();
             foreach (var col in FindObjectsByType<StaticCollider4D>(FindObjectsSortMode.None))
             {
                 _colliders.Add(col);
