@@ -1,19 +1,26 @@
-using _4XRD.Mesh;
 using _4XRD.Physics;
 using UnityEngine;
-using UnityEngine.UI;
 
 namespace _4XRD.Scripts
 {
     [ExecuteInEditMode]
     public class Object4D : MonoBehaviour
     {
+        ARPlane4DController arPlane4DController;
+        
         /// <summary>
         /// This object's transform.
         /// </summary>
         public Transform4D transform4D;
 
         public bool isStatic;
+
+        readonly float FLOOR_LEEWAY = 1;
+
+        void Awake()
+        {
+            arPlane4DController = GameObject.Find("XR Origin").GetComponent<ARPlane4DController>();
+        }
 
         public virtual void Update()
         {
@@ -35,6 +42,11 @@ namespace _4XRD.Scripts
                 transform.position = transform4D.position;
                 transform.rotation = Quaternion.Euler(transform4D.eulerAngles.GetUnityEuler3());
                 transform.localScale = transform4D.scale;
+
+                if (transform4D.position.y < arPlane4DController.lowestY - FLOOR_LEEWAY)
+                {
+                    Destroy(gameObject);
+                }
             }
         }
     }
