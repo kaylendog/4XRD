@@ -262,6 +262,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 952049ae2df8c4cf1a98b175bbed467c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  arPlane4DController: {fileID: 0}
   transform4D:
     position: {x: 0, y: 0, z: 0, w: 0}
     scale: {x: 1, y: 1, z: 1, w: 1}

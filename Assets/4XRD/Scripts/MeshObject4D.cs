@@ -10,7 +10,7 @@ namespace _4XRD.Scripts
         /// <summary>
         /// The slicing constant.
         /// </summary>
-        public static float SlicingConstant = 0.0f;
+        public static float SlicingConstant;
         
         /// <summary>
         /// The mesh filter.
@@ -27,11 +27,11 @@ namespace _4XRD.Scripts
         /// </summary>
         public Mesh4D mesh => _meshFilter4D.Mesh;
 
-        public new void Awake()
+        public override void Awake()
         {
+            base.Awake();
             _meshFilter = GetComponent<MeshFilter>();
             _meshFilter4D = GetComponent<MeshFilter4D>();
-            base.Awake();
         }
 
         public override void Update()

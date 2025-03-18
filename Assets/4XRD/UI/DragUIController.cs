@@ -81,7 +81,7 @@ namespace _4XRD.UI
             tesseractDrag.callback.AddListener(data => { OnDrag((PointerEventData) data); });
             simplexDrag.callback.AddListener(data => { OnDrag((PointerEventData) data); });
             hypersphereDrag.callback.AddListener(data => { OnDrag((PointerEventData) data); });
-            hypersphereDrag.callback.AddListener(data => { OnDrag((PointerEventData) data); });
+            movingHypersphereDrag.callback.AddListener(data => { OnDrag((PointerEventData) data); });
             
             tesseractTrigger.triggers.Add(tesseractDrag);
             simplexTrigger.triggers.Add(simplexDrag);
@@ -145,6 +145,11 @@ namespace _4XRD.UI
         /// <param name="data"></param>
         void OnDrag(PointerEventData data)
         {
+            if (arRaycastManager == null)
+            {
+                return;
+            }
+            
             // raycast with floor
             Assert.IsNotNull(Camera.main);
             List<ARRaycastHit> hits = new();
@@ -164,12 +169,11 @@ namespace _4XRD.UI
                 _dragLocation = plane.gameObject;
             
                 // update transform (use ray for safety)
-                var transform4D = _dragTarget.GetComponent<Object4D>().transform4D;
                 var targetPosition = raycastHit.pose.position - ray.direction * 0.3f;
                 _dragTarget.transform.position = targetPosition;
-                transform4D.position = targetPosition;
 
                 // set to currently viewed slice
+                var transform4D = _dragTarget.GetComponent<Object4D>().transform4D;
                 transform4D.position.w = MeshObject4D.SlicingConstant;
             }
             else 

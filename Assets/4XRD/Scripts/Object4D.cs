@@ -18,7 +18,7 @@ namespace _4XRD.Scripts
 
         readonly float FLOOR_LEEWAY = 1;
 
-        public void Awake()
+        public virtual void Awake()
         {
             arPlane4DController = GameObject.Find("XR Origin").GetComponent<ARPlane4DController>();
         }

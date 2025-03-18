@@ -122,6 +122,8 @@ namespace _4XRD.Physics
         /// </summary>
         void UpdateIntegrands()
         {
+            _colliders.Clear();
+            _balls.Clear();
             foreach (var col in FindObjectsByType<StaticCollider4D>(FindObjectsSortMode.None))
             {
                 _colliders.Add(col);
@@ -160,6 +162,11 @@ namespace _4XRD.Physics
         {
             foreach (var current in _balls)
             {
+                if (current.object4D.isStatic)
+                {
+                    continue;
+                }
+                
                 current.velocity += new Vector4(0, -9.8f, 0, 0) * Time.fixedDeltaTime / substeps;
                 current.object4D.transform4D.position += current.velocity * Time.fixedDeltaTime / substeps;
             }
