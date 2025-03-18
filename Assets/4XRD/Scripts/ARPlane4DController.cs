@@ -1,7 +1,7 @@
 using System.Collections.Generic;
+using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
-using UnityEngine.XR.ARSubsystems;
 
 [RequireComponent(typeof(ARPlaneManager))]
 public class ARPlane4DController : MonoBehaviour
@@ -25,16 +25,13 @@ public class ARPlane4DController : MonoBehaviour
 
     void OnTrackablesChanged(ARTrackablesChangedEventArgs<ARPlane> eventArgs)
     {
-        foreach (var plane in eventArgs.added)
-        {
-        }
-
-        foreach (var plane in eventArgs.updated)
-        {
-        }
-
         foreach (var plane in eventArgs.removed)
         {
+            ARPlane subsumedByPlane = plane.Value.subsumedBy;
+
+            List<GameObject> planeGameObjects = new();
+            plane.Value.gameObject.GetChildGameObjects(planeGameObjects);
+            planeGameObjects.ForEach(obj => obj.transform.SetParent(subsumedByPlane?.gameObject.transform));
         }
     }
 }
