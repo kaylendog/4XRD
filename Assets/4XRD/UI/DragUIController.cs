@@ -121,6 +121,7 @@ namespace _4XRD.UI
         /// </summary>
         public void InitiateTesseractDrag()
         {
+            Debug.Log("Initiate Drag");
             _dragTarget = Instantiate(tesseract);
         }
 
@@ -146,6 +147,7 @@ namespace _4XRD.UI
         /// <param name="data"></param>
         void OnDrag(PointerEventData data)
         {
+            Debug.Log("Drag");
             // raycast with floor
             Assert.IsNotNull(Camera.main);
             List<ARRaycastHit> hits = new();
@@ -158,10 +160,12 @@ namespace _4XRD.UI
                 return;
             }
 
+            Debug.Log($"Raycast hits: {hits.Count}");
+
             ARRaycastHit? raycastHit = null;
             foreach (var hit in hits)
             {
-                if ((hit.hitType & TrackableType.Planes) != 0)
+                if ((hit.hitType & TrackableType.PlaneWithinPolygon) != 0)
                 {
                     ARPlane plane = arPlaneManager.GetPlane(hit.trackableId);
                     if (plane.subsumedBy != null)
@@ -176,6 +180,7 @@ namespace _4XRD.UI
             {
                 return;
             }
+            Debug.Log(raycastHit.Value.trackable.gameObject.name);
             
             // update transform (use ray for safety)
             var transform4D = _dragTarget.GetComponent<Object4D>().transform4D;
@@ -196,6 +201,7 @@ namespace _4XRD.UI
         /// </summary>
         public void EndDrag()
         {
+            Debug.Log("End Drag");
             var obj = _dragTarget.GetComponent<Object4D>();
             if (obj != null)
             {
@@ -209,6 +215,7 @@ namespace _4XRD.UI
         /// </summary>
         public void EndDragRandomVelocity()
         {
+            Debug.Log("End Drag Random Velocity");
             var obj = _dragTarget.GetComponent<Object4D>();
             if (obj != null)
             {
