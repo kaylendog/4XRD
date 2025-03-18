@@ -451,14 +451,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - eventID: 5
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
-  - eventID: 5
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
 --- !u!114 &280288117
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -528,7 +520,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3840a9120c406daeab9d86bfbd16714a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arPlaneManager: {fileID: 1105134351}
   arRaycastManager: {fileID: 1105134350}
   tesseractTrigger: {fileID: 913793967}
   simplexTrigger: {fileID: 1449291693}
@@ -890,14 +881,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - eventID: 5
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
-  - eventID: 5
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
 --- !u!114 &913793968
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1027,7 +1010,6 @@ GameObject:
   - component: {fileID: 1105134353}
   - component: {fileID: 1105134352}
   - component: {fileID: 1105134351}
-  - component: {fileID: 1105134357}
   - component: {fileID: 1105134350}
   - component: {fileID: 1105134355}
   - component: {fileID: 1105134356}
@@ -1152,18 +1134,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   ARHumanBody4DPrefab: {fileID: 2266501192475172976, guid: 95498189bc94244ce8e72ac6f5d93010,
     type: 3}
---- !u!114 &1105134357
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1105134349}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 500ce5a2e5ef047179ea66f2be5ad4a6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1167446570
 GameObject:
   m_ObjectHideFlags: 0
@@ -1378,7 +1348,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Delegates:
-  - eventID: 5
+  - eventID: 13
     callback:
       m_PersistentCalls:
         m_Calls:
@@ -1410,14 +1380,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - eventID: 5
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
-  - eventID: 5
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
 --- !u!114 &1449291694
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1552,14 +1514,6 @@ MonoBehaviour:
             m_StringArgument: 
             m_BoolArgument: 0
           m_CallState: 2
-  - eventID: 5
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
-  - eventID: 5
-    callback:
-      m_PersistentCalls:
-        m_Calls: []
 --- !u!114 &1460933495
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1573,7 +1527,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.27149963, g: 0.19999999, b: 1, a: 1}
+  m_Color: {r: 0.87440187, g: 1, b: 0.19999999, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

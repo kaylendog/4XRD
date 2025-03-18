@@ -8,6 +8,11 @@ namespace _4XRD.Scripts
     public class MeshObject4D : Object4D
     {
         /// <summary>
+        /// The slicing constant.
+        /// </summary>
+        public static float SlicingConstant = 0.0f;
+        
+        /// <summary>
         /// The mesh filter.
         /// </summary>
         MeshFilter _meshFilter;
@@ -16,11 +21,6 @@ namespace _4XRD.Scripts
         /// The 4D mesh filter.
         /// </summary>
         MeshFilter4D _meshFilter4D;
-
-        /// <summary>
-        /// The slicing constant.
-        /// </summary>
-        public static float SlicingConstant = 0.0f;
 
         /// <summary>
         /// The mesh this object is using.

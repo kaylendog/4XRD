@@ -11,9 +11,9 @@ namespace _4XRD.Scripts
         /// <summary>
         /// This object's transform.
         /// </summary>
-        public Transform4D transform4D = Transform4D.identity;
+        public Transform4D transform4D;
 
-        public bool isStatic = false;
+        public bool isStatic;
 
         public virtual void Update()
         {

@@ -12,17 +12,8 @@ using Random = UnityEngine.Random;
 
 namespace _4XRD.UI
 {
-    [ExecuteInEditMode]
     public class DragUIController : MonoBehaviour
-    {
-        
-        
-        /// <summary>
-        /// The plane manager.
-        /// </summary>
-        [Header("AR")]
-        public ARPlaneManager arPlaneManager;
-        
+    {        
         /// <summary>
         /// The raycast manager.
         /// </summary>
@@ -69,6 +60,11 @@ namespace _4XRD.UI
         /// The drag target.
         /// </summary>
         GameObject _dragTarget;
+
+        /// <summary>
+        /// The drag target location.
+        /// </summary>
+        GameObject _dragLocation;
         
         void OnEnable()
         {
@@ -121,8 +117,8 @@ namespace _4XRD.UI
         /// </summary>
         public void InitiateTesseractDrag()
         {
-            Debug.Log("Initiate Drag");
             _dragTarget = Instantiate(tesseract);
+            _dragLocation = null;
         }
 
         /// <summary>
@@ -131,6 +127,7 @@ namespace _4XRD.UI
         public void InitiateSimplexDrag()
         {
             _dragTarget = Instantiate(simplex);
+            _dragLocation = null;
         }
 
         /// <summary>
@@ -139,6 +136,7 @@ namespace _4XRD.UI
         public void InitiateHypersphereDrag()
         {
             _dragTarget = Instantiate(hypersphere);
+            _dragLocation = null;
         }
         
         /// <summary>
@@ -147,7 +145,6 @@ namespace _4XRD.UI
         /// <param name="data"></param>
         void OnDrag(PointerEventData data)
         {
-            Debug.Log("Drag");
             // raycast with floor
             Assert.IsNotNull(Camera.main);
             List<ARRaycastHit> hits = new();
@@ -157,43 +154,29 @@ namespace _4XRD.UI
             // ignore no-hits and bad targets
             if (hits.Count == 0 || _dragTarget == null)
             {
+                _dragLocation = null;
                 return;
             }
 
-            Debug.Log($"Raycast hits: {hits.Count}");
-
-            ARRaycastHit? raycastHit = null;
-            foreach (var hit in hits)
+            ARRaycastHit raycastHit = hits[0];
+            if (raycastHit.trackable is ARPlane plane)
             {
-                if ((hit.hitType & TrackableType.PlaneWithinPolygon) != 0)
-                {
-                    ARPlane plane = arPlaneManager.GetPlane(hit.trackableId);
-                    if (plane.subsumedBy != null)
-                    {
-                        raycastHit = hit;
-                        break;
-                    }
-                }
-            }
-
-            if (!raycastHit.HasValue) 
-            {
-                return;
-            }
-            Debug.Log(raycastHit.Value.trackable.gameObject.name);
+                Debug.Log(plane.trackingState);
+                _dragLocation = plane.gameObject;
             
-            // update transform (use ray for safety)
-            var transform4D = _dragTarget.GetComponent<Object4D>().transform4D;
-            var targetPosition = raycastHit.Value.pose.position - ray.direction * 2.0f;
-            _dragTarget.transform.position = targetPosition;
-            transform4D.position = targetPosition;
+                // update transform (use ray for safety)
+                var transform4D = _dragTarget.GetComponent<Object4D>().transform4D;
+                var targetPosition = raycastHit.pose.position - ray.direction * 0.3f;
+                _dragTarget.transform.position = targetPosition;
+                transform4D.position = targetPosition;
 
-            // set to currently viewed slice
-            transform4D.position.w = MeshObject4D.SlicingConstant;
-
-            // set parent to hit object
-            var parent = raycastHit.Value.trackable.gameObject;
-            _dragTarget.transform.SetParent(parent.transform);
+                // set to currently viewed slice
+                transform4D.position.w = MeshObject4D.SlicingConstant;
+            }
+            else 
+            {
+                _dragLocation = null;
+            }
         }
 
         /// <summary>
@@ -201,12 +184,13 @@ namespace _4XRD.UI
         /// </summary>
         public void EndDrag()
         {
-            Debug.Log("End Drag");
-            var obj = _dragTarget.GetComponent<Object4D>();
-            if (obj != null)
+            if (_dragLocation == null)
             {
-                obj.isStatic = true;
+                Destroy(_dragTarget);
+                return;
             }
+
+            _dragTarget.transform.SetParent(_dragLocation.transform);
             _dragTarget = null;
         }
 
@@ -215,11 +199,16 @@ namespace _4XRD.UI
         /// </summary>
         public void EndDragRandomVelocity()
         {
-            Debug.Log("End Drag Random Velocity");
-            var obj = _dragTarget.GetComponent<Object4D>();
-            if (obj != null)
+            if (_dragLocation == null)
             {
-                obj.isStatic = true;
+                Destroy(_dragTarget);
+                return;
+            }
+            
+            var object4D = _dragTarget.GetComponent<Object4D>();
+            if (object4D != null)
+            {
+                object4D.isStatic = false;
             }
             var ball = _dragTarget.GetComponent<Ball4D>();
             if (ball != null)
@@ -228,6 +217,7 @@ namespace _4XRD.UI
                 ball.velocity.z = Random.Range(-2f, 2f);
                 ball.velocity.w = Random.Range(-0.5f, 0.5f);
             }
+            _dragTarget.transform.SetParent(_dragLocation.transform);
             _dragTarget = null;
         }
     }
