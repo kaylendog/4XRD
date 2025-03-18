@@ -161,7 +161,6 @@ namespace _4XRD.UI
             ARRaycastHit raycastHit = hits[0];
             if (raycastHit.trackable is ARPlane plane)
             {
-                Debug.Log(plane.trackingState);
                 _dragLocation = plane.gameObject;
             
                 // update transform (use ray for safety)

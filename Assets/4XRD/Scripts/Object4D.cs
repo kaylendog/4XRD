@@ -6,6 +6,7 @@ namespace _4XRD.Scripts
     [ExecuteInEditMode]
     public class Object4D : MonoBehaviour
     {
+        [SerializeField]
         ARPlane4DController arPlane4DController;
         
         /// <summary>
@@ -17,7 +18,7 @@ namespace _4XRD.Scripts
 
         readonly float FLOOR_LEEWAY = 1;
 
-        void Awake()
+        public void Awake()
         {
             arPlane4DController = GameObject.Find("XR Origin").GetComponent<ARPlane4DController>();
         }

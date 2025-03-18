@@ -27,10 +27,11 @@ namespace _4XRD.Scripts
         /// </summary>
         public Mesh4D mesh => _meshFilter4D.Mesh;
 
-        void Awake()
+        public new void Awake()
         {
             _meshFilter = GetComponent<MeshFilter>();
             _meshFilter4D = GetComponent<MeshFilter4D>();
+            base.Awake();
         }
 
         public override void Update()
