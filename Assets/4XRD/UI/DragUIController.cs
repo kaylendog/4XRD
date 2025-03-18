@@ -1,23 +1,37 @@
 using System;
 using System.Collections.Generic;
 using _4XRD.Mesh;
+using _4XRD.Physics;
 using _4XRD.Scripts;
-using Unity.XR.CoreUtils;
 using UnityEngine;
 using UnityEngine.Assertions;
 using UnityEngine.EventSystems;
-using UnityEngine.UI;
 using UnityEngine.XR.ARFoundation;
 using UnityEngine.XR.ARSubsystems;
+using Random = UnityEngine.Random;
 
 namespace _4XRD.UI
 {
     [ExecuteInEditMode]
     public class DragUIController : MonoBehaviour
     {
+        
+        
+        /// <summary>
+        /// The plane manager.
+        /// </summary>
+        [Header("AR")]
+        public ARPlaneManager arPlaneManager;
+        
+        /// <summary>
+        /// The raycast manager.
+        /// </summary>
+        public ARRaycastManager arRaycastManager;
+        
         /// <summary>
         /// The tesseract trigger.
         /// </summary>
+        [Header("Triggers")]
         public EventTrigger tesseractTrigger;
         
         /// <summary>
@@ -29,19 +43,11 @@ namespace _4XRD.UI
         /// The hypersphere trigger.
         /// </summary>
         public EventTrigger hypersphereTrigger;
-
-        public ARPlaneManager _ARPlaneManager;
         
-        public ARRaycastManager _ARRaycastManager;
-
-        public Slider slicingSlider;
-
         /// <summary>
-        /// The drag target.
+        /// The moving hypersphere trigger.
         /// </summary>
-        GameObject _dragTarget = null;
-
-        PrimitiveType4D _dragType = PrimitiveType4D.Tesseract;
+        public EventTrigger movingHypersphereTrigger;
 
         /// <summary>
         /// Tesseract template.
@@ -58,82 +64,33 @@ namespace _4XRD.UI
         /// Hypersphere template
         /// </summary>
         public GameObject hypersphere;
-
-        void Awake()
-        {
-            slicingSlider = GameObject.Find("SlicingSlider").GetComponent<Slider>();
-            var inventoryDrawer = GameObject.Find("InventoryDrawer");
-            tesseractTrigger = inventoryDrawer.GetNamedChild("Tesseract").GetComponent<EventTrigger>();
-            simplexTrigger = inventoryDrawer.GetNamedChild("Simplex").GetComponent<EventTrigger>();
-            hypersphereTrigger = inventoryDrawer.GetNamedChild("Hypersphere").GetComponent<EventTrigger>();
-            _ARPlaneManager = GameObject.Find("XR Origin").GetComponent<ARPlaneManager>();
-            _ARRaycastManager = GameObject.Find("XR Origin").GetComponent<ARRaycastManager>();
-        }
-
+        
+        /// <summary>
+        /// The drag target.
+        /// </summary>
+        GameObject _dragTarget;
+        
         void OnEnable()
         {
-            slicingSlider.onValueChanged.RemoveListener(UpdateSliderValue);
-            tesseractTrigger.triggers.Clear();
-            simplexTrigger.triggers.Clear();
-            hypersphereTrigger.triggers.Clear();
-            
-            slicingSlider.onValueChanged.AddListener(UpdateSliderValue);
-            
-            EventTrigger.Entry tesseractBeginDrag = new();
-            EventTrigger.Entry simplexBeginDrag = new();
-            EventTrigger.Entry hypersphereBeginDrag = new();
-            
-            tesseractBeginDrag.eventID = EventTriggerType.BeginDrag;
-            simplexBeginDrag.eventID = EventTriggerType.BeginDrag;
-            hypersphereBeginDrag.eventID = EventTriggerType.BeginDrag;
-            
-            tesseractBeginDrag.callback.AddListener(data => { InitiateTesseractDrag(); });
-            simplexBeginDrag.callback.AddListener(data => { InitiateSimplexDrag(); });
-            hypersphereBeginDrag.callback.AddListener(data => { InitiateHypersphereDrag(); });
-            
-            tesseractTrigger.triggers.Add(tesseractBeginDrag);
-            simplexTrigger.triggers.Add(simplexBeginDrag);
-            hypersphereTrigger.triggers.Add(hypersphereBeginDrag);
-            
             EventTrigger.Entry tesseractDrag = new();
             EventTrigger.Entry simplexDrag = new();
             EventTrigger.Entry hypersphereDrag = new();
+            EventTrigger.Entry movingHypersphereDrag = new();
             
             tesseractDrag.eventID = EventTriggerType.Drag;
             simplexDrag.eventID = EventTriggerType.Drag;
             hypersphereDrag.eventID = EventTriggerType.Drag;
+            movingHypersphereDrag.eventID = EventTriggerType.Drag;
             
             tesseractDrag.callback.AddListener(data => { OnDrag((PointerEventData) data); });
             simplexDrag.callback.AddListener(data => { OnDrag((PointerEventData) data); });
+            hypersphereDrag.callback.AddListener(data => { OnDrag((PointerEventData) data); });
             hypersphereDrag.callback.AddListener(data => { OnDrag((PointerEventData) data); });
             
             tesseractTrigger.triggers.Add(tesseractDrag);
             simplexTrigger.triggers.Add(simplexDrag);
             hypersphereTrigger.triggers.Add(hypersphereDrag);
-
-            EventTrigger.Entry tesseractEndDrag = new();
-            EventTrigger.Entry simplexEndDrag = new();
-            EventTrigger.Entry hypersphereEndDrag = new();
-            
-            tesseractEndDrag.eventID = EventTriggerType.EndDrag;
-            simplexEndDrag.eventID = EventTriggerType.EndDrag;
-            hypersphereEndDrag.eventID = EventTriggerType.EndDrag;
-            
-            tesseractEndDrag.callback.AddListener(data => { EndDrag(); });
-            simplexEndDrag.callback.AddListener(data => { EndDrag(); });
-            hypersphereEndDrag.callback.AddListener(data => { EndDrag(); });
-            
-            tesseractTrigger.triggers.Add(tesseractEndDrag);
-            simplexTrigger.triggers.Add(simplexEndDrag);
-            hypersphereTrigger.triggers.Add(hypersphereEndDrag);
-        }
-
-        void OnDisable()
-        {
-            slicingSlider.onValueChanged.RemoveListener(UpdateSliderValue);
-            tesseractTrigger.triggers.Clear();
-            simplexTrigger.triggers.Clear();
-            hypersphereTrigger.triggers.Clear();
+            movingHypersphereTrigger.triggers.Add(movingHypersphereDrag);
         }
         
         /// <summary>
@@ -150,7 +107,6 @@ namespace _4XRD.UI
         /// <param name="type"></param>
         public void InitiateDrag(PrimitiveType4D type)
         {
-            _dragType = type;
             _dragTarget = type switch
             {
                 PrimitiveType4D.Tesseract => Instantiate(tesseract),
@@ -165,7 +121,7 @@ namespace _4XRD.UI
         /// </summary>
         public void InitiateTesseractDrag()
         {
-            InitiateDrag(PrimitiveType4D.Tesseract);
+            _dragTarget = Instantiate(tesseract);
         }
 
         /// <summary>
@@ -173,7 +129,7 @@ namespace _4XRD.UI
         /// </summary>
         public void InitiateSimplexDrag()
         {
-            InitiateDrag(PrimitiveType4D.Simplex4);
+            _dragTarget = Instantiate(simplex);
         }
 
         /// <summary>
@@ -181,9 +137,8 @@ namespace _4XRD.UI
         /// </summary>
         public void InitiateHypersphereDrag()
         {
-            InitiateDrag(PrimitiveType4D.Hypersphere);
+            _dragTarget = Instantiate(hypersphere);
         }
-        
         
         /// <summary>
         /// Drag event.
@@ -195,7 +150,7 @@ namespace _4XRD.UI
             Assert.IsNotNull(Camera.main);
             List<ARRaycastHit> hits = new();
             Ray ray = Camera.main.ScreenPointToRay(data.position);
-            _ARRaycastManager.Raycast(ray, hits, TrackableType.PlaneWithinPolygon);
+            arRaycastManager.Raycast(ray, hits, TrackableType.PlaneWithinPolygon);
 
             // ignore no-hits and bad targets
             if (hits.Count == 0 || _dragTarget == null)
@@ -208,7 +163,7 @@ namespace _4XRD.UI
             {
                 if ((hit.hitType & TrackableType.Planes) != 0)
                 {
-                    ARPlane plane = _ARPlaneManager.GetPlane(hit.trackableId);
+                    ARPlane plane = arPlaneManager.GetPlane(hit.trackableId);
                     if (plane.subsumedBy != null)
                     {
                         raycastHit = hit;
@@ -217,21 +172,23 @@ namespace _4XRD.UI
                 }
             }
 
-            if (raycastHit.HasValue)
+            if (!raycastHit.HasValue) 
             {
-                // update transform (use ray for safety)
-                var transform4D = _dragTarget.GetComponent<Object4D>().transform4D;
-                var targetPosition = raycastHit.Value.pose.position - ray.direction * 2.0f;
-                _dragTarget.transform.position = targetPosition;
-                transform4D.position = targetPosition;
-
-                // set to currently viewed slice
-                transform4D.position.w = MeshObject4D.SlicingConstant;
-
-                // set parent to hit object
-                var parent = raycastHit.Value.trackable.gameObject;
-                _dragTarget.transform.SetParent(parent.transform);
+                return;
             }
+            
+            // update transform (use ray for safety)
+            var transform4D = _dragTarget.GetComponent<Object4D>().transform4D;
+            var targetPosition = raycastHit.Value.pose.position - ray.direction * 2.0f;
+            _dragTarget.transform.position = targetPosition;
+            transform4D.position = targetPosition;
+
+            // set to currently viewed slice
+            transform4D.position.w = MeshObject4D.SlicingConstant;
+
+            // set parent to hit object
+            var parent = raycastHit.Value.trackable.gameObject;
+            _dragTarget.transform.SetParent(parent.transform);
         }
 
         /// <summary>
@@ -243,6 +200,26 @@ namespace _4XRD.UI
             if (obj != null)
             {
                 obj.isStatic = true;
+            }
+            _dragTarget = null;
+        }
+
+        /// <summary>
+        /// End drag with random output velocity.
+        /// </summary>
+        public void EndDragRandomVelocity()
+        {
+            var obj = _dragTarget.GetComponent<Object4D>();
+            if (obj != null)
+            {
+                obj.isStatic = true;
+            }
+            var ball = _dragTarget.GetComponent<Ball4D>();
+            if (ball != null)
+            {
+                ball.velocity.x = Random.Range(-2f, 2f);
+                ball.velocity.z = Random.Range(-2f, 2f);
+                ball.velocity.w = Random.Range(-0.5f, 0.5f);
             }
             _dragTarget = null;
         }
