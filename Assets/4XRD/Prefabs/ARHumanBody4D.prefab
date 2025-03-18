@@ -44,5 +44,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4e0fa5de7ba2e4c9bb898a4bc6721f2a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  limbPrefab: {fileID: 5913209248947020669, guid: 2af597bb7b65c436294ac03bccf60925,
+  limbPrefab: {fileID: 2529988437623405170, guid: 0cdbfae8d6b714d3eac01161be825e85,
     type: 3}
