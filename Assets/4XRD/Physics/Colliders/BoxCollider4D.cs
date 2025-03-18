@@ -19,16 +19,15 @@ namespace _4XRD.Physics.Colliders
         /// The normal to the surface at a given point.
         /// </summary>
         /// <param name="position"></param>
-        /// <param name="radius"></param>
         /// <returns></returns>
         protected override Vector4 LocalNormal(Vector4 position)
         {
             var normal = Vector4.zero;
 
-            normal.x = Mathf.Abs(position.x) > 1f / 2 ? Mathf.Sign(position.x) : 0f;
-            normal.y = Mathf.Abs(position.y) > 1f / 2 ? Mathf.Sign(position.y) : 0f;
-            normal.z = Mathf.Abs(position.z) > 1f / 2 ? Mathf.Sign(position.z) : 0f;
-            normal.w = Mathf.Abs(position.w) > 1f / 2 ? Mathf.Sign(position.w) : 0f;
+            normal.x = Mathf.Abs(position.x) > 1 / 2f ? Mathf.Sign(position.x) : 0f;
+            normal.y = Mathf.Abs(position.y) > 1 / 2f ? Mathf.Sign(position.y) : 0f;
+            normal.z = Mathf.Abs(position.z) > 1 / 2f ? Mathf.Sign(position.z) : 0f;
+            normal.w = Mathf.Abs(position.w) > 1 / 2f ? Mathf.Sign(position.w) : 0f;
 
             return normal.normalized;
         }
