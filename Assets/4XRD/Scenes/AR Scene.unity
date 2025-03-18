@@ -828,12 +828,14 @@ MonoBehaviour:
   tesseractTrigger: {fileID: 101097965}
   simplexTrigger: {fileID: 1319642803}
   hypersphereTrigger: {fileID: 148940087}
-  _ARPlaneManager: {fileID: 0}
-  _ARRaycastManager: {fileID: 0}
+  _ARPlaneManager: {fileID: 1105134351}
+  _ARRaycastManager: {fileID: 1105134350}
   slicingSlider: {fileID: 767863120}
-  tesseract: {fileID: 0}
-  simplex: {fileID: 0}
-  hypersphere: {fileID: 0}
+  tesseract: {fileID: 5913209248947020669, guid: 2af597bb7b65c436294ac03bccf60925,
+    type: 3}
+  simplex: {fileID: 1973432894973813504, guid: 0b69ff537c0524c279ed03587a582e84, type: 3}
+  hypersphere: {fileID: 6052292879441148243, guid: 064ee8ca8bcb981509fc124cd76d9315,
+    type: 3}
 --- !u!1 &1105134349
 GameObject:
   m_ObjectHideFlags: 0
