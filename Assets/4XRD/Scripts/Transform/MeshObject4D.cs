@@ -23,11 +23,6 @@ namespace _4XRD.Transform
         /// </summary>
         MeshFilter4D _meshFilter4D;
 
-        /// <summary>
-        /// The mesh this object is using.
-        /// </summary>
-        public Mesh4D mesh => _meshFilter4D.Mesh;
-
         public override void Awake()
         {
             base.Awake();
@@ -38,7 +33,7 @@ namespace _4XRD.Transform
         public override void Update()
         {
             base.Update();
-            _meshFilter.mesh = mesh.GetSlice(transform4D, SlicingConstant);
+            _meshFilter.mesh = _meshFilter4D.Mesh.GetSlice(transform4D, SlicingConstant);
         }
     }
 }

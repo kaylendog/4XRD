@@ -9,9 +9,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 5387092019018203187}
-  - component: {fileID: 3318151189107765325}
   - component: {fileID: 4975799365944076835}
   - component: {fileID: 6733861933273949371}
+  - component: {fileID: 3318151189107765325}
   - component: {fileID: 1931139512354200751}
   - component: {fileID: 7204667205910665758}
   - component: {fileID: 2436295041869068124}
@@ -39,28 +39,6 @@ Transform:
   m_Children: []
   m_Father: {fileID: 0}
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!64 &3318151189107765325
-MeshCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4329364343007606801}
-  m_Material: {fileID: 0}
-  m_IncludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_ExcludeLayers:
-    serializedVersion: 2
-    m_Bits: 0
-  m_LayerOverridePriority: 0
-  m_IsTrigger: 0
-  m_ProvidesContacts: 0
-  m_Enabled: 1
-  serializedVersion: 5
-  m_Convex: 0
-  m_CookingOptions: 30
-  m_Mesh: {fileID: 0}
 --- !u!33 &4975799365944076835
 MeshFilter:
   m_ObjectHideFlags: 0
@@ -115,6 +93,28 @@ MeshRenderer:
   m_SortingLayer: 0
   m_SortingOrder: 0
   m_AdditionalVertexStreams: {fileID: 0}
+--- !u!64 &3318151189107765325
+MeshCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4329364343007606801}
+  m_Material: {fileID: 0}
+  m_IncludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_ExcludeLayers:
+    serializedVersion: 2
+    m_Bits: 0
+  m_LayerOverridePriority: 0
+  m_IsTrigger: 0
+  m_ProvidesContacts: 0
+  m_Enabled: 1
+  serializedVersion: 5
+  m_Convex: 1
+  m_CookingOptions: 30
+  m_Mesh: {fileID: 0}
 --- !u!114 &1931139512354200751
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -262,11 +262,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 952049ae2df8c4cf1a98b175bbed467c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  arPlane4DController: {fileID: 0}
-  transform4D:
-    position: {x: 0, y: 0, z: 0, w: 0}
-    scale: {x: 1, y: 1, z: 1, w: 1}
-    eulerAngles:
+  <transform4D>k__BackingField:
+    <position>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
+    <scale>k__BackingField: {x: 1, y: 1, z: 1, w: 0}
+    <eulerAngles>k__BackingField:
       <XW>k__BackingField: 0
       <YW>k__BackingField: 0
       <ZW>k__BackingField: 0

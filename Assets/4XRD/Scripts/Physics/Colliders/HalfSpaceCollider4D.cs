@@ -10,14 +10,14 @@ namespace _4XRD.Physics.Colliders
     public class HalfSpaceCollider4D : StaticCollider4D
     {
         // public Vector4 normal => transform4D.rotation * new Vector4(0, 1, 0, 0);
-        public Vector4 normal => new(0, 1, 0, 0);
+        public Vector4 normal => transform4D.GetRotation() * new Vector4(0, 1, 0, 0);
 
-        protected override Vector4 LocalClosestPoint(Vector4 position)
+        public override Vector4 ClosestPoint(Vector4 position)
         {
-            return normal.Dot(position - transform4D.position) * normal;
+            return normal.Dot(transform4D.position - position) * normal + position;
         }
 
-        protected override Vector4 LocalNormal(Vector4 position)
+        public override Vector4 Normal(Vector4 position)
         {
             return normal;
         }

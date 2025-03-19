@@ -56,6 +56,16 @@ namespace _4XRD.UI
         /// Hypersphere template
         /// </summary>
         public GameObject hypersphere;
+
+        /// <summary>
+        /// Moving Hypersphere template
+        /// </summary>
+        public GameObject movingHypersphere;
+
+        /// <summary>
+        /// The taret
+        /// </summary>
+        public GameObject target;
         
         /// <summary>
         /// The drag target.
@@ -98,20 +108,20 @@ namespace _4XRD.UI
             MeshObject4D.SlicingConstant = value;
         }
         
-        /// <summary>
-        /// Initiate a drag.
-        /// </summary>
-        /// <param name="type"></param>
-        public void InitiateDrag(PrimitiveType4D type)
-        {
-            _dragTarget = type switch
-            {
-                PrimitiveType4D.Tesseract => Instantiate(tesseract),
-                PrimitiveType4D.Simplex4 => Instantiate(simplex),
-                PrimitiveType4D.Hypersphere => Instantiate(hypersphere),
-                _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
-            };
-        }
+        // /// <summary>
+        // /// Initiate a drag.
+        // /// </summary>
+        // /// <param name="type"></param>
+        // public void InitiateDrag(PrimitiveType4D type)
+        // {
+        //     _dragTarget = type switch
+        //     {
+        //         PrimitiveType4D.Tesseract => Instantiate(tesseract),
+        //         PrimitiveType4D.Simplex4 => Instantiate(simplex),
+        //         PrimitiveType4D.Hypersphere => Instantiate(hypersphere),
+        //         _ => throw new ArgumentOutOfRangeException(nameof(type), type, null),
+        //     };
+        // }
 
         /// <summary>
         /// Initiate a tesseract drag.
@@ -139,67 +149,71 @@ namespace _4XRD.UI
             _dragTarget = Instantiate(hypersphere);
             _dragLocation = null;
         }
+
+        /// <summary>
+        /// Initiate a movingsphere drag.
+        /// </summary>
+        public void InitiateMovingHypersphereDrag()
+        {
+            _dragTarget = Instantiate(movingHypersphere);
+            _dragLocation = null;
+        }
         
         /// <summary>
         /// Drag event.
         /// </summary>
         /// <param name="data"></param>
         void OnDrag(PointerEventData data)
-        {
-            if (arRaycastManager == null)
+        {            
+            Assert.IsNotNull(Camera.main);
+            Ray ray = Camera.main.ScreenPointToRay(data.position);
+
+            Vector3 hitPosition;
+            if (arRaycastManager != null)
             {
-                Assert.IsNotNull(Camera.main);
-                var _ray = Camera.main.ScreenPointToRay(data.position);
-                var didHit = UnityEngine.Physics.Raycast(_ray, out RaycastHit hit);
+                List<ARRaycastHit> hits = new();
+                arRaycastManager.Raycast(ray, hits, TrackableType.PlaneWithinPolygon);
+
+                if (hits.Count == 0 || _dragTarget == null)
+                {
+                    _dragLocation = null;
+                    return;
+                }
+
+                ARRaycastHit raycastHit = hits[0];
+                if (raycastHit.trackable is not ARPlane)
+                {
+                    _dragLocation = null;
+                    return;
+                }
+
+                hitPosition = raycastHit.pose.position;
+                _dragLocation = raycastHit.trackable.gameObject;
+            }
+            else
+            {
+                RaycastHit hit;
+                var didHit = UnityEngine.Physics.Raycast(ray, out hit);
                 
                 // ignore no-hits and bad targets
                 if (!didHit || _dragTarget == null)
                 {
+                    _dragLocation = null;
                     return;
                 }
-            
-                // update transform (use ray for safety)
-                var targetPosition = hit.transform.position - _ray.direction * 2f;
-                _dragTarget.transform.position = targetPosition;
 
-                // set to currently viewed slice
-                var transform4D = _dragTarget.GetComponent<Object4D>().transform4D;
-                transform4D.position.w = MeshObject4D.SlicingConstant;
-
+                hitPosition = hit.transform.position;
                 _dragLocation = hit.collider.gameObject;
-                return;
-            }
-            
-            // raycast with floor
-            Assert.IsNotNull(Camera.main);
-            List<ARRaycastHit> hits = new();
-            Ray ray = Camera.main.ScreenPointToRay(data.position);
-            arRaycastManager.Raycast(ray, hits, TrackableType.PlaneWithinPolygon);
-
-            // ignore no-hits and bad targets
-            if (hits.Count == 0 || _dragTarget == null)
-            {
-                _dragLocation = null;
-                return;
             }
 
-            ARRaycastHit raycastHit = hits[0];
-            if (raycastHit.trackable is ARPlane plane)
-            {
-                _dragLocation = plane.gameObject;
-            
-                // update transform (use ray for safety)
-                var targetPosition = raycastHit.pose.position - ray.direction * 0.3f;
-                _dragTarget.transform.position = targetPosition;
+        
+            // update transform (use ray for safety)
+            var targetPosition = hitPosition - ray.direction * 0.3f;
+            _dragTarget.transform.position = targetPosition;
 
-                // set to currently viewed slice
-                var transform4D = _dragTarget.GetComponent<Object4D>().transform4D;
-                transform4D.position.w = MeshObject4D.SlicingConstant;
-            }
-            else 
-            {
-                _dragLocation = null;
-            }
+            // set to currently viewed slice
+            var object4D = _dragTarget.GetComponent<Object4D>();
+            object4D.SetWPosStatic(MeshObject4D.SlicingConstant);
         }
 
         /// <summary>
@@ -213,8 +227,6 @@ namespace _4XRD.UI
                 return;
             }
 
-            var transform4D = _dragTarget.GetComponent<Object4D>().transform4D;
-            transform4D.position.w = MeshObject4D.SlicingConstant;
             if (_dragLocation.GetComponent<ARPlane>() != null)
             {
                 _dragTarget.transform.SetParent(_dragLocation.transform);
@@ -233,18 +245,26 @@ namespace _4XRD.UI
                 return;
             }
             
-            var object4D = _dragTarget.GetComponent<Object4D>();
-            if (object4D != null)
+            if (_dragTarget.TryGetComponent<Object4D>(out var object4D))
             {
                 object4D.isStatic = false;
             }
-            var ball = _dragTarget.GetComponent<Ball4D>();
-            if (ball != null)
+            else
+            {
+                Debug.LogWarning("Cannot find Object4D component.");
+            }
+
+            if (_dragTarget.TryGetComponent<Ball4D>(out var ball))
             {
                 ball.velocity.x = Random.Range(-2f, 2f);
                 ball.velocity.z = Random.Range(-2f, 2f);
                 ball.velocity.w = Random.Range(-0.5f, 0.5f);
             }
+            else
+            {
+                Debug.LogWarning("Cannot find Ball4D component.");
+            }
+            
             if (_dragLocation.GetComponent<ARPlane>() != null)
             {
                 _dragTarget.transform.SetParent(_dragLocation.transform);

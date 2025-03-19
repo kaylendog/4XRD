@@ -37,11 +37,11 @@ namespace _4XRD.Mesh
         // [field: SerializeField]
         // public int[] Cells { get; private set; }
 
-        /// <summary>
-        ///     The bounding box of this mesh.
-        /// </summary>
-        [field: SerializeField]
-        public BoundingBox4D BoundingBox { get; private set; }
+        // /// <summary>
+        // ///     The bounding box of this mesh.
+        // /// </summary>
+        // [field: SerializeField]
+        // public BoundingBox4D BoundingBox { get; private set; }
 
         /// <summary>
         ///     Construct a new mesh with the given data.
@@ -57,7 +57,7 @@ namespace _4XRD.Mesh
             mesh.Edges = edges;
             // mesh.Faces = faces;
             // mesh.Cells = cells;
-            mesh.BoundingBox = BoundingBox4D.FromMesh(mesh);
+            // mesh.BoundingBox = BoundingBox4D.FromMesh(mesh);
             return mesh;
         }
 
@@ -87,9 +87,7 @@ namespace _4XRD.Mesh
         public UnityEngine.Mesh GetSlice(Transform4D transform, float w)
         {
             Vector4 wTranslation = new Vector4(0, 0, 0, 1) * transform.position.w;
-            Rotation4x4 wRotation = Rotation4x4.identity;
-            // Rotation4x4 wRotation = Rotation4x4.FromAngles(transform.eulerAngles.GetWRotations());
-            float wScale = transform.scale.w;
+            Rotation4x4 wRotation = Rotation4x4.FromAngles(transform.eulerAngles.GetWRotations());
 
             List<Vector4> vertices = new();
             for (int i = 0; i < Edges.Length; i += 2)
@@ -97,16 +95,13 @@ namespace _4XRD.Mesh
                 Vector4 v1 = Vertices[Edges[i]];
                 Vector4 v2 = Vertices[Edges[i + 1]];
 
-                float v1w = v1.w * wScale;
-                float v2w = v2.w * wScale;
-
-                v1 = wRotation * new Vector4(v1.x, v1.y, v1.z, v1w) + wTranslation;
-                v2 = wRotation * new Vector4(v2.x, v2.y, v2.z, v2w) + wTranslation;
+                v1 = wRotation * transform.scale.ElemMul(v1) + wTranslation;
+                v2 = wRotation * transform.scale.ElemMul(v2) + wTranslation;
 
                 AddIntersection(v1, v2, w, vertices);
             }
 
-            if (vertices.Count < 3)
+            if (vertices.Count < 4)
             {
                 return null;
             }
@@ -147,7 +142,7 @@ namespace _4XRD.Mesh
             var resultObject = ConvexHull.Create(vertices4);
             if (resultObject.Outcome != ConvexHullCreationResultOutcome.Success)
             {
-                Debug.LogError("Failed to create convex hull: " + resultObject.ErrorMessage);
+                Debug.LogWarning("Failed to create convex hull: " + resultObject.ErrorMessage);
                 return null;
             }
             var result = resultObject.Result;

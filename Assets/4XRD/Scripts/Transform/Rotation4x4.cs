@@ -1,9 +1,9 @@
 using System;
+using MathNet.Numerics.LinearAlgebra;
 using UnityEngine;
 
 namespace _4XRD.Transform
 {
-    [Serializable]
     public class Rotation4x4
     {
         public readonly Matrix4x4 matrix;
@@ -57,7 +57,7 @@ namespace _4XRD.Transform
         /// <summary>
         /// Return the inverse rotation, defined by the transpose of the rotation matrix (way quicker to compute than inverse).
         /// </summary>
-        public Rotation4x4 inverse => new Rotation4x4(matrix.transpose);
+        public Rotation4x4 inverse => new(matrix.transpose);
 
         public Rotation4x4 RotateXY(float angle)
         {
@@ -136,6 +136,69 @@ namespace _4XRD.Transform
             );
             return new Rotation4x4(rotationMatrix) * this;
         }
+
+        // public (Rotation4x4, Rotation4x4) SeparateWRotation()
+        // {
+        //     Matrix4x4 invRotation = matrix.transpose;
+        //     Matrix4x4 B = GetInverseWRotation(invRotation);
+        //     Matrix4x4 A = matrix * B.transpose;
+        //     return (new Rotation4x4(A), new Rotation4x4(B));
+        // }
+
+        // private Matrix4x4 GetInverseWRotation(Matrix4x4 matrix)
+        // {
+        //     float a = matrix[0,3];
+        //     float b = matrix[1,3];
+        //     float c = matrix[2,3];
+        //     float d = matrix[3,3];
+
+        //     // Rotate ZW
+        //     float norm_cd = Mathf.Sqrt(c * c + d * d);
+        //     Matrix4x4 R_ZW = Matrix4x4.identity;
+        //     if (norm_cd > 1e-8f)
+        //     {
+        //         float cos1 = d / norm_cd;
+        //         float sin1 = c / norm_cd;
+        //         R_ZW = new(
+        //             new Vector4(1, 0,    0,     0),
+        //             new Vector4(0, 1,    0,     0),
+        //             new Vector4(0, 0, cos1, -sin1),
+        //             new Vector4(0, 0, sin1,  cos1)
+        //         );
+        //     }
+
+        //     // Rotate YW
+        //     float norm_bcd = Mathf.Sqrt(b * b + norm_cd * norm_cd);
+        //     Matrix4x4 R_YW = Matrix4x4.identity;
+        //     if (norm_bcd > 1e-8f)
+        //     {
+        //         float cos2 = norm_cd / norm_bcd;
+        //         float sin2 = b / norm_bcd;
+        //         R_YW = new(
+        //             new Vector4(1,    0, 0,     0),
+        //             new Vector4(0, cos2, 0, -sin2),
+        //             new Vector4(0,    0, 1,     0),
+        //             new Vector4(0, sin2, 0,  cos2)
+        //         );
+        //     }
+
+        //     // Rotate XW
+        //     float norm_abcd = Mathf.Sqrt(a * a + norm_bcd * norm_bcd);
+        //     Matrix4x4 R_XW = Matrix4x4.identity;
+        //     if (norm_abcd > 1e-8f)
+        //     {
+        //         float cos3 = norm_bcd / norm_abcd;
+        //         float sin3 = a / norm_abcd;
+        //         R_XW = new(
+        //             new Vector4(cos3, 0, 0, -sin3),
+        //             new Vector4(   0, 1, 0,     0),
+        //             new Vector4(   0, 0, 1,     0),
+        //             new Vector4(sin3, 0, 0,  cos3)
+        //         );
+        //     }
+
+        //     return R_XW * R_YW * R_ZW;
+        // }
 
         public override string ToString()
         {

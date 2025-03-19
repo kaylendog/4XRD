@@ -1,17 +1,17 @@
 using UnityEngine;
 
+using _4XRD.Transform;
+
 namespace _4XRD.Physics.Colliders
 {
     public class BoxCollider4D : StaticCollider4D
     {
-        protected override Vector4 LocalClosestPoint(Vector4 position)
+        public override Vector4 ClosestPoint(Vector4 position)
         {
-            return new Vector4(
-                Mathf.Clamp(position.x, -1 / 2f, 1 / 2f),
-                Mathf.Clamp(position.y, -1 / 2f, 1 / 2f),
-                Mathf.Clamp(position.z, -1 / 2f, 1 / 2f),
-                Mathf.Clamp(position.w, -1 / 2f, 1 / 2f)
-            );
+            Transform4D t = ToWorldSpace();
+            Vector4 localPosition = t.ApplyInverse(position);
+            Vector4 localClosest = GetLocalBounds().ClosestPointOnBounds(localPosition);
+            return t.Apply(localClosest);
         }
 
         /// <summary>
@@ -19,16 +19,41 @@ namespace _4XRD.Physics.Colliders
         /// </summary>
         /// <param name="position"></param>
         /// <returns></returns>
-        protected override Vector4 LocalNormal(Vector4 position)
+        public override Vector4 Normal(Vector4 position)
         {
-            var normal = Vector4.zero;
+            Transform4D t = ToWorldSpace();
+            Vector4 localPosition = t.ApplyInverse(position);
+            BoundingBox4D bounds = GetLocalBounds();
+            Vector4 closestPoint = bounds.ClosestPointOnBounds(localPosition);
 
-            normal.x = Mathf.Abs(position.x) > 1 / 2f ? Mathf.Sign(position.x) : 0f;
-            normal.y = Mathf.Abs(position.y) > 1 / 2f ? Mathf.Sign(position.y) : 0f;
-            normal.z = Mathf.Abs(position.z) > 1 / 2f ? Mathf.Sign(position.z) : 0f;
-            normal.w = Mathf.Abs(position.w) > 1 / 2f ? Mathf.Sign(position.w) : 0f;
+            Vector4 localNormal;
+            if (bounds.Includes(localPosition))
+            {
+                localNormal = (closestPoint - localPosition).normalized;
+            }
+            else
+            {
+                localNormal = (localPosition - closestPoint).normalized;
+            }
+            
+            return transform4D.GetRotation() * localNormal;
+        }
 
-            return normal.normalized;
+        private Transform4D ToWorldSpace()
+        {
+            return new Transform4D(
+                transform4D.position,
+                Vector4.one,
+                transform4D.eulerAngles
+            );
+        }
+
+        private BoundingBox4D GetLocalBounds()
+        {
+            return new BoundingBox4D(
+                transform4D.scale.ElemMul(new Vector4(-1 / 2f, -1 / 2f, -1 / 2f, -1 / 2f)),
+                transform4D.scale.ElemMul(new Vector4(1 / 2f, 1 / 2f, 1 / 2f, 1 / 2f))
+            );
         }
     }
 }

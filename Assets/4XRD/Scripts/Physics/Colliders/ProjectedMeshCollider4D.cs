@@ -20,14 +20,14 @@ namespace _4XRD.Physics.Colliders
             _projectedCollider = GetComponent<MeshCollider>();
         }
 
-        protected override Vector4 LocalClosestPoint(Vector4 position)
+        public override Vector4 ClosestPoint(Vector4 position)
         {
             return _projectedCollider.ClosestPoint(position);
         }
 
-        protected override Vector4 LocalNormal(Vector4 position)
+        public override Vector4 Normal(Vector4 position)
         {
-            return (_projectedCollider.ClosestPoint(position).XYZW() - position).normalized;
+            return (position - _projectedCollider.ClosestPoint(position).XYZW()).normalized;
         }
     }
 }

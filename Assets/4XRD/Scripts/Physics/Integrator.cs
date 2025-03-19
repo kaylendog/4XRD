@@ -1,10 +1,11 @@
-using System;
+#nullable enable
 using System.Collections.Generic;
 using Unity.Profiling;
 using UnityEngine;
 
 using _4XRD.Transform;
 using _4XRD.Physics.Colliders;
+using _4XRD.XR;
 
 namespace _4XRD.Physics
 {
@@ -13,63 +14,66 @@ namespace _4XRD.Physics
     /// </summary>
     public class Integrator : MonoBehaviour
     {
-        /// <summary>
-        /// A segment of 4D space.
-        /// </summary>
-        struct Segment : IEquatable<Segment>
-        {
-            /// <summary>
-            /// The size of a segment.
-            /// </summary>
-            public const int Size = 16;
+        // /// <summary>
+        // /// A segment of 4D space.
+        // /// </summary>
+        // struct Segment : IEquatable<Segment>
+        // {
+        //     /// <summary>
+        //     /// The size of a segment.
+        //     /// </summary>
+        //     public const int Size = 16;
 
-            /// <summary>
-            /// Coordinates of this segment.
-            /// </summary>
-            int _x, _y, _z, _w;
+        //     /// <summary>
+        //     /// Coordinates of this segment.
+        //     /// </summary>
+        //     int _x, _y, _z, _w;
 
-            /// <summary>
-            /// Test whether this segment includes a given point.
-            /// </summary>
-            /// <param name="point"></param>
-            /// <returns></returns>
-            public bool Includes(Vector4 point)
-            {
-                var targetSegment = Of(point);
-                return Equals(targetSegment);
-            }
+        //     /// <summary>
+        //     /// Test whether this segment includes a given point.
+        //     /// </summary>
+        //     /// <param name="point"></param>
+        //     /// <returns></returns>
+        //     public bool Includes(Vector4 point)
+        //     {
+        //         var targetSegment = Of(point);
+        //         return Equals(targetSegment);
+        //     }
 
-            /// <summary>
-            /// Return the segment.
-            /// </summary>
-            /// <param name="point"></param>
-            /// <returns></returns>
-            public static Segment Of(Vector4 point)
-            {
-                return new Segment
-                {
-                    _x = Mathf.FloorToInt(point.x / Size),
-                    _y = Mathf.FloorToInt(point.y / Size),
-                    _z = Mathf.FloorToInt(point.z / Size),
-                    _w = Mathf.FloorToInt(point.w / Size)
-                };
-            }
+        //     /// <summary>
+        //     /// Return the segment.
+        //     /// </summary>
+        //     /// <param name="point"></param>
+        //     /// <returns></returns>
+        //     public static Segment Of(Vector4 point)
+        //     {
+        //         return new Segment
+        //         {
+        //             _x = Mathf.FloorToInt(point.x / Size),
+        //             _y = Mathf.FloorToInt(point.y / Size),
+        //             _z = Mathf.FloorToInt(point.z / Size),
+        //             _w = Mathf.FloorToInt(point.w / Size)
+        //         };
+        //     }
 
-            public bool Equals(Segment other)
-            {
-                return _x == other._x && _y == other._y && _z == other._z && _w == other._w;
-            }
+        //     public bool Equals(Segment other)
+        //     {
+        //         return _x == other._x && _y == other._y && _z == other._z && _w == other._w;
+        //     }
 
-            public override bool Equals(object obj)
-            {
-                return obj is Segment other && Equals(other);
-            }
+        //     public override bool Equals(object obj)
+        //     {
+        //         return obj is Segment other && Equals(other);
+        //     }
 
-            public override int GetHashCode()
-            {
-                return HashCode.Combine(_x, _y, _z, _w);
-            }
-        }
+        //     public override int GetHashCode()
+        //     {
+        //         return HashCode.Combine(_x, _y, _z, _w);
+        //     }
+        // }
+
+        // readonly Dictionary<Segment, HashSet<StaticCollider4D>> _segmentToColliders = new();
+        // readonly Dictionary<StaticCollider4D, Segment> _colliderToSegment = new();
 
         static ProfilerMarker integrateColliders = new ProfilerMarker("IntegrateColliders");
         static ProfilerMarker integrateBalls = new ProfilerMarker("IntegrateBalls");
@@ -77,37 +81,36 @@ namespace _4XRD.Physics
         static ProfilerMarker checkCollisions = new ProfilerMarker("CheckCollisions");
         static ProfilerMarker resolveCollisions = new ProfilerMarker("ResolveCollisions");
 
+        [SerializeField]
+        ARPlane4DController? arPlane4DController;
+
         /// <summary>
         /// A list of all colliders.
         /// </summary>
         [SerializeField]
-        List<StaticCollider4D> _colliders;
+        List<StaticCollider4D> _colliders = new();
 
         /// <summary>
         /// A list of all balls.
         /// </summary>
         [SerializeField]
-        List<Ball4D> _balls;
+        List<Ball4D> _balls = new();
 
         /// <summary>
         /// Number of substeps per update.
         /// </summary>
         public int substeps = 8;
 
-        readonly Dictionary<Segment, HashSet<StaticCollider4D>> _segmentToColliders = new();
-        readonly Dictionary<StaticCollider4D, Segment> _colliderToSegment = new();
-
         /// <summary>
         /// Bias to add to normal offsets.
         /// </summary>
         public float bias = 0.05f;
 
-        void Awake()
-        {
-            _colliders = new();
-            _balls = new();
-        }
-
+        /// <summary>
+        /// Length of the void before ball destruction.
+        /// </summary>
+        public float voidPadding = 1;
+        
         void FixedUpdate()
         {
             // UpdateSegments();
@@ -118,6 +121,30 @@ namespace _4XRD.Physics
                 IntegrateCollisions();
             }
         }
+
+        // /// <summary>
+        // /// Update the segments each collider belongs to.
+        // /// </summary>
+        // void UpdateSegments()
+        // {
+        //     foreach (var col in _colliders)
+        //     {
+        //         var segment = Segment.Of(col.transform4D.position);
+
+        //         // create set if it does not exist
+        //         if (!_segmentToColliders.ContainsKey(segment))
+        //         {
+        //             _segmentToColliders[segment] = new HashSet<StaticCollider4D>();
+        //         }
+
+        //         // update forward edges
+        //         _segmentToColliders[_colliderToSegment[col]].Remove(col);
+        //         _segmentToColliders[segment].Add(col);
+
+        //         // store backwards edge
+        //         _colliderToSegment[col] = segment;
+        //     }
+        // }
 
         /// <summary>
         /// Update the integrands.
@@ -136,30 +163,6 @@ namespace _4XRD.Physics
             }
         }
 
-        /// <summary>
-        /// Update the segments each collider belongs to.
-        /// </summary>
-        void UpdateSegments()
-        {
-            foreach (var col in _colliders)
-            {
-                var segment = Segment.Of(col.transform4D.position);
-
-                // create set if it does not exist
-                if (!_segmentToColliders.ContainsKey(segment))
-                {
-                    _segmentToColliders[segment] = new HashSet<StaticCollider4D>();
-                }
-
-                // update forward edges
-                _segmentToColliders[_colliderToSegment[col]].Remove(col);
-                _segmentToColliders[segment].Add(col);
-
-                // store backwards edge
-                _colliderToSegment[col] = segment;
-            }
-        }
-
         void IntegrateVelocities()
         {
             foreach (var current in _balls)
@@ -168,9 +171,24 @@ namespace _4XRD.Physics
                 {
                     continue;
                 }
+
+                Transform4D currentTransform = current.object4D.transform4D;
                 
+                // apply gravity
                 current.velocity += new Vector4(0, -9.8f, 0, 0) * Time.fixedDeltaTime / substeps;
-                current.object4D.transform4D.position += current.velocity * Time.fixedDeltaTime / substeps;
+
+                // apply velocity
+                current.object4D.SetPosition(
+                    currentTransform.position + current.velocity * Time.fixedDeltaTime / substeps
+                );
+
+                if (arPlane4DController != null) {
+                    if (currentTransform.position.y < arPlane4DController.minY - voidPadding)
+                    {
+                        Destroy(gameObject);
+                    }
+                }
+                
             }
         }
 
@@ -197,7 +215,7 @@ namespace _4XRD.Physics
 
                     // check if overlapping - line of centers (loc)
                     var loc = other.transform4D.position - current.transform4D.position;
-                    if (loc.magnitude > current.radius + other.radius - 0.05f)
+                    if (loc.magnitude > current.radius + other.radius + bias)
                     {
                         continue;
                     }
@@ -205,8 +223,12 @@ namespace _4XRD.Physics
                     // move balls apart
                     var locNorm = loc.normalized;
                     var escapeVector = (current.radius + other.radius - loc.magnitude) * locNorm;
-                    current.object4D.transform4D.position -= escapeVector / 2f;
-                    other.object4D.transform4D.position += escapeVector / 2f;
+                    current.object4D.SetPosition(
+                        current.transform4D.position - escapeVector / 2f
+                    );
+                    other.object4D.SetPosition(
+                        other.transform4D.position + escapeVector / 2f
+                    );
 
                     // compute outgoing velocities (elastic)
                     var outCurrSpeed = ((current.mass - other.mass) * current.velocity.Dot(locNorm) + 2f * other.mass * other.velocity.Dot(locNorm)) / (current.mass + other.mass);
@@ -223,14 +245,15 @@ namespace _4XRD.Physics
                     checkCollisions.Begin();
 
                     var normal = col.Normal(current.transform4D.position);
-                    var d = current.transform4D.position - col.ClosestPoint(current.transform4D.position, current.radius) - bias * normal;
+                    var surfacePoint = col.ClosestPoint(current.transform4D.position) + bias * normal;
+                    var d = current.transform4D.position - surfacePoint;
 
-                    Debug.Log($"ball: {current.gameObject.name}, col: {col.gameObject.name}, normal: {normal}, d: {d}, dot: {d.Dot(normal)}");
+                    // Debug.Log($"ball: {current.gameObject.name}, col: {col.gameObject.name}, normal: {normal}, d: {d}, dot: {d.Dot(normal)}");
 
                     // for convex objects, we are always inside if we lie behind the plane defined by the normal
-                    if (d.Dot(normal) > 0.0)
+                    if (d.Dot(normal) > current.radius)
                     {
-                        checkCollisions.End();
+                        // checkCollisions.End();
                         continue;
                     }
 
@@ -238,11 +261,15 @@ namespace _4XRD.Physics
                     resolveCollisions.Begin();
 
                     // move away from surface
-                    current.object4D.transform4D.position += normal * ((current.transform4D.position - d).magnitude - current.radius + bias);
+                    current.object4D.SetPosition(surfacePoint + (normal * current.radius));
 
                     // compute outgoing velocity (inelastic)
                     var normalVelocity = current.velocity.Dot(normal) * normal;
                     var tangentVelocity = current.velocity - normalVelocity;
+
+                    // Debug.Log(
+                    //     $"Collision: {current.gameObject.name} with {col.gameObject.name} Incoming velocity: {current.velocity}, Outgoing Velocity: {tangentVelocity * col.friction - normalVelocity * col.restitution}"
+                    // );
 
                     current.velocity = tangentVelocity * col.friction - normalVelocity * col.restitution;
 

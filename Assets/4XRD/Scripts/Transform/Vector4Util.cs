@@ -63,7 +63,7 @@ namespace _4XRD.Transform
             return a.x * b.x + a.y * b.y + a.z * b.z + a.w * b.w;
         }
 
-        public static Vector4 elemMul(this Vector4 a, Vector4 b)
+        public static Vector4 ElemMul(this Vector4 a, Vector4 b)
         {
             return new Vector4(a.x * b.x, a.y * b.y, a.z * b.z, a.w * b.w);
         }

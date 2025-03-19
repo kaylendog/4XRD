@@ -107,35 +107,35 @@ namespace _4XRD.Transform
         /// <returns></returns>
         public static Euler6 operator *(float f, Euler6 r) => r * f;
 
-        /// <summary>
-        /// Reverse engineer an Euler6 from a rotation.
-        /// </summary>
-        /// <param name="rot"></param>
-        /// <returns></returns>
-        public static Euler6 From(Rotation4x4 rot)
-        {
-            var euler = new Euler6();
+        // /// <summary>
+        // /// Reverse engineer an Euler6 from a rotation.
+        // /// </summary>
+        // /// <param name="rot"></param>
+        // /// <returns></returns>
+        // public static Euler6 From(Rotation4x4 rot)
+        // {
+        //     var euler = new Euler6();
 
-            euler.XZ = Mathf.Atan2(-rot.matrix.m20, rot.matrix.m00);
-            rot = rot.RotateXZ(-euler.XZ);
+        //     euler.XZ = Mathf.Atan2(-rot.matrix.m20, rot.matrix.m00);
+        //     rot = rot.RotateXZ(-euler.XZ);
 
-            euler.YZ = Mathf.Atan2(-rot.matrix.m21, rot.matrix.m11);
-            rot = rot.RotateYZ(-euler.YZ);
+        //     euler.YZ = Mathf.Atan2(-rot.matrix.m21, rot.matrix.m11);
+        //     rot = rot.RotateYZ(-euler.YZ);
 
-            euler.XY = Mathf.Atan2(rot.matrix.m01, rot.matrix.m00);
-            rot = rot.RotateXY(-euler.XY);
+        //     euler.XY = Mathf.Atan2(rot.matrix.m01, rot.matrix.m00);
+        //     rot = rot.RotateXY(-euler.XY);
 
-            euler.ZW = Mathf.Atan2(-rot.matrix.m32, rot.matrix.m22);
-            rot = rot.RotateZW(-euler.ZW);
+        //     euler.ZW = Mathf.Atan2(-rot.matrix.m32, rot.matrix.m22);
+        //     rot = rot.RotateZW(-euler.ZW);
 
-            euler.YW = Mathf.Atan2(-rot.matrix.m31, rot.matrix.m11);
-            rot = rot.RotateYW(-euler.YW);
+        //     euler.YW = Mathf.Atan2(-rot.matrix.m31, rot.matrix.m11);
+        //     rot = rot.RotateYW(-euler.YW);
 
-            euler.XW = Mathf.Atan2(-rot.matrix.m30, rot.matrix.m00);
-            rot = rot.RotateXW(-euler.XW);
+        //     euler.XW = Mathf.Atan2(-rot.matrix.m30, rot.matrix.m00);
+        //     rot = rot.RotateXW(-euler.XW);
 
-            return euler;
-        }
+        //     return euler;
+        // }
 
         public Euler6 GetWRotations()
         {
