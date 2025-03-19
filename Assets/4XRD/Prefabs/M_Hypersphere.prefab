@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 2615389285826641062}
   m_Layer: 0
   m_Name: M_Hypersphere
-  m_TagString: Untagged
+  m_TagString: Spawnable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -124,7 +124,7 @@ MonoBehaviour:
       <XY>k__BackingField: -0
       <YZ>k__BackingField: 0
       <XZ>k__BackingField: 0
-  isStatic: 1
+  isStatic: 0
 --- !u!114 &2615389285826641062
 MonoBehaviour:
   m_ObjectHideFlags: 0

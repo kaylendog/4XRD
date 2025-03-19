@@ -171,21 +171,19 @@ namespace _4XRD.Physics
                 {
                     continue;
                 }
-
-                Transform4D currentTransform = current.object4D.transform4D;
                 
                 // apply gravity
                 current.velocity += new Vector4(0, -9.8f, 0, 0) * Time.fixedDeltaTime / substeps;
 
                 // apply velocity
                 current.object4D.SetPosition(
-                    currentTransform.position + current.velocity * Time.fixedDeltaTime / substeps
+                    current.transform4D.position + current.velocity * Time.fixedDeltaTime / substeps
                 );
 
                 if (arPlane4DController != null) {
-                    if (currentTransform.position.y < arPlane4DController.minY - voidPadding)
+                    if (current.transform4D.position.y < arPlane4DController.minY - voidPadding)
                     {
-                        Destroy(gameObject);
+                        Destroy(current.gameObject);
                     }
                 }
                 

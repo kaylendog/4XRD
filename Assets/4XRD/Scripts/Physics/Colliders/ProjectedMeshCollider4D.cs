@@ -22,7 +22,13 @@ namespace _4XRD.Physics.Colliders
 
         public override Vector4 ClosestPoint(Vector4 position)
         {
-            return _projectedCollider.ClosestPoint(position);
+            Vector3 closestPoint3D = _projectedCollider.ClosestPoint(position);
+            return new Vector4(
+                closestPoint3D.x,
+                closestPoint3D.y,
+                closestPoint3D.z,
+                position.w
+            );
         }
 
         public override Vector4 Normal(Vector4 position)

@@ -16,6 +16,11 @@ namespace _4XRD.UI
     public class DragUIController : MonoBehaviour
     {        
         /// <summary>
+        /// The XR origin.
+        /// </summary>
+        public GameObject xrOrigin;
+        
+        /// <summary>
         /// The raycast manager.
         /// </summary>
         public ARRaycastManager arRaycastManager;
@@ -66,6 +71,11 @@ namespace _4XRD.UI
         /// The taret
         /// </summary>
         public GameObject target;
+
+        /// <summary>
+        /// The arm offset.
+        /// </summary>
+        public float armOffset = -0.3f;
         
         /// <summary>
         /// The drag target.
@@ -153,9 +163,9 @@ namespace _4XRD.UI
         /// <summary>
         /// Initiate a movingsphere drag.
         /// </summary>
-        public void InitiateMovingHypersphereDrag()
+        public void InitiateTargetDrag()
         {
-            _dragTarget = Instantiate(movingHypersphere);
+            _dragTarget = Instantiate(target);
             _dragLocation = null;
         }
         
@@ -202,18 +212,19 @@ namespace _4XRD.UI
                     return;
                 }
 
-                hitPosition = hit.transform.position;
+                hitPosition = hit.point;
                 _dragLocation = hit.collider.gameObject;
             }
-
-        
+            
             // update transform (use ray for safety)
-            var targetPosition = hitPosition - ray.direction * 0.3f;
+            var targetPosition = hitPosition - ray.direction * 0.05f;
             _dragTarget.transform.position = targetPosition;
 
-            // set to currently viewed slice
-            var object4D = _dragTarget.GetComponent<Object4D>();
-            object4D.SetWPosStatic(MeshObject4D.SlicingConstant);
+            // set to currently viewed slice if is 4D object
+            if (_dragTarget.TryGetComponent<Object4D>(out var object4D))
+            {
+                object4D.SetWPosStatic(MeshObject4D.SlicingConstant);
+            }
         }
 
         /// <summary>
@@ -237,38 +248,35 @@ namespace _4XRD.UI
         /// <summary>
         /// End drag with random output velocity.
         /// </summary>
-        public void EndDragRandomVelocity()
+        public void EndDragLaunchHypersphere()
         {
             if (_dragLocation == null)
             {
                 Destroy(_dragTarget);
                 return;
             }
-            
-            if (_dragTarget.TryGetComponent<Object4D>(out var object4D))
-            {
-                object4D.isStatic = false;
-            }
-            else
-            {
-                Debug.LogWarning("Cannot find Object4D component.");
-            }
 
-            if (_dragTarget.TryGetComponent<Ball4D>(out var ball))
-            {
-                ball.velocity.x = Random.Range(-2f, 2f);
-                ball.velocity.z = Random.Range(-2f, 2f);
-                ball.velocity.w = Random.Range(-0.5f, 0.5f);
-            }
-            else
-            {
-                Debug.LogWarning("Cannot find Ball4D component.");
-            }
-            
-            if (_dragLocation.GetComponent<ARPlane>() != null)
-            {
-                _dragTarget.transform.SetParent(_dragLocation.transform);
-            }
+            Vector3 throwTarget = _dragTarget.transform.position;
+            Vector3 playerPosition = Camera.main.transform.position + new Vector3(0, armOffset, 0);
+
+            Destroy(_dragTarget);
+
+            var hypersphere = Instantiate(movingHypersphere);
+            hypersphere.GetComponent<Object4D>().SetPosition(new Vector4(
+                playerPosition.x,
+                playerPosition.y,
+                playerPosition.z,
+                MeshObject4D.SlicingConstant
+            ));
+
+            float throwSpeed = 0.5f;
+            hypersphere.GetComponent<Ball4D>().velocity = new Vector4(
+                (throwTarget.x - playerPosition.x) / throwSpeed,
+                (throwTarget.y - playerPosition.y) / throwSpeed + (0.5f * 9.8f * throwSpeed),
+                (throwTarget.z - playerPosition.z) / throwSpeed,
+                0
+            );
+
             _dragTarget = null;
         }
     }

@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 3997856462815029647}
   m_Layer: 0
   m_Name: S_Simplex4
-  m_TagString: Untagged
+  m_TagString: Spawnable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0

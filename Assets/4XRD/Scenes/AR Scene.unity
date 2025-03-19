@@ -590,6 +590,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 3840a9120c406daeab9d86bfbd16714a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  xrOrigin: {fileID: 1105134349}
   arRaycastManager: {fileID: 1105134350}
   tesseractTrigger: {fileID: 913793967}
   simplexTrigger: {fileID: 1449291693}
@@ -602,6 +603,8 @@ MonoBehaviour:
     type: 3}
   movingHypersphere: {fileID: 1093938945227766436, guid: 1a85dade70ca342d69b2299983bfbdfe,
     type: 3}
+  target: {fileID: 5278573886475851323, guid: c0ffd6e32415c45f59e277fe7314020d, type: 3}
+  armOffset: -0.2
 --- !u!114 &312257003
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -755,6 +758,7 @@ GameObject:
   - component: {fileID: 410087041}
   - component: {fileID: 410087040}
   - component: {fileID: 410087042}
+  - component: {fileID: 410087043}
   m_Layer: 0
   m_Name: Directional Light
   m_TagString: Untagged
@@ -865,6 +869,20 @@ MonoBehaviour:
   m_LightCookieSize: {x: 1, y: 1}
   m_LightCookieOffset: {x: 0, y: 0}
   m_SoftShadowQuality: 1
+--- !u!114 &410087043
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 410087039}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cf702359e39524bf1a5658bfc76c2be4, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arCameraManager: {fileID: 1870345680}
+  Light: {fileID: 0}
 --- !u!1 &715103801
 GameObject:
   m_ObjectHideFlags: 0
@@ -1339,7 +1357,7 @@ MonoBehaviour:
   m_Camera: {fileID: 1870345682}
   m_OriginBaseGameObject: {fileID: 1105134349}
   m_CameraFloorOffsetObject: {fileID: 1900022437}
-  m_RequestedTrackingOriginMode: 2
+  m_RequestedTrackingOriginMode: 1
   m_CameraYOffset: 0
 --- !u!4 &1105134354
 Transform:
@@ -1364,7 +1382,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1105134349}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 9e5861fe4d817477986290fde61dbc8c, type: 3}
   m_Name: 
@@ -1383,7 +1401,7 @@ MonoBehaviour:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1105134349}
-  m_Enabled: 0
+  m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 4efc467e680aa473fb6e89943ba81e36, type: 3}
   m_Name: 
@@ -1762,7 +1780,7 @@ MonoBehaviour:
         m_Calls:
         - m_Target: {fileID: 312257002}
           m_TargetAssemblyTypeName: _4XRD.UI.DragUIController, _4XRD
-          m_MethodName: InitiateMovingHypersphereDrag
+          m_MethodName: InitiateTargetDrag
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1777,8 +1795,8 @@ MonoBehaviour:
       m_PersistentCalls:
         m_Calls:
         - m_Target: {fileID: 312257002}
-          m_TargetAssemblyTypeName: _4XRD.UI.DragUIController, Assembly-CSharp
-          m_MethodName: EndDragRandomVelocity
+          m_TargetAssemblyTypeName: _4XRD.UI.DragUIController, _4XRD
+          m_MethodName: EndDragLaunchHypersphere
           m_Mode: 1
           m_Arguments:
             m_ObjectArgument: {fileID: 0}
@@ -1801,7 +1819,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 0.19999999, b: 0.8395405, a: 1}
+  m_Color: {r: 1, g: 0.19999999, b: 0.5906738, a: 1}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1

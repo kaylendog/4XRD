@@ -60,6 +60,14 @@ namespace _4XRD.XR
             {
                 UpdateBounds(plane.center);
             }
+
+            foreach (var plane in eventArgs.removed)
+            {
+                if (plane.Value.gameObject.transform.childCount == 0)
+                {
+                    plane.Value.gameObject.SetActive(false);
+                }
+            }
         }
 
         private void UpdateBounds(Vector3 position)

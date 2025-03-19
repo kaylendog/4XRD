@@ -16,7 +16,7 @@ GameObject:
   - component: {fileID: 7920225277008269343}
   m_Layer: 0
   m_Name: S_Hypersphere
-  m_TagString: Untagged
+  m_TagString: Spawnable
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
@@ -139,4 +139,4 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   restitution: 0.6
   friction: 0.95
-  radius: 1
+  radius: 0.1
