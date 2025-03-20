@@ -33,7 +33,8 @@ namespace _4XRD.Physics.Colliders
 
         public override Vector4 Normal(Vector4 position)
         {
-            return (position - _projectedCollider.ClosestPoint(position).XYZW()).normalized;
+            Vector4 closestPoint = ClosestPoint(position);
+            return (position - closestPoint).normalized;
         }
     }
 }
