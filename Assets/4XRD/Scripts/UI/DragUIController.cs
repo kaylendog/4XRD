@@ -276,6 +276,9 @@ namespace _4XRD.UI
                 (throwTarget.z - playerPosition.z) / throwSpeed,
                 0
             );
+            
+            hypersphere.GetComponent<MeshRenderer>().material.SetColor("_Base_Color", Random.ColorHSV());
+            hypersphere.GetComponent<MeshRenderer>().material.SetColor("_Highlight_Color", Random.ColorHSV());
 
             _dragTarget = null;
         }

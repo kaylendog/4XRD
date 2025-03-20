@@ -14,6 +14,7 @@ GameObject:
   - component: {fileID: 5711760604898933279}
   - component: {fileID: 3514971017751852968}
   - component: {fileID: 2615389285826641062}
+  - component: {fileID: -5458590372573356903}
   m_Layer: 0
   m_Name: M_Hypersphere
   m_TagString: Spawnable
@@ -67,7 +68,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 405529b091e884f32ad1cdb05c634ebe, type: 2}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -115,7 +116,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   <transform4D>k__BackingField:
-    <position>k__BackingField: {x: 0, y: 0, z: 0, w: 0}
+    <position>k__BackingField: {x: 0, y: 0, z: 0, w: 0.06}
     <scale>k__BackingField: {x: 0.1, y: 0.1, z: 0.1, w: 0.1}
     <eulerAngles>k__BackingField:
       <XW>k__BackingField: 0
@@ -140,3 +141,15 @@ MonoBehaviour:
   velocity: {x: 0, y: 0, z: 0, w: 0}
   radius: 0.1
   mass: 0.1
+--- !u!114 &-5458590372573356903
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1093938945227766436}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d3af6301b5f9b8c94a1f6193b9e66fa7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
